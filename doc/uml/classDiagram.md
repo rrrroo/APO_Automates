@@ -9,6 +9,7 @@ direction TB
 
     class Simulation {
         - automaton: Automaton
+        - pause: volatile boolean$
 
         + Simulation(a: Automaton)
         + run() void
