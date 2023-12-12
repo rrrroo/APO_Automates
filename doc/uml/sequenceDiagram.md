@@ -1,16 +1,12 @@
 ```mermaid
 sequenceDiagram
+    title Sequence diagram Simulation creation
     actor User
     participant App
 
     User->> App: Start
-    create participant Menu
-    App ->> Menu: Menu()
-    App ->> Menu: getUserChoice()
-    activate Menu
-    User ->> Menu: Automaton type
-    Menu ->> App: Automaton
-    deactivate Menu
+    App ->> App: Menu()
+    User ->> App: Automaton type
     create participant Simulation
     App ->>+ Simulation: Simulation(Automaton)
 ```
