@@ -4,28 +4,26 @@ direction TB
 
     class App {
         + main(args[]: String) void$
-        + menu() void
+        + menu() Automaton$
     }
 
     class Simulation {
         - automaton: Automaton
 
         + Simulation(a: Automaton)
+        + run() void
+        - step() void
+        - display() void
     }
 
     class Automaton {
         - dimension: short
-        - alphabet: Alphabet
+        + ALPHABET: char[]$
         - neighborhood: List~Coordinates~
         - grid: Grid
 
-        + Automaton(d: short, a: Alphabet, length: int)
-        %% + rule(coordinates: Coordinates) Alphabet
-    }
-
-    class Alphabet {
-        %% marche peut-être pas en tant qu'enum
-        <<enumeration>>
+        + Automaton(d: short, a: char[], length: int)
+        %% + rule(coordinates: Coordinates) char
     }
 
     namespace grid {
@@ -34,15 +32,15 @@ direction TB
             - grid: List~Cell~
 
             + Grid(dimension: short, length: int)
-            + getState(coordinates: Coordinates) Alphabet
+            + getState(coordinates: Coordinates) char
             + setState(coordinates: Coordinates, value: enum) void
         }
 
         class Cell {
-            - state: Alphabet
+            - state: char
 
-            ~ getState() Alphabet
-            ~ setState(state: Alphabet) void
+            ~ getState() char
+            ~ setState(state: char) void
         }
     }
 
@@ -55,7 +53,9 @@ direction TB
 
 
     %% Links :
-    Automaton        o-- "1"    Alphabet
+    App              -->        Automaton
+    App              -->        Simulation
+    Simulation       o-- "1"    Automaton
     Automaton "1"    *-- "1..n" Coordinates
     Automaton "1"    *-- "1"    Grid
     Grid      "1"    *-- "1..n" Cell
