@@ -10,7 +10,6 @@ La documentation du projet est disponible dans le dossier `doc/` :
 - `doc/javadoc/` : documentation Java au format .html
 - `doc/uml/` : diagrammes UML au format .md et .png
 
-> [!info]
 > Pour visualiser les diagrammes UML, vous pouvez utiliser l'extension Markdown Preview Mermaid Support de Visual Studio Code.
 
 ## Projet Java
