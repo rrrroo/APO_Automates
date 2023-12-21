@@ -1,15 +1,20 @@
 ```mermaid
 sequenceDiagram
-    title Diagramme de séquence intialisation de la simulation
-    actor User
-    participant App
+    title Diagramme de séquence de l'initialisation de la simulation
 
-    User->> App: Start
-    App ->> App: Menu()
+    actor App
+    participant Automaton
+    participant Simulation
 
-    %% à détailler
-
-    User ->> App: Automaton type
-    create participant Simulation
-    App ->>+ Simulation: Simulation(Automaton)
+    alt 1D
+        App ->>+ Automaton: Automaton1D(ruleNumber, size)
+        %% TODO
+    else
+        App ->>+ Automaton: Automaton(filename)
+        %% TODO
+    end
+    App ->>+ Simulation: Simulation(automaton)
+    App ->> Simulation: run()
+    deactivate Simulation
+    deactivate Automaton
 ```

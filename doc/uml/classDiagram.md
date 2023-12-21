@@ -9,7 +9,6 @@ direction TB
 
     class Simulation {
         - automaton: Automaton
-        - pause: volatile boolean$
 
         + Simulation(a: Automaton)
         + run() void
@@ -18,23 +17,38 @@ direction TB
     }
 
     class Automaton {
-        - dimension: short
-        + ALPHABET: char[]$
+        - dimension: Dimension
+        - alphabet: char[]$
         - neighborhood: List~Coordinates~
         - grid: Grid
+        - rules: List~Rule~
 
-        + Automaton(d: short, a: char[], length: int)
-        %% + rule(coordinates: Coordinates) char
+        + Automaton(filename: String)
+        + update() void
+        - getNeighbours(coordinates: Coordinates) List~Cell~
+    }
+
+    class Automaton1D {
+        + Automaton1D(ruleNumber: int, size: int)
+    }
+
+    class Dimension {
+        <<enum>>
+
+        1D
+        2D
+        H
     }
 
     namespace grid {
         class Grid {
-            - dimension: short
+            - dimension: Dimension
+            - size: int
             - grid: List~Cell~
 
             + Grid(dimension: short, length: int)
             + getState(coordinates: Coordinates) char
-            + setState(coordinates: Coordinates, value: enum) void
+            + setState(coordinates: Coordinates, value: char) void
         }
 
         class Cell {
@@ -52,13 +66,39 @@ direction TB
         + getCoordinates() List~int~
     }
 
+    class Rule {
+        - state: char
+        - result: char
+
+        + apply(Cell, List~Cell~)
+    }
+
+    class NeighbourhoodRule {
+        - neighbours: List~String~
+
+        + apply(Grid, Coordinates)
+    }
+
+    class TransitionRule {
+        - neighbours: List~char~
+        - neighbourState: char
+
+        + apply(Grid, Coordinates)
+    }
+
 
     %% Links :
     App              -->        Automaton
     App              -->        Simulation
     Simulation       o-- "1"    Automaton
+    Automaton        <|--       Automaton1D
+    Automaton        --         Dimension
     Automaton "1"    *-- "1..n" Coordinates
     Automaton "1"    *-- "1"    Grid
+    Automaton "1"    *-- "1..n" Rule
+    Grid             --         Dimension
     Grid      "1"    *-- "1..n" Cell
     Grid             -->        Coordinates
+    Rule            <|--       NeighbourhoodRule
+    Rule            <|--       TransitionRule
 ```
