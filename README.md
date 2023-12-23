@@ -12,6 +12,13 @@ La documentation du projet est disponible dans le dossier `doc/` :
 
 > Pour visualiser les diagrammes UML, vous pouvez utiliser l'extension Markdown Preview Mermaid Support de Visual Studio Code.
 
+## Librairies
+
+Le projet utilise les librairies suivantes :
+- [org.json](https://repo1.maven.org/maven2/org/json/json/20231013/json-20231013.jar) : pour la lecture et l'écriture de fichiers JSON
+
+Les librairies sont à placer dans le dossier `lib/`.
+
 ## Projet Java
 
 ### Folder Structure
