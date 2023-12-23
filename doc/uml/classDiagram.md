@@ -48,8 +48,9 @@ direction TB
             - dimension: Dimension
             - size: int
             - grid: List~Cell~
+            - MAX_SIZE: int
 
-            + Grid(dimension: short, length: int)
+            + Grid(dimension: short, size: int)
             + getState(coordinates: Coordinate) char
             + setState(coordinates: Coordinate, value: char) void
         }
@@ -60,13 +61,13 @@ direction TB
             ~ getState() char
             ~ setState(state: char) void
         }
-    }
 
-    class Coordinate {
-        - coordinates: int[]
+        class Coordinate {
+            - coordinates: int[]
 
-        + Coordinate(coordinates[]: int)
-        + getCoordinates() int[]
+            + Coordinate(coordinates[]: int)
+            + getCoordinates() int[]
+        }
     }
 
     class Rule {
