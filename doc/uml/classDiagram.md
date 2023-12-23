@@ -18,14 +18,14 @@ direction TB
 
     class Automaton {
         - dimension: Dimension
-        - alphabet: char[]$
-        - neighborhood: List~Coordinates~
+        - alphabet: char[]
+        - neighborhood: List~Coordinate~
         - grid: Grid
         - rules: List~Rule~
 
         + Automaton(filename: String)
         + update() void
-        - getNeighbours(coordinates: Coordinates) List~Cell~
+        - getNeighbours(coordinates: Coordinate) List~Cell~
     }
 
     class Automaton1D {
@@ -47,8 +47,8 @@ direction TB
             - grid: List~Cell~
 
             + Grid(dimension: short, length: int)
-            + getState(coordinates: Coordinates) char
-            + setState(coordinates: Coordinates, value: char) void
+            + getState(coordinates: Coordinate) char
+            + setState(coordinates: Coordinate, value: char) void
         }
 
         class Cell {
@@ -59,10 +59,10 @@ direction TB
         }
     }
 
-    class Coordinates {
+    class Coordinate {
         - coordinates: List~int~
 
-        + Coordinates(args[]: int)
+        + Coordinate(args[]: int)
         + getCoordinates() List~int~
     }
 
@@ -76,14 +76,14 @@ direction TB
     class NeighbourhoodRule {
         - neighbours: List~String~
 
-        + apply(Grid, Coordinates)
+        + apply(Grid, Coordinate)
     }
 
     class TransitionRule {
         - neighbours: List~char~
         - neighbourState: char
 
-        + apply(Grid, Coordinates)
+        + apply(Grid, Coordinate)
     }
 
 
@@ -93,12 +93,12 @@ direction TB
     Simulation       o-- "1"    Automaton
     Automaton        <|--       Automaton1D
     Automaton        --         Dimension
-    Automaton "1"    *-- "1..n" Coordinates
+    Automaton "1"    *-- "1..n" Coordinate
     Automaton "1"    *-- "1"    Grid
     Automaton "1"    *-- "1..n" Rule
     Grid             --         Dimension
     Grid      "1"    *-- "1..n" Cell
-    Grid             -->        Coordinates
+    Grid             -->        Coordinate
     Rule            <|--       NeighbourhoodRule
     Rule            <|--       TransitionRule
 ```

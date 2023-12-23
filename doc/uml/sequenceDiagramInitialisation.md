@@ -6,8 +6,10 @@ sequenceDiagram
     participant Automaton
     participant Simulation
 
+    App ->>+ App: menu()
     alt 1D
         App ->>+ Automaton: Automaton1D(ruleNumber, size)
+        Automaton ->>+ List: List<Rule>
         %% TODO
     else
         App ->>+ Automaton: Automaton(filename)

@@ -1,3 +1,4 @@
+import automaton.Automaton;
 import java.util.Scanner;
 
 public class App {
