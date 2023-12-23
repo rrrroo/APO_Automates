@@ -2,12 +2,14 @@ package automaton;
 
 import automaton.grid.Coordinate;
 import automaton.grid.Grid;
-import org.json.JSONObject;
-import org.json.JSONException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  * This class represents a cellular automaton.
@@ -24,9 +26,9 @@ public class Automaton {
 	private char[] alphabet;
 
 	/**
-	 * The neighborhood of the automaton.
+	 * The neighbourhood of the automaton.
 	 */
-	private List<Coordinate> neighborhood;
+	private List<Coordinate> neighbourhood;
 
 	/**
 	 * The grid of the automaton.
@@ -47,7 +49,8 @@ public class Automaton {
 		JSONObject settings = getSettings(filename);
 
 		this.dimension = Dimension.fromString(getSetting(settings, "dimension", filename));
-		this.alphabet = getSetting(settings, "alphabet", filename).toCharArray();
+		this.alphabet = getAlphabetFromSettings(settings, filename);
+		this.neighbourhood = getNeighbourhoodFromSettings(settings, filename);
 	}
 
 	/**
@@ -62,9 +65,11 @@ public class Automaton {
 		try {
 			String content = new String(Files.readAllBytes(Paths.get(filename)));
 			return new JSONObject(content);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			throw new IOException("le fichier " + filename + " n'existe pas.");
-		} catch (JSONException e) {
+		}
+		catch (JSONException e) {
 			throw new JSONException("le fichier " + filename + " ne contient pas de JSON valide.");
 		}
 	}
@@ -82,8 +87,60 @@ public class Automaton {
 	private static String getSetting(JSONObject settings, String key, String filename) throws JSONException {
 		try {
 			return settings.getString(key);
-		} catch (JSONException e) {
+		}
+		catch (JSONException e) {
 			throw new JSONException("il manque le paramètre " + key + " dans le fichier " + filename);
+		}
+	}
+
+	/**
+	 * Retrieves the alphabet from the settings JSON object.
+	 * 
+	 * @param settings The JSON object containing the settings.
+	 * @param filename The name of the file being processed.
+	 * @return The alphabet as an array of characters.
+	 * @throws JSONException If the "alphabet" parameter is missing in the settings JSON object.
+	 */
+	private static char[] getAlphabetFromSettings(JSONObject settings, String filename) throws JSONException {
+		try {
+			JSONArray array = settings.getJSONArray("alphabet");
+			char[] alphabet = new char[array.length()];
+			for(int i = 0; i < array.length(); i++) {
+				alphabet[i] = array.getString(i).charAt(0);
+			}
+			return alphabet;
+		}
+		catch (JSONException e) {
+			throw new JSONException("il manque le paramètre alphabet dans le fichier " + filename);
+		}
+	}
+
+	/**
+	 * Retrieves the neighbourhood coordinates from the given settings JSON object.
+	 * 
+	 * @param settings The JSON object containing the settings.
+	 * @param filename The name of the file being processed.
+	 * @return The list of neighbourhood coordinates.
+	 * @throws JSONException If the "neighbourhood" parameter is missing in the settings JSON object.
+	 */
+	private static List<Coordinate> getNeighbourhoodFromSettings(JSONObject settings, String filename) throws JSONException {
+		try {
+			JSONArray array = settings.getJSONArray("neighbourhood");
+			JSONArray subArray;
+			int[] coordinates;
+			List<Coordinate> neighbourhood = new ArrayList<>();
+			for(int i = 0; i < array.length(); i++) {
+				subArray = array.getJSONArray(i);
+				coordinates = new int[subArray.length()];
+				for(int j = 0; j < subArray.length(); j++) {
+					coordinates[j] = subArray.getInt(j);
+				}
+				neighbourhood.add(new Coordinate(coordinates));
+			}
+			return neighbourhood;
+		}
+		catch (JSONException e) {
+			throw new JSONException("il manque le paramètre neighbourhood dans le fichier " + filename);
 		}
 	}
 }

@@ -7,12 +7,8 @@ public enum Dimension {
 
 	private final String value;
 
-	Dimension(String value) {
+	private Dimension(String value) {
 		this.value = value;
-	}
-
-	public String getValue() {
-		return value;
 	}
 
 	public static Dimension fromString(String value) throws IllegalArgumentException {

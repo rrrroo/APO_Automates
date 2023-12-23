@@ -38,6 +38,9 @@ direction TB
         1D
         2D
         H
+
+        - Dimension(value: String)
+        + fromString(value: String) Dimension$
     }
 
     namespace grid {
@@ -60,10 +63,10 @@ direction TB
     }
 
     class Coordinate {
-        - coordinates: List~int~
+        - coordinates: int[]
 
-        + Coordinate(args[]: int)
-        + getCoordinates() List~int~
+        + Coordinate(coordinates[]: int)
+        + getCoordinates() int[]
     }
 
     class Rule {

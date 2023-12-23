@@ -13,7 +13,8 @@ public class App {
 		String filename = "data/gameOfLife.json";
 		try {
 			Automaton auto = new Automaton(filename);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println("L'automate n'a pas pu être créé car " + e.getMessage());
 		}
 	}
