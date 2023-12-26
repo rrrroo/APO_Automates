@@ -84,7 +84,7 @@ direction TB
     }
 
     class TransitionRule {
-        - neighbours: List~char~
+        - neighbours: int[]
         - neighbourState: char
 
         + apply(Grid, Coordinate)

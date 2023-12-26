@@ -2,6 +2,7 @@ package automaton;
 
 import automaton.grid.Coordinate;
 import automaton.grid.Grid;
+import automaton.rule.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -74,6 +75,8 @@ public class Automaton {
 		}
 		this.grid = new Grid(this.dimension, size);
 		// TODO: faut choisir à quel état on initialise la grille (et donc ajouter les cellules à la grille (attention à la version hexagonale))
+
+		this.rules = getRulesFromSettings(settings, filename);
 	}
 
 	/**
@@ -143,6 +146,26 @@ public class Automaton {
 			return neighbourhood;
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre neighbourhood dans le fichier " + filename);
+		}
+	}
+
+	private static List<Rule> getRulesFromSettings(JSONObject settings, String filename) throws JSONException {
+		try {
+			JSONArray array = settings.getJSONArray("rules");
+			List<Rule> rules = new ArrayList<>();
+			JSONObject rule;
+			for (int i = 0; i < array.length(); i++) {
+				rule = array.getJSONObject(i);
+				if (rule.getBoolean("type")) {
+					// TODO: ajouter le constructeur de la règle de voisinnage
+				}
+				else {
+					// TODO: ajouter le constructeur de la règle de transition
+				}
+			}
+			return rules;
+		} catch (JSONException e) {
+			throw new JSONException("il manque le paramètre rules dans le fichier " + filename);
 		}
 	}
 }
