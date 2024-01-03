@@ -149,23 +149,51 @@ public class Automaton {
 		}
 	}
 
+	/**
+	 * Retrieves the rules from the given settings JSON object.
+	 *
+	 * @param settings The JSON object containing the settings.
+	 * @param filename The name of the file being processed.
+	 * @return The list of rules.
+	 * @throws JSONException If the "rules" parameter is missing in the settings JSON object.
+	 */
 	private static List<Rule> getRulesFromSettings(JSONObject settings, String filename) throws JSONException {
 		try {
-			JSONArray array = settings.getJSONArray("rules");
+			JSONObject data = settings.getJSONObject("rule");
+			JSONArray array = data.getJSONArray("rules");
 			List<Rule> rules = new ArrayList<>();
 			JSONObject rule;
-			for (int i = 0; i < array.length(); i++) {
-				rule = array.getJSONObject(i);
-				if (rule.getBoolean("type")) {
-					// TODO: ajouter le constructeur de la règle de voisinnage
+			if (data.getBoolean("type")) {
+				for (int i = 0; i < array.length(); i++) {
+					rule = array.getJSONObject(i);
+					char state = rule.getString("state").charAt(0);
+					char result = rule.getString("result").charAt(0);
+					JSONArray arrNeig = rule.getJSONArray("neighbours");
+					char [] neighbours = new char[arrNeig.length()];
+					for (int j = 0; j < arrNeig.length(); j++) {
+						neighbours[j] = arrNeig.getString(j).charAt(0);
+					}
+					rules.add(new NeighbourhoodRule(state, result, neighbours));
 				}
-				else {
-					// TODO: ajouter le constructeur de la règle de transition
+			}else {
+				for (int i = 0; i < array.length(); i++) {
+					rule = array.getJSONObject(i);
+				JSONArray arrNeig = rule.getJSONArray("neighbours");
+				List<Object> neig = arrNeig.toList();
+				int[] neighbours = new int[arrNeig.length()];
+				for (int j = 0; j < arrNeig.length(); j++) {
+					neighbours[j] = arrNeig.getInt(j);
+				}
+				char state = rule.getString("state").charAt(0);
+				char result = rule.getString("result").charAt(0);
+				char neighbourState = rule.getString("neighbourState").charAt(0);
+				rules.add(new TransitionRule(state, result, neighbours, neighbourState));
+
 				}
 			}
 			return rules;
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre rules dans le fichier " + filename);
 		}
-	}
+    }
 }
