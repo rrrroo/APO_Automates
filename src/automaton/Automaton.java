@@ -57,8 +57,7 @@ public class Automaton {
 		String dim;
 		try {
 			dim = settings.getString("dimension");
-		}
-		catch (JSONException e) {
+		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre dimension dans le fichier " + filename);
 		}
 		this.dimension = Dimension.fromString(dim);
@@ -74,7 +73,8 @@ public class Automaton {
 			throw new JSONException("il manque le paramètre size dans le fichier " + filename);
 		}
 		this.grid = new Grid(this.dimension, size);
-		// TODO: faut choisir à quel état on initialise la grille (et donc ajouter les cellules à la grille (attention à la version hexagonale))
+		// TODO: faut choisir à quel état on initialise la grille (et donc ajouter les
+		// cellules à la grille (attention à la version hexagonale))
 
 		this.rules = getRulesFromSettings(settings, filename);
 	}
@@ -126,7 +126,8 @@ public class Automaton {
 	 * @param settings The JSON object containing the settings.
 	 * @param filename The name of the file being processed.
 	 * @return The list of neighbourhood coordinates.
-	 * @throws JSONException If the "neighbourhood" parameter is missing in the settings JSON object.
+	 * @throws JSONException If the "neighbourhood" parameter is missing in the
+	 *                       settings JSON object.
 	 */
 	private static List<Coordinate> getNeighbourhoodFromSettings(JSONObject settings, String filename)
 			throws JSONException {
@@ -155,7 +156,8 @@ public class Automaton {
 	 * @param settings The JSON object containing the settings.
 	 * @param filename The name of the file being processed.
 	 * @return The list of rules.
-	 * @throws JSONException If the "rules" parameter is missing in the settings JSON object.
+	 * @throws JSONException If the "rules" parameter is missing in the settings
+	 *                       JSON object.
 	 */
 	private static List<Rule> getRulesFromSettings(JSONObject settings, String filename) throws JSONException {
 		try {
@@ -169,25 +171,25 @@ public class Automaton {
 					char state = rule.getString("state").charAt(0);
 					char result = rule.getString("result").charAt(0);
 					JSONArray arrNeig = rule.getJSONArray("neighbours");
-					char [] neighbours = new char[arrNeig.length()];
+					char[] neighbours = new char[arrNeig.length()];
 					for (int j = 0; j < arrNeig.length(); j++) {
 						neighbours[j] = arrNeig.getString(j).charAt(0);
 					}
 					rules.add(new NeighbourhoodRule(state, result, neighbours));
 				}
-			}else {
+			} else {
 				for (int i = 0; i < array.length(); i++) {
 					rule = array.getJSONObject(i);
-				JSONArray arrNeig = rule.getJSONArray("neighbours");
-				List<Object> neig = arrNeig.toList();
-				int[] neighbours = new int[arrNeig.length()];
-				for (int j = 0; j < arrNeig.length(); j++) {
-					neighbours[j] = arrNeig.getInt(j);
-				}
-				char state = rule.getString("state").charAt(0);
-				char result = rule.getString("result").charAt(0);
-				char neighbourState = rule.getString("neighbourState").charAt(0);
-				rules.add(new TransitionRule(state, result, neighbours, neighbourState));
+					JSONArray arrNeig = rule.getJSONArray("neighbours");
+					List<Object> neig = arrNeig.toList();
+					int[] neighbours = new int[arrNeig.length()];
+					for (int j = 0; j < arrNeig.length(); j++) {
+						neighbours[j] = arrNeig.getInt(j);
+					}
+					char state = rule.getString("state").charAt(0);
+					char result = rule.getString("result").charAt(0);
+					char neighbourState = rule.getString("neighbourState").charAt(0);
+					rules.add(new TransitionRule(state, result, neighbours, neighbourState));
 
 				}
 			}
@@ -195,5 +197,5 @@ public class Automaton {
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre rules dans le fichier " + filename);
 		}
-    }
+	}
 }
