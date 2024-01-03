@@ -44,6 +44,7 @@ public class Automaton {
 	 */
 	private List<Rule> rules;
 
+
 	// === CONSTRUCTOR === //
 
 	/**
@@ -72,7 +73,7 @@ public class Automaton {
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre size dans le fichier " + filename);
 		}
-		this.grid = new Grid(this.dimension, size);
+		this.grid = new Grid(this.dimension, size, this.alphabet[0]);
 		// TODO: faut choisir à quel état on initialise la grille (et donc ajouter les
 		// cellules à la grille (attention à la version hexagonale))
 
@@ -197,5 +198,15 @@ public class Automaton {
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre rules dans le fichier " + filename);
 		}
+	}
+
+
+	// === METHODS === //
+
+	/**
+	 * Displays the automaton by calling the display method of the grid.
+	 */
+	public void display() {
+		this.grid.display();
 	}
 }
