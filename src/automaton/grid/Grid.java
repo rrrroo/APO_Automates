@@ -81,6 +81,15 @@ public class Grid {
 	}
 
 	/**
+	 * Returns the size of the grid.
+	 *
+	 * @return the size of the grid
+	 */
+	public int getSize() {
+		return this.size;
+	}
+
+	/**
 	 * Retrieves the cell at the specified coordinates.
 	 * If the grid is one-dimensional, the y coordinate is ignored.
 	 *
@@ -119,6 +128,13 @@ public class Grid {
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException(String.valueOf(i));
 		}
+	}
+
+	public char[] getNeighboursState(int x, int y, List<Coordinate> neighbourhood) {
+		char[] neighbours = new char[neighbourhood.size()];
+		for(int i = 0; i < neighbourhood.size(); i++)
+			// TODO: regarder différemment en focntion des dimensions + gérer les exceptions pour pas qu'elles plantent tout
+		return neighbours;
 	}
 
 

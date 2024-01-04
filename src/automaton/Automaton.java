@@ -207,4 +207,22 @@ public class Automaton {
 	public void display() {
 		this.grid.display();
 	}
+
+	public void evaluate() {
+		Grid newGrid = new Grid(this.dimension, this.grid.getSize(), this.alphabet[0]);
+		switch (this.dimension) {
+			case ONE_D:
+				for(int i = 0; i < this.grid.getSize(); i++)
+					for(Rule rule : this.rules)
+						grid.setCellState(i, 0, rule.apply(this.grid.getNeighboursState(i, 0, this.neighbourhood)));
+				break;
+			case TWO_D:
+				// TODO
+				break;
+			case H:
+				// TODO
+				break;
+		}
+		this.grid = newGrid;
+	}
 }

@@ -47,12 +47,20 @@ direction TB
         class Grid {
             - dimension: Dimension
             - size: int
-            - grid: List~Cell~
             - MAX_SIZE: int
+            - cellList: List~Cell~
 
-            + Grid(dimension: short, size: int)
-            + getState(coordinates: Coordinate) char
-            + setState(coordinates: Coordinate, value: char) void
+            + Grid(dimension: short, size: int, initialState: char)
+            + getSettings() String
+            + getCell(x: int, y: int) Cell
+            - getCell(i: int) Cell
+            + setCellState(x: int, y: int, state: char) void
+            + display() void
+            - display1D() void
+            - display2D() void
+            - displayH() void
+            - printSpaces(count: int) void
+            + printCells(row: int, count: int) void
         }
 
         class Cell {
