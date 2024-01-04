@@ -74,8 +74,6 @@ public class Automaton {
 			throw new JSONException("il manque le paramètre size dans le fichier " + filename);
 		}
 		this.grid = new Grid(this.dimension, size, this.alphabet[0]);
-		// TODO: faut choisir à quel état on initialise la grille (et donc ajouter les
-		// cellules à la grille (attention à la version hexagonale))
 
 		this.rules = getRulesFromSettings(settings, filename);
 	}

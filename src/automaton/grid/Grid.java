@@ -1,7 +1,6 @@
 package automaton.grid;
 
 import automaton.Dimension;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,44 +21,47 @@ public class Grid {
 	/**
 	 * The maximum size of the grid.
 	 */
-	private final int MAX_SIZE = 100;
+	private static final int MAX_SIZE = 100;
 
 	/**
 	 * Represents a grid of cells.
 	 */
-	private List<Cell> grid;
+	private List<Cell> cellList;
 
 	/**
 	 * Constructs a Grid object with the specified dimension and size.
 	 *
 	 * @param dimension the dimension of the grid
 	 * @param size      the size of the grid
+	 * @throws IllegalArgumentException if the size or the dimension is invalid
 	 */
 	public Grid(Dimension dimension, int size, char initialState) throws IllegalArgumentException {
 		this.dimension = dimension;
 
 		if (size <= 0)
 			throw new IllegalArgumentException("la taille de la grille ne peut pas être négative ou nulle.");
-		if((size > MAX_SIZE && (dimension == Dimension.ONE_D || dimension == Dimension.TWO_D)) || (size > (MAX_SIZE / 2) && dimension == Dimension.H))
+		if((size > Grid.MAX_SIZE && (dimension == Dimension.ONE_D || dimension == Dimension.TWO_D)) || (size > (Grid.MAX_SIZE / 2) && dimension == Dimension.H))
 			throw new IllegalArgumentException("la taille de la grille est trop grande.");
 		this.size = size;
 
 		switch(dimension) {
 			case ONE_D:
-				this.grid = new ArrayList<>(size);
+				this.cellList = new ArrayList<>(size);
 				for(int i = 0; i < size; i++)
-					this.grid.add(new Cell(initialState));
+					this.cellList.add(new Cell(initialState));
 				break;
 			case TWO_D:
-				this.grid = new ArrayList<>(size * size);
+				this.cellList = new ArrayList<>(size * size);
 				for(int i = 0; i < size * size; i++)
-					this.grid.add(new Cell(initialState));
+					this.cellList.add(new Cell(initialState));
 				break;
 			case H:
-				this.grid = new ArrayList<>(1 + 3 * size * (size - 1));
+				this.cellList = new ArrayList<>(1 + 3 * size * (size - 1));
 				for(int i = 0; i < 1 + 3 * size * (size - 1); i++)
-					this.grid.add(new Cell(initialState));
+					this.cellList.add(new Cell(initialState));
 				break;
+			default:
+				throw new IllegalArgumentException("la dimension de la grille n'est pas valide.");
 		}
 	}
 
@@ -69,7 +71,7 @@ public class Grid {
 	/**
 	 * Returns the settings of the grid as a string.
 	 *
-	 * @return the settings of the grid as a string
+	 * @return the settings (dimension and size) of the grid as a string
 	 */
 	public String getSettings() {
 		StringBuilder settings = new StringBuilder();
@@ -85,17 +87,22 @@ public class Grid {
 	 * @param x the x coordinate of the cell to retrieve
 	 * @param y the y coordinate of the cell to retrieve
 	 * @return the cell at the specified coordinates
+	 * @throws IndexOutOfBoundsException if the coordinates are out of bounds
 	 */
-	public Cell getCell(int x, int y) {
-		switch (this.dimension) {
-			case ONE_D:
-				return this.getCell(x);
-			case TWO_D:
-				return this.getCell(x + y * this.size);
-			case H:
-				return this.getCell(x + y * (y + 1) / 2);
-			default:
-				return null;
+	public Cell getCell(int x, int y) throws IndexOutOfBoundsException {
+		try {
+			switch (this.dimension) {
+				case ONE_D:
+					return this.getCell(x);
+				case TWO_D:
+					return this.getCell(x + y * this.size);
+				case H:
+					return this.getCell(x + y * (y + 1) / 2);
+				default:
+					return null;
+			}
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException("les coordonnées (" + x + ", " + y + ") -> " + e.getMessage() + " sont hors de la grille.");
 		}
 	}
 
@@ -104,9 +111,14 @@ public class Grid {
 	 *
 	 * @param i the index of the cell to retrieve
 	 * @return the cell at the specified index
+	 * @throws IndexOutOfBoundsException if the index is out of bounds
 	 */
-	private Cell getCell(int i) {
-		return this.grid.get(i);
+	private Cell getCell(int i) throws IndexOutOfBoundsException {
+		try {
+			return this.cellList.get(i);
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException(String.valueOf(i));
+		}
 	}
 
 
@@ -115,11 +127,17 @@ public class Grid {
 	/**
 	 * Sets the state of the cell at the specified index.
 	 *
-	 * @param index the index of the cell
+	 * @param x     the x coordinate of the cell to modify
+	 * @param y     the y coordinate of the cell to modify
 	 * @param state the state of the cell
+	 * @throws IndexOutOfBoundsException if the coordinates are out of bounds
 	 */
-	public void setCellState(int index, char state) {
-		this.getCell(index).setState(state);
+	public void setCellState(int x, int y, char state) throws IndexOutOfBoundsException {
+		try {
+			this.getCell(x, y).setState(state);
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException("la modification de la cellule a échoué car " + e.getMessage());
+		}
 	}
 
 
@@ -132,53 +150,78 @@ public class Grid {
 	 * If the dimension is H, it calls the displayH() method.
 	 */
 	public void display() {
-		switch (this.dimension) {
-			case ONE_D:
-				display1D();
-				break;
-			case TWO_D:
-				display2D();
-				break;
-			case H:
-				displayH();
-				break;
+		try {
+			switch (this.dimension) {
+				case ONE_D:
+					display1D();
+					break;
+				case TWO_D:
+					display2D();
+					break;
+				case H:
+					displayH();
+					break;
+			}
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("L'affichage de la grille a échoué à cause d'une erreur d'index.");
 		}
 	}
 
 	/**
 	 * Displays the 1D representation of the grid.
+	 *
+	 * @throws IndexOutOfBoundsException if during the display, an index is out of
+	 *                                   bounds
 	 */
-	private void display1D() {
-		for (int i = 0; i < this.size; i++) {
-			System.out.print(" " + this.getCell(i).getState() + " ");
+	private void display1D() throws IndexOutOfBoundsException {
+		try {
+			for (int i = 0; i < this.size; i++) {
+				System.out.print(" " + this.getCell(i).getState() + " ");
+			}
+			System.out.println();
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException();
 		}
-		System.out.println();
 	}
 
 	/**
 	 * Displays the 2D grid representation of the automaton.
+	 *
+	 * @throws IndexOutOfBoundsException if during the display, an index is out of
+	 *                                   bounds
 	 */
-	private void display2D() {
-		for (int i = 0; i < this.size; i++) {
-			for (int j = 0; j < this.size; j++)
-				System.out.print(" " + this.getCell(i, j).getState() + " ");
-			System.out.println();
+	private void display2D() throws IndexOutOfBoundsException {
+		try {
+			for (int i = 0; i < this.size; i++) {
+				for (int j = 0; j < this.size; j++)
+					System.out.print(" " + this.getCell(i, j).getState() + " ");
+				System.out.println();
+			}
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException();
 		}
 	}
 
 	/**
 	 * Displays the 2D hexagonal grid representation of the automaton.
+	 *
+	 * @throws IndexOutOfBoundsException if during the display, an index is out of
+	 *                                   bounds
 	 */
-	private void displayH() {
-		for (int i = 0; i < this.size; i++) {
-			printSpaces(this.size - i - 1);
-			printCells(i, this.size + i);
-			System.out.println();
-		}
-		for(int i = 1; i < this.size; i++) {
-			printSpaces(i);
-			printCells(this.size + i, 2 * this.size - i - 1);
-			System.out.println();
+	private void displayH() throws IndexOutOfBoundsException {
+		try {
+			for (int i = 0; i < this.size; i++) {
+				printSpaces(this.size - i - 1);
+				printCells(i, this.size + i);
+				System.out.println();
+			}
+			for(int i = 1; i < this.size; i++) {
+				printSpaces(i);
+				printCells(this.size + i, 2 * this.size - i - 1);
+				System.out.println();
+			}
+		} catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException();
 		}
 	}
 
@@ -186,14 +229,34 @@ public class Grid {
 	 * Prints a specified number of spaces.
 	 *
 	 * @param count the number of spaces to print
+	 * @throws IllegalArgumentException if the number of spaces to print is negative
 	 */
-	private void printSpaces(int count) {
+	private void printSpaces(int count) throws IllegalArgumentException {
+		if (count < 0)
+			throw new IllegalArgumentException();
+
 		for (int i = 0; i < count; i++)
 			System.out.print("  ");
 	}
 
-	private void printCells(int row, int count) {
-		for (int i = 0; i < count; i++)
-			System.out.print(" " + this.getCell(row, i).getState() + "  ");
+	/**
+	 * Prints the states of cells in a specific row.
+	 *
+	 * @param row   the row index of the cells to be printed
+	 * @param count the number of cells to be printed
+	 * @throws IndexOutOfBoundsException if the row index is out of bounds
+	 * @throws IllegalArgumentException  if the number of cells to be printed is
+	 *                                   negative
+	 */
+	private void printCells(int row, int count) throws IllegalArgumentException, IndexOutOfBoundsException {
+		if (count < 0)
+			throw new IllegalArgumentException();
+
+		try {
+			for (int i = 0; i < count; i++)
+				System.out.print(" " + this.getCell(row, i).getState() + "  ");
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException();
+		}
 	}
 }
