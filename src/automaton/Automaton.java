@@ -198,6 +198,27 @@ public class Automaton {
 	}
 
 
+	// === GETTERS === //
+
+	/**
+	 * Returns the alphabet associated with this automaton.
+	 *
+	 * @return the alphabet associated with this automaton
+	 */
+	public char[] getAlphabet() {
+		return this.alphabet;
+	}
+
+	/**
+	 * Returns the grid associated with this automaton.
+	 *
+	 * @return the grid associated with this automaton
+	 */
+	public Grid getGrid() {
+		return this.grid;
+	}
+
+
 	// === METHODS === //
 
 	/**
