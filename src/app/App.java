@@ -1,3 +1,4 @@
+package app;
 import automaton.Automaton;
 
 import org.json.JSONException;
