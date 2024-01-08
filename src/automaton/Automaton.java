@@ -1,6 +1,5 @@
 package automaton;
 
-import automaton.grid.Coordinate;
 import automaton.grid.Grid;
 import automaton.rule.*;
 import java.io.IOException;
@@ -172,7 +171,7 @@ public class Automaton {
 					JSONArray arrNeig = rule.getJSONArray("neighbours");
 					int[] neighbours = new int[arrNeig.length()];
 					for (int j = 0; j < arrNeig.length(); j++) {
-						neighbours[j] = arrNeig.getString(j).charAt(0);
+						neighbours[j] = arrNeig.getInt(j);
 					}
 					rules.add(new NeighbourhoodRule(state, result, neighbours));
 				}
@@ -180,7 +179,7 @@ public class Automaton {
 				for (int i = 0; i < array.length(); i++) {
 					rule = array.getJSONObject(i);
 					JSONArray arrNeig = rule.getJSONArray("neighbours");
-					List<Object> neig = arrNeig.toList();
+					//List<Object> neig = arrNeig.toList();
 					int[] neighbours = new int[arrNeig.length()];
 					for (int j = 0; j < arrNeig.length(); j++) {
 						neighbours[j] = arrNeig.getInt(j);

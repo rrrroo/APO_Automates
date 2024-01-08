@@ -2,7 +2,7 @@
     "dimension": "1D",
     "size": 10,
     "alphabet": ["0", "1"],
-    "neighbourhood": [-1, 1],
+    "neighbourhood": [[-1, 1]],
     "rule": {
         "type": true,
         "rules": [
