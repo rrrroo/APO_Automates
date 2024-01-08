@@ -1,6 +1,5 @@
 package automaton;
 
-import automaton.grid.Coordinate;
 import automaton.grid.Grid;
 import automaton.rule.*;
 import java.io.IOException;
@@ -196,6 +195,27 @@ public class Automaton {
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre rules dans le fichier " + filename);
 		}
+	}
+
+
+	// === GETTERS === //
+
+	/**
+	 * Returns the alphabet associated with this automaton.
+	 *
+	 * @return the alphabet associated with this automaton
+	 */
+	public char[] getAlphabet() {
+		return this.alphabet;
+	}
+
+	/**
+	 * Returns the grid associated with this automaton.
+	 *
+	 * @return the grid associated with this automaton
+	 */
+	public Grid getGrid() {
+		return this.grid;
 	}
 
 

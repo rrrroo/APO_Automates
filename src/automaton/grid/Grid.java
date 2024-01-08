@@ -3,6 +3,7 @@ package automaton.grid;
 import automaton.Dimension;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Represents a grid.
@@ -164,6 +165,21 @@ public class Grid {
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException("la modification de la cellule a échoué car " + e.getMessage());
 		}
+	}
+
+	/**
+	 * Sets the state of all cells in the grid to a random character from the given alphabet.
+	 * 
+	 * @param alphabet the array of characters to choose from
+	 */
+	public void setAllRandom(char [ ] alphabet) {
+		Random random = new Random();
+		for(int i = 0; i < this.cellList.size(); i++)
+			try {
+				this.getCell(i).setState(alphabet[random.nextInt(alphabet.length)]);
+			} catch (IndexOutOfBoundsException e) {
+				System.out.println("La modification de la cellule a échoué car " + e.getMessage());
+			}
 	}
 
 

@@ -19,6 +19,21 @@ public class Simulation {
 		this.automaton = automaton;
 	}
 
+
+	// === GETTERS === //
+
+	/**
+	 * Returns the automaton.
+	 * 
+	 * @return the automaton
+	 */
+	public Automaton getAutomaton() {
+		return this.automaton;
+	}
+
+
+	// === METHODS === //
+
 	/**
 	 * Runs the simulation.
 	 */
