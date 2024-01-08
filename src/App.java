@@ -1,4 +1,5 @@
 import automaton.Automaton;
+import simulation.Simulation;
 
 import org.json.JSONException;
 import java.io.IOException;
