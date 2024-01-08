@@ -128,20 +128,20 @@ public class Automaton {
 	 * @throws JSONException If the "neighbourhood" parameter is missing in the
 	 *                       settings JSON object.
 	 */
-	private static List<Coordinate> getNeighbourhoodFromSettings(JSONObject settings, String filename)
+	private static List<int[]> getNeighbourhoodFromSettings(JSONObject settings, String filename)
 			throws JSONException {
 		try {
 			JSONArray array = settings.getJSONArray("neighbourhood");
 			JSONArray subArray;
 			int[] coordinates;
-			List<Coordinate> neighbourhood = new ArrayList<>();
+			List<int[]> neighbourhood = new ArrayList<>();
 			for (int i = 0; i < array.length(); i++) {
 				subArray = array.getJSONArray(i);
 				coordinates = new int[subArray.length()];
 				for (int j = 0; j < subArray.length(); j++) {
 					coordinates[j] = subArray.getInt(j);
 				}
-				neighbourhood.add(new Coordinate(coordinates));
+				neighbourhood.add(coordinates);
 			}
 			return neighbourhood;
 		} catch (JSONException e) {
@@ -170,7 +170,7 @@ public class Automaton {
 					char state = rule.getString("state").charAt(0);
 					char result = rule.getString("result").charAt(0);
 					JSONArray arrNeig = rule.getJSONArray("neighbours");
-					char[] neighbours = new char[arrNeig.length()];
+					int[] neighbours = new int[arrNeig.length()];
 					for (int j = 0; j < arrNeig.length(); j++) {
 						neighbours[j] = arrNeig.getString(j).charAt(0);
 					}
