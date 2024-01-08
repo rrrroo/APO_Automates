@@ -237,7 +237,10 @@ public class Automaton {
 						grid.setCellState(i, 0, rule.apply(this.grid.getNeighboursState(i, 0, this.neighbourhood)));
 				break;
 			case TWO_D:
-				// TODO
+				for(int i = 0; i < this.grid.getSize(); i++)
+					for(int j = 0; j < this.grid.getSize(); j++)
+						for(Rule rule : this.rules)
+							grid.setCellState(i, j, rule.apply(this.grid.getNeighboursState(i, j, this.neighbourhood)));
 				break;
 			case H:
 				// TODO

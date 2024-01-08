@@ -136,13 +136,13 @@ public class Grid {
 		for(int i = 0; i < neighbourhood.size(); i++)
 			switch(this.dimension) {
 				case ONE_D:
-					neighbours[i] = this.getCell(neighbourhood.get(i)[0]).getState();
+					neighbours[i] = this.getCell(x + neighbourhood.get(i)[0]).getState();
 					break;
 				case TWO_D:
-					neighbours[i] = this.getCell(neighbourhood.get(i)[0], neighbourhood.get(i)[1]).getState();
+					neighbours[i] = this.getCell(x + neighbourhood.get(i)[0], y + neighbourhood.get(i)[1]).getState();
 					break;
 				case H:
-					neighbours[i] = this.getCell(neighbourhood.get(i)[0], neighbourhood.get(i)[1]).getState();
+					neighbours[i] = this.getCell(x + neighbourhood.get(i)[0], y + neighbourhood.get(i)[1]).getState();
 					break;
 			}
 		return neighbours;
