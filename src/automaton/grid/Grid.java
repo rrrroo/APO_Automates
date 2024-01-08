@@ -130,10 +130,20 @@ public class Grid {
 		}
 	}
 
-	public char[] getNeighboursState(int x, int y, List<Coordinate> neighbourhood) {
+	public char[] getNeighboursState(int x, int y, List<int[]> neighbourhood) {
 		char[] neighbours = new char[neighbourhood.size()];
 		for(int i = 0; i < neighbourhood.size(); i++)
-			// TODO: regarder différemment en focntion des dimensions + gérer les exceptions pour pas qu'elles plantent tout
+			switch(this.dimension) {
+				case ONE_D:
+					neighbours[i] = this.getCell(neighbourhood.get(i)[0]).getState();
+					break;
+				case TWO_D:
+					neighbours[i] = this.getCell(neighbourhood.get(i)[0], neighbourhood.get(i)[1]).getState();
+					break;
+				case H:
+					neighbours[i] = this.getCell(neighbourhood.get(i)[0], neighbourhood.get(i)[1]).getState();
+					break;
+			}
 		return neighbours;
 	}
 

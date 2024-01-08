@@ -32,7 +32,7 @@ public class Automaton {
 	/**
 	 * The neighbourhood of the automaton.
 	 */
-	private List<Coordinate> neighbourhood;
+	private List<int[]> neighbourhood;
 
 	/**
 	 * The grid of the automaton.
