@@ -83,6 +83,9 @@ public class Automaton {
 	 * @param rule the rule number of the 1D automaton
 	 */
 	public Automaton(int ruleNb) throws IOException, JSONException, IllegalArgumentException {
+		if(ruleNb < 0 || ruleNb > 255) {
+			throw new IllegalArgumentException("la règle doit être comprise entre 0 et 255");
+		}
 		JSONObject settings = getSettings("data/1D.json");
 		this.dimension = Dimension.ONE_D;
 		this.alphabet = getAlphabetFromSettings(settings, "data/1D.json");
