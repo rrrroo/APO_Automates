@@ -15,7 +15,7 @@ public class App {
 		Automaton auto = menu();
 	    System.out.println(auto);
         Simulation simulation = new Simulation(auto);
-        simulation.getAutomaton().getGrid().setCellState(5, 0, '1');
+        simulation.getAutomaton().getGrid().setCellState(5, 0, simulation.getAutomaton().getAlphabet()[1]);
         simulation.run();
 	}
 
