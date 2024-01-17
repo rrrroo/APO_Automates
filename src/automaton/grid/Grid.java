@@ -32,7 +32,7 @@ public class Grid {
 	private List<Cell> cellList;
 
 
-	// === CONSTRUCTOR === //
+	// === CONSTRUCTORS === //
 
 	/**
 	 * Constructs a Grid object with the specified dimension and size.
@@ -70,6 +70,14 @@ public class Grid {
 			default:
 				throw new IllegalArgumentException("la dimension de la grille n'est pas valide.");
 		}
+	}
+
+	public Grid(Grid grid) {
+		this.dimension = grid.dimension;
+		this.size = grid.size;
+		this.cellList = new ArrayList<>(grid.cellList.size());
+		for(int i = 0; i < grid.cellList.size(); i++)
+			this.cellList.add(new Cell(grid.cellList.get(i).getState()));
 	}
 
 
@@ -183,6 +191,13 @@ public class Grid {
 		return neighbours;
 	}
 
+	/**
+	 * Return the positive modulo of two integers.
+	 *
+	 * @param a
+	 * @param b
+	 * @return the positive modulo of two integers
+	 */
 	private static int modulo(int a, int b) {
 		return (a % b + b) % b;
 	}

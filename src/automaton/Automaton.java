@@ -266,13 +266,20 @@ public class Automaton {
 	}
 
 	public void evaluate() {
-		Grid newGrid = new Grid(this.dimension, this.grid.getSize(), this.alphabet[0]);
+		Grid newGrid = new Grid(this.grid);
+		char newState;
 		try {
 			switch (this.dimension) {
 				case ONE_D:
-					for(int i = 0; i < this.grid.getSize(); i++)
-						for(Rule rule : this.rules)
-							newGrid.setCellState(i, 0, rule.apply(this.grid.getCellState(i, 0), this.grid.getNeighboursState(i, 0, this.neighbourhood)));
+					for(int i = 0; i < this.grid.getSize(); i++) {
+						for(Rule rule : this.rules) {
+							newState = rule.apply(this.grid.getCellState(i, 0), this.grid.getNeighboursState(i, 0, this.neighbourhood));
+							if(newState != newGrid.getCellState(i, 0)) {
+								newGrid.setCellState(i, 0, newState);
+								break;
+							}
+						}
+					}
 					break;
 				case TWO_D:
 					for(int i = 0; i < this.grid.getSize(); i++)
