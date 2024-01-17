@@ -78,6 +78,44 @@ public class Automaton {
 	}
 
 	/**
+	 * The constructor of the class.
+	 *
+	 * @param rule the rule number of the 1D automaton
+	 */
+	public Automaton(int ruleNb) throws IOException, JSONException, IllegalArgumentException {
+		JSONObject settings = getSettings("data/1D.json");
+		this.dimension = Dimension.ONE_D;
+		this.alphabet = getAlphabetFromSettings(settings, "data/1D.json");
+		this.neighbourhood = getNeighbourhoodFromSettings(settings, "data/1D.json");
+		int size;
+		try {
+			size = settings.getInt("size");
+		} catch (JSONException e) {
+			throw new JSONException("il manque le paramètre size dans le fichier data/1D.json");
+		}
+
+		this.grid = new Grid(this.dimension, size, this.alphabet[0]);
+		
+		List<Rule> rules = new ArrayList<>();
+		String res = Integer.toBinaryString(ruleNb);
+		while(res.length() < 8) {
+			res = "0" + res;
+		}
+		for(int i = 0; i < res.length(); i++) {
+			if(res.charAt(7-i) == '1') {
+				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], new int[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				System.out.println(this.alphabet[(i/2)%2] + " " + this.alphabet[1] + " " + this.alphabet[(i/4)%2] + " " + this.alphabet[i%2]);
+			}
+			else {
+				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], new int[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				System.out.println(this.alphabet[(i/2)%2] + " " + this.alphabet[0] + " " + this.alphabet[(i/4)%2] + " " + this.alphabet[i%2]);
+			}
+			
+		}
+		this.rules = rules;
+	}
+
+	/**
 	 * Returns the settings of the automaton.
 	 *
 	 * @param filename the name of the file containing the automaton settings

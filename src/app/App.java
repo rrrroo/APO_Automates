@@ -19,6 +19,7 @@ public class App {
 	public static Automaton menu() {
 		Scanner scanner = new Scanner(System.in);
         Automaton auto = null;
+        String filename = null;
 
         System.out.println("1: Choisir un automate");
         System.out.println("2: Entrer un chemin de fichier");
@@ -43,29 +44,43 @@ public class App {
                 }
 
                 System.out.println("Choisissez un automate :");
+                System.out.println("0 : 1D et entrer règle");
                 for(int i = 0; i < files.size(); i++) {
-                    System.out.println(i + " : " + files.get(i).replace(".json", ""));
+                    System.out.println(i + 1 + " : " + files.get(i).replace(".json", ""));
                 }
 
                 System.out.print("Votre choix : ");
                 choice = scanner.nextInt();
-                while(choice < 0 || choice >= files.size()) {
+                while(choice < 0 || choice >= files.size() + 1) {
                     System.out.println("Choix incorrect");
                     System.out.print("Votre choix : ");
                     choice = scanner.nextInt();
                 }
-
-                String filename = "data/" + files.get(choice);
-                
-
-                while(auto == null){
-                    try {
-                        auto = new Automaton(filename);
-                    } catch (Exception e) {
-                        System.out.println("L'automate n'a pas pu être créé car " + e.getMessage());
-                        System.out.print("Votre choix : ");
-                        choice = scanner.nextInt();
-                        filename = "data/" + files.get(choice);
+                if (choice == 0){
+                    System.out.print("Entrez la règle : ");
+                    int rule = scanner.nextInt();
+                    while(auto == null){
+                        try {
+                            auto = new Automaton(rule);
+                        } catch (Exception e) {
+                            System.out.println("L'automate n'a pas pu être créé car " + e.getMessage());
+                            System.out.print("Entrez la règle : ");
+                            rule = scanner.nextInt();
+                        }
+                    }
+                }
+                else {
+                    filename = "data/" + files.get(choice - 1);
+                    
+                    while(auto == null){
+                        try {
+                            auto = new Automaton(filename);
+                        } catch (Exception e) {
+                            System.out.println("L'automate n'a pas pu être créé car " + e.getMessage());
+                            System.out.print("Votre choix : ");
+                            choice = scanner.nextInt();
+                            filename = "data/" + files.get(choice);
+                        }
                     }
                 }
                 scanner.close();
