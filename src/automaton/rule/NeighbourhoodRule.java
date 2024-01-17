@@ -8,7 +8,7 @@ public class NeighbourhoodRule extends Rule {
 	/**
 	 * The array of characters representing the neighbours of a cell.
 	 */
-	protected int[] neighbours;
+	protected char[] neighbours;
 
 	/**
 	 * Constructs a NeighbourhoodRule object with the specified state, result, and
@@ -19,7 +19,7 @@ public class NeighbourhoodRule extends Rule {
 	 * @param neighbours the array of characters representing the neighbors of the
 	 *                   automaton
 	 */
-	public NeighbourhoodRule(char state, char result, int[] neighbours) {
+	public NeighbourhoodRule(char state, char result, char[] neighbours) {
 		super(state, result);
 		this.neighbours = neighbours;
 	}
@@ -31,10 +31,13 @@ public class NeighbourhoodRule extends Rule {
 	 * @return the resulting character after applying the rule
 	 */
 	@Override
-	public char apply(char[] neighbours) {
+	public char apply(char cell, char[] neighbours) {
+		if(cell != this.state) {
+			return cell;
+		}
 		for (int i = 0; i < neighbours.length; i++) {
 			if (neighbours[i] != this.neighbours[i]) {
-				return this.state;
+				return cell;
 			}
 		}
 		return this.result;
