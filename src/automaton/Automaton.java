@@ -169,9 +169,9 @@ public class Automaton {
 					char state = rule.getString("state").charAt(0);
 					char result = rule.getString("result").charAt(0);
 					JSONArray arrNeig = rule.getJSONArray("neighbours");
-					int[] neighbours = new int[arrNeig.length()];
+					char[] neighbours = new char[arrNeig.length()];
 					for (int j = 0; j < arrNeig.length(); j++) {
-						neighbours[j] = arrNeig.getInt(j);
+						neighbours[j] = arrNeig.getString(j).charAt(0);
 					}
 					rules.add(new NeighbourhoodRule(state, result, neighbours));
 				}
@@ -179,7 +179,6 @@ public class Automaton {
 				for (int i = 0; i < array.length(); i++) {
 					rule = array.getJSONObject(i);
 					JSONArray arrNeig = rule.getJSONArray("neighbours");
-					//List<Object> neig = arrNeig.toList();
 					int[] neighbours = new int[arrNeig.length()];
 					for (int j = 0; j < arrNeig.length(); j++) {
 						neighbours[j] = arrNeig.getInt(j);
@@ -230,21 +229,25 @@ public class Automaton {
 
 	public void evaluate() {
 		Grid newGrid = new Grid(this.dimension, this.grid.getSize(), this.alphabet[0]);
-		switch (this.dimension) {
-			case ONE_D:
-				for(int i = 0; i < this.grid.getSize(); i++)
-					for(Rule rule : this.rules)
-						grid.setCellState(i, 0, rule.apply(this.grid.getNeighboursState(i, 0, this.neighbourhood)));
-				break;
-			case TWO_D:
-				for(int i = 0; i < this.grid.getSize(); i++)
-					for(int j = 0; j < this.grid.getSize(); j++)
+		try {
+			switch (this.dimension) {
+				case ONE_D:
+					for(int i = 0; i < this.grid.getSize(); i++)
 						for(Rule rule : this.rules)
-							grid.setCellState(i, j, rule.apply(this.grid.getNeighboursState(i, j, this.neighbourhood)));
-				break;
-			case H:
-				// TODO
-				break;
+							newGrid.setCellState(i, 0, rule.apply(this.grid.getCellState(i, 0), this.grid.getNeighboursState(i, 0, this.neighbourhood)));
+					break;
+				case TWO_D:
+					for(int i = 0; i < this.grid.getSize(); i++)
+						for(int j = 0; j < this.grid.getSize(); j++)
+							for(Rule rule : this.rules)
+								grid.setCellState(i, j, rule.apply(this.grid.getCellState(i, j), this.grid.getNeighboursState(i, j, this.neighbourhood)));
+					break;
+				case H:
+					// TODO
+					break;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		this.grid = newGrid;
 	}

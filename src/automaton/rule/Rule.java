@@ -16,7 +16,7 @@ public class Rule {
      * @param neighbours the array of characters representing the neighbours
      * @return the resulting character after applying the rule
      */
-    public char apply(char[] neighbours) {
+    public char apply(char cell, char[] neighbours) {
         return this.state;
     }
 }

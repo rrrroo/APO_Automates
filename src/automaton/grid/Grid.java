@@ -9,6 +9,8 @@ import java.util.Random;
  * Represents a grid.
  */
 public class Grid {
+	// === ATTRIBUTES === //
+
 	/**
 	 * The dimension of the grid.
 	 */
@@ -29,11 +31,15 @@ public class Grid {
 	 */
 	private List<Cell> cellList;
 
+
+	// === CONSTRUCTOR === //
+
 	/**
 	 * Constructs a Grid object with the specified dimension and size.
 	 *
 	 * @param dimension the dimension of the grid
 	 * @param size      the size of the grid
+	 * @param initialState the initial state of the cells
 	 * @throws IllegalArgumentException if the size or the dimension is invalid
 	 */
 	public Grid(Dimension dimension, int size, char initialState) throws IllegalArgumentException {
@@ -131,21 +137,54 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * Returns the state of the cell at the specified coordinates.
+	 *
+	 * @param x the x-coordinate of the cell
+	 * @param y the y-coordinate of the cell
+	 * @return the state of the cell
+	 * @throws IndexOutOfBoundsException if the coordinates are out of bounds
+	 */
+	public char getCellState(int x, int y) throws IndexOutOfBoundsException {
+		try {
+			return this.getCell(x, y).getState();
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException(e.getMessage());
+		}
+	}
+
 	public char[] getNeighboursState(int x, int y, List<int[]> neighbourhood) {
 		char[] neighbours = new char[neighbourhood.size()];
-		for(int i = 0; i < neighbourhood.size(); i++)
-			switch(this.dimension) {
-				case ONE_D:
-					neighbours[i] = this.getCell(x + neighbourhood.get(i)[0]).getState();
-					break;
-				case TWO_D:
-					neighbours[i] = this.getCell(x + neighbourhood.get(i)[0], y + neighbourhood.get(i)[1]).getState();
-					break;
-				case H:
-					neighbours[i] = this.getCell(x + neighbourhood.get(i)[0], y + neighbourhood.get(i)[1]).getState();
-					break;
+		for(int i = 0; i < neighbourhood.size(); i++) {
+			try {
+				switch(this.dimension) {
+					case ONE_D:
+						neighbours[i] = this.getCell(
+							modulo(x + neighbourhood.get(i)[0], this.size)	// permet de gérer les bords
+						).getState();
+						break;
+					case TWO_D:
+						neighbours[i] = this.getCell(
+							modulo(x + neighbourhood.get(i)[0], this.size),
+							modulo(y + neighbourhood.get(i)[1], this.size)
+						).getState();
+						break;
+					case H:
+						neighbours[i] = this.getCell(
+							modulo(x + neighbourhood.get(i)[0], this.size),
+							modulo(y + neighbourhood.get(i)[1], this.size)
+						).getState();
+						break;
+				}
+			} catch (IndexOutOfBoundsException e) {
+				neighbours[i] = ' ';
 			}
+		}
 		return neighbours;
+	}
+
+	private static int modulo(int a, int b) {
+		return (a % b + b) % b;
 	}
 
 

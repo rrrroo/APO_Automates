@@ -23,6 +23,9 @@ Le tableau de chaîne de caractères `alphabet` permet de choisir les états pos
 *ex : \["0", "1"]*
 Le premier état est l'état initial des cellules.
 
+> Attention !
+> Le caractère `' '` ne peut pas être utilisé comme état.
+
 
 ## III. Voisinage
 
