@@ -107,11 +107,11 @@ public class Automaton {
 		for(int i = 0; i < res.length(); i++) {
 			if(res.charAt(7-i) == '1') {
 				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
-				System.out.println(this.alphabet[(i/2)%2] + " " + this.alphabet[(i/4)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[1]);
+				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[1]);
 			}
 			else {
 				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
-				System.out.println(this.alphabet[(i/2)%2] + " " + this.alphabet[(i/4)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[0]);
+				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[0]);
 			}
 			
 		}
