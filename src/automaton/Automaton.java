@@ -266,6 +266,7 @@ public class Automaton {
 	 */
 	public void display() {
 		this.grid.display();
+		System.out.println();
 	}
 
 	/**
