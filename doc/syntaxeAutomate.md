@@ -69,3 +69,12 @@ Si `type` est **false**, `rules` est un tableau d'objets qui contiennent :
 - une chaîne de caractères `result` : l'état de la cellule après la transition
 
 *ex : {"state": "0", "neighbours": \[1, 2], "neighbourState": "1", "result": "1"}*
+
+## V. Automate pré-reglés
+
+### feu de foret
+alphabet : 
+- " " case vide 
+- "f" foret 
+- "0" en feu
+- "." brulé
