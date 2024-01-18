@@ -19,6 +19,17 @@ Le projet utilise les librairies suivantes :
 
 Les librairies sont à placer dans le dossier `lib/`.
 
+## Compilation
+
+Le projet peut être compilé à l'aide de ant. Pour cela il faut [télécharger ant](https://ant.apache.org/bindownload.cgi) et l'ajouter au PATH.
+
+Les commandes suivantes sont disponibles :
+- `ant clean` : vide les dossiers `bin/` et `exe/`
+- `ant compile` : compile les fichiers .java dans `src/` et place les .class dans `bin/`
+- `ant jar` : crée un .jar exécutable dans `exe/`
+- `ant run` : exécute le .jar
+- `ant javadoc` : crée la documentation Java dans `doc/javadoc/`
+
 ## Projet Java
 
 ### Folder Structure
