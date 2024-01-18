@@ -268,6 +268,16 @@ public class Automaton {
 		this.grid.display();
 	}
 
+	/**
+	 * Turns the automaton into a string.
+	 * 
+	 * @return the automaton as a string
+	 */
+	@Override
+	public String toString() {
+		return this.grid.toString();
+	}
+
 	public void evaluate() {
 		Grid newGrid = new Grid(this.grid);
 		char newState;

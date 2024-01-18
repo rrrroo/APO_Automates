@@ -264,6 +264,46 @@ public class Grid {
 	}
 
 	/**
+	 * Returns a string representation of the grid.
+	 *
+	 * @return a string representation of the grid
+	 */
+	@Override
+	public String toString() {
+		StringBuilder grid = new StringBuilder();
+		try {
+			switch (this.dimension) {
+				case ONE_D:
+					for (int i = 0; i < this.size; i++)
+						grid.append(this.getCell(i).toString());
+					break;
+				case TWO_D:
+					for (int i = 0; i < this.size; i++) {
+						for (int j = 0; j < this.size; j++)
+							grid.append(this.getCell(i, j).toString());
+						grid.append("\n");
+					}
+					break;
+				case H:
+					for (int i = 0; i < this.size; i++) {
+						printSpaces(this.size - i - 1);
+						printCells(i, this.size + i);
+						grid.append("\n");
+					}
+					for(int i = 1; i < this.size; i++) {
+						printSpaces(i);
+						printCells(this.size + i, 2 * this.size - i - 1);
+						grid.append("\n");
+					}
+					break;
+			}
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("La conversion de la grille en chaîne de caractères a échoué à cause d'une erreur d'index.");
+		}
+		return grid.toString();
+	}
+
+	/**
 	 * Displays the 1D representation of the grid.
 	 *
 	 * @throws IndexOutOfBoundsException if during the display, an index is out of
@@ -272,7 +312,7 @@ public class Grid {
 	private void display1D() throws IndexOutOfBoundsException {
 		try {
 			for (int i = 0; i < this.size; i++) {
-				System.out.print(" " + this.getCell(i).getState() + " ");
+				System.out.print(this.getCell(i).toString());
 			}
 			System.out.println();
 		} catch (IndexOutOfBoundsException e) {
@@ -290,7 +330,7 @@ public class Grid {
 		try {
 			for (int i = 0; i < this.size; i++) {
 				for (int j = 0; j < this.size; j++)
-					System.out.print(" " + this.getCell(i, j).getState() + " ");
+					System.out.print(this.getCell(i, j).toString());
 				System.out.println();
 			}
 		} catch (IndexOutOfBoundsException e) {
@@ -350,7 +390,7 @@ public class Grid {
 
 		try {
 			for (int i = 0; i < count; i++)
-				System.out.print(" " + this.getCell(row, i).getState() + "  ");
+				System.out.print(this.getCell(row, i).toString());
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException();
 		}

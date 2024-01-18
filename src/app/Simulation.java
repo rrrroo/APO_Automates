@@ -44,7 +44,8 @@ public class Simulation {
 		display();
 		while(!stop) {
 			step();
-			display();
+			//display();
+			System.out.println(automaton);
 
 			try {
 				Thread.sleep(500);

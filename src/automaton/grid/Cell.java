@@ -28,6 +28,16 @@ public class Cell {
 	}
 
 	/**
+	 * Returns a string representation of the cell.
+	 * 
+	 * @return a string representation of the cell
+	 */
+	@Override
+	public String toString() {
+		return " " + this.state + " ";
+	}
+
+	/**
 	 * Sets the state of the cell.
 	 *
 	 * @param state the state of the cell
