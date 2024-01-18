@@ -46,7 +46,7 @@ public class TransitionRule extends Rule {
     public char apply(char cell, char[] neighbours) {
         if(cell == this.state) {
             int n = 0;
-            for(int i = 0; i < this.neighbours.length; i++)
+            for(int i = 0; i < neighbours.length; i++)
                 if(neighbours[i] == this.neighboursState)
                     n++;
             if(Arrays.binarySearch(this.neighbours, n) >= 0)
