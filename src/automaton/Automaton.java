@@ -268,27 +268,25 @@ public class Automaton {
 		this.grid.display();
 	}
 
+	/**
+	 * Evaluates the automaton by applying the rules to each cell in the grid.
+	 * The evaluation process depends on the dimension of the automaton.
+	 * If an exception occurs during the evaluation process, the error message is printed to the console.
+	 * After the evaluation, the grid is updated with the new grid.
+	 */
 	public void evaluate() {
 		Grid newGrid = new Grid(this.grid);
-		char newState;
 		try {
 			switch (this.dimension) {
 				case ONE_D:
 					for(int i = 0; i < this.grid.getSize(); i++) {
-						for(Rule rule : this.rules) {
-							newState = rule.apply(this.grid.getCellState(i, 0), this.grid.getNeighboursState(i, 0, this.neighbourhood));
-							if(newState != newGrid.getCellState(i, 0)) {
-								newGrid.setCellState(i, 0, newState);
-								break;
-							}
-						}
+						applyRules(newGrid, i, 0);
 					}
 					break;
 				case TWO_D:
 					for(int i = 0; i < this.grid.getSize(); i++)
 						for(int j = 0; j < this.grid.getSize(); j++)
-							for(Rule rule : this.rules)
-								grid.setCellState(i, j, rule.apply(this.grid.getCellState(i, j), this.grid.getNeighboursState(i, j, this.neighbourhood)));
+							applyRules(newGrid, i, j);
 					break;
 				case H:
 					// TODO
@@ -298,5 +296,23 @@ public class Automaton {
 			System.out.println(e.getMessage());
 		}
 		this.grid = newGrid;
+	}
+
+	/**
+	 * Applies the rules of the automaton to update the state of a cell in the new grid.
+	 * 
+	 * @param newGrid The new grid where the updated cell state will be set.
+	 * @param x The x-coordinate of the cell.
+	 * @param y The y-coordinate of the cell.
+	 */
+	private void applyRules(Grid newGrid, int x, int y) {
+		char newState;
+		for(Rule rule : this.rules) {
+			newState = rule.apply(this.grid.getCellState(x, y), this.grid.getNeighboursState(x, y, this.neighbourhood));
+			if(newState != newGrid.getCellState(x, y)) {
+				newGrid.setCellState(x, y, newState);
+				break;
+			}
+		}
 	}
 }
