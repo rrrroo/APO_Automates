@@ -161,6 +161,14 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * Returns the state of the neighboring cells at the specified coordinates.
+	 * 
+	 * @param x the x-coordinate of the cell
+	 * @param y the y-coordinate of the cell
+	 * @param neighbourhood the list of relative coordinates of the neighboring cells
+	 * @return an array of characters representing the states of the neighboring cells
+	 */
 	public char[] getNeighboursState(int x, int y, List<int[]> neighbourhood) {
 		char[] neighbours = new char[neighbourhood.size()];
 		for(int i = 0; i < neighbourhood.size(); i++) {
@@ -290,7 +298,7 @@ public class Grid {
 		try {
 			for (int i = 0; i < this.size; i++) {
 				for (int j = 0; j < this.size; j++)
-					System.out.print(" " + this.getCell(i, j).getState() + " ");
+					System.out.print(" " + this.getCell(j, i).getState() + " ");
 				System.out.println();
 			}
 		} catch (IndexOutOfBoundsException e) {

@@ -287,7 +287,7 @@ public class Automaton {
 				case TWO_D:
 					for(int i = 0; i < this.grid.getSize(); i++)
 						for(int j = 0; j < this.grid.getSize(); j++)
-							applyRules(newGrid, i, j);
+							applyRules(newGrid, j, i);
 					break;
 				case H:
 					// TODO
