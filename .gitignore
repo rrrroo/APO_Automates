@@ -4,8 +4,7 @@ bin/
 # Libraries
 lib/
 
-
-
 # Autres
 .idea/
 APO_Automates.iml
+out/
