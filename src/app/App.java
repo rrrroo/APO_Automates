@@ -13,7 +13,6 @@ import java.nio.file.Paths;
 public class App {
 	public static void main(String[] args) {
 		Automaton auto = menu();
-	    System.out.println(auto);
         Simulation simulation = new Simulation(auto);
         simulation.getAutomaton().getGrid().setCellState(5, 0, simulation.getAutomaton().getAlphabet()[1]);
         simulation.run();
@@ -47,7 +46,7 @@ public class App {
                 }
 
                 System.out.println("Choisissez un automate :");
-                System.out.println("0 : 1D et entrer règle");
+                System.out.println("0 : 1D (entrer règle)");
                 for(int i = 0; i < files.size(); i++) {
                     System.out.println(i + 1 + " : " + files.get(i).replace(".json", ""));
                 }
@@ -60,7 +59,7 @@ public class App {
                     choice = scanner.nextInt();
                 }
                 if (choice == 0){
-                    System.out.print("Entrez la règle : ");
+                    System.out.print("Entrez la règle (0 - 255) : ");
                     int rule = scanner.nextInt();
                     while(auto == null){
                         try {
