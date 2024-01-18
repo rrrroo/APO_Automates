@@ -45,12 +45,14 @@ public class Grid {
 	public Grid(Dimension dimension, int size, char initialState) throws IllegalArgumentException {
 		this.dimension = dimension;
 
+		// Initialisation de la taille de la grille
 		if (size <= 0)
 			throw new IllegalArgumentException("la taille de la grille ne peut pas être négative ou nulle.");
 		if((size > Grid.MAX_SIZE && (dimension == Dimension.ONE_D || dimension == Dimension.TWO_D)) || (size > (Grid.MAX_SIZE / 2) && dimension == Dimension.H))
 			throw new IllegalArgumentException("la taille de la grille est trop grande.");
 		this.size = size;
 
+		// Initialisation de la grille
 		switch(dimension) {
 			case ONE_D:
 				this.cellList = new ArrayList<>(size);
@@ -60,6 +62,11 @@ public class Grid {
 			case TWO_D:
 				this.cellList = new ArrayList<>(size * size);
 				for(int i = 0; i < size * size; i++)
+					this.cellList.add(new Cell(initialState));
+				break;
+			case THREE_D:
+				this.cellList = new ArrayList<>(size * size * size);
+				for(int i = 0; i < size * size * size; i++)
 					this.cellList.add(new Cell(initialState));
 				break;
 			case H:
@@ -72,6 +79,13 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * Constructs a Grid object with the specified dimension and size.
+	 *
+	 * @param dimension the dimension of the grid
+	 * @param size      the size of the grid
+	 * @throws IllegalArgumentException if the size or the dimension is invalid
+	 */
 	public Grid(Grid grid) {
 		this.dimension = grid.dimension;
 		this.size = grid.size;
@@ -110,23 +124,26 @@ public class Grid {
 	 *
 	 * @param x the x coordinate of the cell to retrieve
 	 * @param y the y coordinate of the cell to retrieve
+	 * @param z the z coordinate of the cell to retrieve
 	 * @return the cell at the specified coordinates
 	 * @throws IndexOutOfBoundsException if the coordinates are out of bounds
 	 */
-	public Cell getCell(int x, int y) throws IndexOutOfBoundsException {
+	public Cell getCell(int x, int y, int z) throws IndexOutOfBoundsException {
 		try {
 			switch (this.dimension) {
 				case ONE_D:
 					return this.getCell(x);
 				case TWO_D:
 					return this.getCell(x + y * this.size);
+				case THREE_D:
+					return this.getCell(x + y * this.size + z * this.size * this.size);
 				case H:
 					return this.getCell(x + y * (y + 1) / 2);
 				default:
 					return null;
 			}
 		} catch (IndexOutOfBoundsException e) {
-			throw new IndexOutOfBoundsException("les coordonnées (" + x + ", " + y + ") -> " + e.getMessage() + " sont hors de la grille.");
+			throw new IndexOutOfBoundsException("les coordonnées (" + x + ", " + y + ", " + z + ") -> " + e.getMessage() + " sont hors de la grille.");
 		}
 	}
 
@@ -150,12 +167,13 @@ public class Grid {
 	 *
 	 * @param x the x-coordinate of the cell
 	 * @param y the y-coordinate of the cell
+	 * @param z the z-coordinate of the cell
 	 * @return the state of the cell
 	 * @throws IndexOutOfBoundsException if the coordinates are out of bounds
 	 */
-	public char getCellState(int x, int y) throws IndexOutOfBoundsException {
+	public char getCellState(int x, int y, int z) throws IndexOutOfBoundsException {
 		try {
-			return this.getCell(x, y).getState();
+			return this.getCell(x, y, z).getState();
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException(e.getMessage());
 		}
@@ -168,32 +186,44 @@ public class Grid {
 	 * @param y the y-coordinate of the cell
 	 * @param neighbourhood the list of relative coordinates of the neighboring cells
 	 * @return an array of characters representing the states of the neighboring cells
+	 * @throws IndexOutOfBoundsException if the coordinates are out of bounds
 	 */
-	public char[] getNeighboursState(int x, int y, List<int[]> neighbourhood) {
+	public char[] getNeighboursState(int x, int y, int z, List<int[]> neighbourhood) throws IndexOutOfBoundsException {
 		char[] neighbours = new char[neighbourhood.size()];
 		for(int i = 0; i < neighbourhood.size(); i++) {
 			try {
 				switch(this.dimension) {
 					case ONE_D:
 						neighbours[i] = this.getCell(
-							modulo(x + neighbourhood.get(i)[0], this.size)	// permet de gérer les bords
+							modulo(x + neighbourhood.get(i)[0], this.size),	// permet de gérer les bords
+							0,
+							0
 						).getState();
 						break;
 					case TWO_D:
 						neighbours[i] = this.getCell(
 							modulo(x + neighbourhood.get(i)[0], this.size),
-							modulo(y + neighbourhood.get(i)[1], this.size)
+							modulo(y + neighbourhood.get(i)[1], this.size),
+							0
+						).getState();
+						break;
+					case THREE_D:
+						neighbours[i] = this.getCell(
+							modulo(x + neighbourhood.get(i)[0], this.size),
+							modulo(y + neighbourhood.get(i)[1], this.size),
+							modulo(z + neighbourhood.get(i)[2], this.size)
 						).getState();
 						break;
 					case H:
 						neighbours[i] = this.getCell(
 							modulo(x + neighbourhood.get(i)[0], this.size),
-							modulo(y + neighbourhood.get(i)[1], this.size)
+							modulo(y + neighbourhood.get(i)[1], this.size),
+							0
 						).getState();
 						break;
 				}
 			} catch (IndexOutOfBoundsException e) {
-				neighbours[i] = ' ';
+				throw new IndexOutOfBoundsException("le voisinnage n'a pas pu être récupéré car " + e.getMessage());
 			}
 		}
 		return neighbours;
@@ -221,9 +251,9 @@ public class Grid {
 	 * @param state the state of the cell
 	 * @throws IndexOutOfBoundsException if the coordinates are out of bounds
 	 */
-	public void setCellState(int x, int y, char state) throws IndexOutOfBoundsException {
+	public void setCellState(int x, int y, int z, char state) throws IndexOutOfBoundsException {
 		try {
-			this.getCell(x, y).setState(state);
+			this.getCell(x, y, z).setState(state);
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException("la modification de la cellule a échoué car " + e.getMessage());
 		}
@@ -273,10 +303,8 @@ public class Grid {
 	// === DISPLAY === //
 
 	/**
-	 * Displays the grid based on the dimension of the automaton.
-	 * If the dimension is ONE_D, it calls the display1D() method.
-	 * If the dimension is TWO_D, it calls the display2D() method.
-	 * If the dimension is H, it calls the displayH() method.
+	 * Displays the grid based on the dimension of the automaton by calling the
+	 * appropriate method.
 	 */
 	public void display() {
 		try {
@@ -286,6 +314,9 @@ public class Grid {
 					break;
 				case TWO_D:
 					display2D();
+					break;
+				case THREE_D:
+					display3D();
 					break;
 				case H:
 					displayH();
@@ -305,7 +336,7 @@ public class Grid {
 	private void display1D() throws IndexOutOfBoundsException {
 		try {
 			for (int i = 0; i < this.size; i++) {
-				System.out.print(" " + this.getCell(i).getState() + " ");
+				System.out.print(" " + this.getCell(i, 0, 0).getState() + " ");
 			}
 			System.out.println();
 		} catch (IndexOutOfBoundsException e) {
@@ -323,7 +354,29 @@ public class Grid {
 		try {
 			for (int i = 0; i < this.size; i++) {
 				for (int j = 0; j < this.size; j++)
-					System.out.print(" " + this.getCell(j, i).getState() + " ");
+					System.out.print(" " + this.getCell(j, i, 0).getState() + " ");
+				System.out.println();
+			}
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException();
+		}
+	}
+
+	/**
+	 * Displays the 3D grid representation of the automaton.
+	 *
+	 * @throws IndexOutOfBoundsException if during the display, an index is out of
+	 *                                   bounds
+	 */
+	private void display3D() throws IndexOutOfBoundsException {
+		try {
+			for (int i = 0; i < this.size; i++) {
+				System.out.println("Couche " + i);
+				for (int j = 0; j < this.size; j++) {
+					for (int k = 0; k < this.size; k++)
+						System.out.print(" " + this.getCell(k, j, i).getState() + " ");
+					System.out.println();
+				}
 				System.out.println();
 			}
 		} catch (IndexOutOfBoundsException e) {
@@ -383,7 +436,7 @@ public class Grid {
 
 		try {
 			for (int i = 0; i < count; i++)
-				System.out.print(" " + this.getCell(row, i).getState() + "  ");
+				System.out.print(" " + this.getCell(row, i, 0).getState() + "  ");
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException();
 		}

@@ -281,13 +281,19 @@ public class Automaton {
 			switch (this.dimension) {
 				case ONE_D:
 					for(int i = 0; i < this.grid.getSize(); i++) {
-						applyRules(newGrid, i, 0);
+						applyRules(newGrid, i, 0, 0);
 					}
 					break;
 				case TWO_D:
 					for(int i = 0; i < this.grid.getSize(); i++)
 						for(int j = 0; j < this.grid.getSize(); j++)
-							applyRules(newGrid, j, i);
+							applyRules(newGrid, j, i, 0);
+					break;
+				case THREE_D:
+					for(int i = 0; i < this.grid.getSize(); i++)
+						for(int j = 0; j < this.grid.getSize(); j++)
+							for(int k = 0; k < this.grid.getSize(); k++)
+								applyRules(newGrid, k, j, i);
 					break;
 				case H:
 					// TODO
@@ -306,12 +312,12 @@ public class Automaton {
 	 * @param x The x-coordinate of the cell.
 	 * @param y The y-coordinate of the cell.
 	 */
-	private void applyRules(Grid newGrid, int x, int y) {
+	private void applyRules(Grid newGrid, int x, int y, int z) {
 		char newState;
 		for(Rule rule : this.rules) {
-			newState = rule.apply(this.grid.getCellState(x, y), this.grid.getNeighboursState(x, y, this.neighbourhood));
-			if(newState != newGrid.getCellState(x, y)) {
-				newGrid.setCellState(x, y, newState);
+			newState = rule.apply(this.grid.getCellState(x, y, z), this.grid.getNeighboursState(x, y, z, this.neighbourhood));
+			if(newState != newGrid.getCellState(x, y, z)) {
+				newGrid.setCellState(x, y, z, newState);
 				break;
 			}
 		}

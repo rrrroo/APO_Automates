@@ -1,22 +1,22 @@
 {
     "dimension": "1D",
     "size": 10,
-    "alphabet": ["0", "1"],
+    "alphabet": [".", "#"],
     "neighbourhood": [[-1], [1]],
     "rule": {
         "type": false,
         "rules": [
             {
-                "state": "0",
+                "state": ".",
                 "neighbours": [2],
-                "neighbourState": "1",
-                "result": "1"
+                "neighbourState": "#",
+                "result": "#"
             },
             {
-                "state": "1",
+                "state": "#",
                 "neighbours": [2],
-                "neighbourState": "0",
-                "result": "0"
+                "neighbourState": ".",
+                "result": "."
             }
         ]
     }
