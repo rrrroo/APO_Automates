@@ -21,6 +21,10 @@ L'entier naturel `size` permet de choisir la taille de la grille. Il est utilis�
 
 Le tableau de chaîne de caractères `alphabet` permet de choisir les états possibles des cellules.
 *ex : \["0", "1"]*
+Le premier état est l'état initial des cellules.
+
+> Attention !
+> Le caractère `' '` ne peut pas être utilisé comme état.
 
 
 ## III. Voisinage

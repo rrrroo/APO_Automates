@@ -23,4 +23,23 @@ public class NeighbourhoodRule extends Rule {
 		super(state, result);
 		this.neighbours = neighbours;
 	}
+
+	/**
+	 * Applies the rule to the given array of neighbours.
+	 * 
+	 * @param neighbours the array of neighbours
+	 * @return the resulting character after applying the rule
+	 */
+	@Override
+	public char apply(char cell, char[] neighbours) {
+		if(cell != this.state) {
+			return cell;
+		}
+		for (int i = 0; i < neighbours.length; i++) {
+			if (neighbours[i] != this.neighbours[i]) {
+				return cell;
+			}
+		}
+		return this.result;
+	}
 }

@@ -1,6 +1,5 @@
 package automaton;
 
-import automaton.grid.Coordinate;
 import automaton.grid.Grid;
 import automaton.rule.*;
 import java.io.IOException;
@@ -32,7 +31,7 @@ public class Automaton {
 	/**
 	 * The neighbourhood of the automaton.
 	 */
-	private List<Coordinate> neighbourhood;
+	private List<int[]> neighbourhood;
 
 	/**
 	 * The grid of the automaton.
@@ -43,6 +42,7 @@ public class Automaton {
 	 * The rules of the automaton.
 	 */
 	private List<Rule> rules;
+
 
 	// === CONSTRUCTOR === //
 
@@ -72,11 +72,50 @@ public class Automaton {
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre size dans le fichier " + filename);
 		}
-		this.grid = new Grid(this.dimension, size);
-		// TODO: faut choisir à quel état on initialise la grille (et donc ajouter les
-		// cellules à la grille (attention à la version hexagonale))
+		this.grid = new Grid(this.dimension, size, this.alphabet[0]);
 
 		this.rules = getRulesFromSettings(settings, filename);
+	}
+
+	/**
+	 * The constructor of the class.
+	 *
+	 * @param rule the rule number of the 1D automaton
+	 */
+	public Automaton(int ruleNb) throws IOException, JSONException, IllegalArgumentException {
+		if(ruleNb < 0 || ruleNb > 255) {
+			throw new IllegalArgumentException("la règle doit être comprise entre 0 et 255");
+		}
+		JSONObject settings = getSettings("data/1D.json");
+		this.dimension = Dimension.ONE_D;
+		this.alphabet = getAlphabetFromSettings(settings, "data/1D.json");
+		this.neighbourhood = getNeighbourhoodFromSettings(settings, "data/1D.json");
+		int size;
+		try {
+			size = settings.getInt("size");
+		} catch (JSONException e) {
+			throw new JSONException("il manque le paramètre size dans le fichier data/1D.json");
+		}
+
+		this.grid = new Grid(this.dimension, size, this.alphabet[0]);
+		
+		List<Rule> rules = new ArrayList<>();
+		String res = Integer.toBinaryString(ruleNb);
+		while(res.length() < 8) {
+			res = "0" + res;
+		}
+		for(int i = 0; i < res.length(); i++) {
+			if(res.charAt(7-i) == '1') {
+				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[1]);
+			}
+			else {
+				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[0]);
+			}
+			
+		}
+		this.rules = rules;
 	}
 
 	/**
@@ -129,20 +168,20 @@ public class Automaton {
 	 * @throws JSONException If the "neighbourhood" parameter is missing in the
 	 *                       settings JSON object.
 	 */
-	private static List<Coordinate> getNeighbourhoodFromSettings(JSONObject settings, String filename)
+	private static List<int[]> getNeighbourhoodFromSettings(JSONObject settings, String filename)
 			throws JSONException {
 		try {
 			JSONArray array = settings.getJSONArray("neighbourhood");
 			JSONArray subArray;
 			int[] coordinates;
-			List<Coordinate> neighbourhood = new ArrayList<>();
+			List<int[]> neighbourhood = new ArrayList<>();
 			for (int i = 0; i < array.length(); i++) {
 				subArray = array.getJSONArray(i);
 				coordinates = new int[subArray.length()];
 				for (int j = 0; j < subArray.length(); j++) {
 					coordinates[j] = subArray.getInt(j);
 				}
-				neighbourhood.add(new Coordinate(coordinates));
+				neighbourhood.add(coordinates);
 			}
 			return neighbourhood;
 		} catch (JSONException e) {
@@ -181,7 +220,6 @@ public class Automaton {
 				for (int i = 0; i < array.length(); i++) {
 					rule = array.getJSONObject(i);
 					JSONArray arrNeig = rule.getJSONArray("neighbours");
-					List<Object> neig = arrNeig.toList();
 					int[] neighbours = new int[arrNeig.length()];
 					for (int j = 0; j < arrNeig.length(); j++) {
 						neighbours[j] = arrNeig.getInt(j);
@@ -197,5 +235,68 @@ public class Automaton {
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre rules dans le fichier " + filename);
 		}
+	}
+
+
+	// === GETTERS === //
+
+	/**
+	 * Returns the alphabet associated with this automaton.
+	 *
+	 * @return the alphabet associated with this automaton
+	 */
+	public char[] getAlphabet() {
+		return this.alphabet;
+	}
+
+	/**
+	 * Returns the grid associated with this automaton.
+	 *
+	 * @return the grid associated with this automaton
+	 */
+	public Grid getGrid() {
+		return this.grid;
+	}
+
+
+	// === METHODS === //
+
+	/**
+	 * Displays the automaton by calling the display method of the grid.
+	 */
+	public void display() {
+		this.grid.display();
+	}
+
+	public void evaluate() {
+		Grid newGrid = new Grid(this.grid);
+		char newState;
+		try {
+			switch (this.dimension) {
+				case ONE_D:
+					for(int i = 0; i < this.grid.getSize(); i++) {
+						for(Rule rule : this.rules) {
+							newState = rule.apply(this.grid.getCellState(i, 0), this.grid.getNeighboursState(i, 0, this.neighbourhood));
+							if(newState != newGrid.getCellState(i, 0)) {
+								newGrid.setCellState(i, 0, newState);
+								break;
+							}
+						}
+					}
+					break;
+				case TWO_D:
+					for(int i = 0; i < this.grid.getSize(); i++)
+						for(int j = 0; j < this.grid.getSize(); j++)
+							for(Rule rule : this.rules)
+								grid.setCellState(i, j, rule.apply(this.grid.getCellState(i, j), this.grid.getNeighboursState(i, j, this.neighbourhood)));
+					break;
+				case H:
+					// TODO
+					break;
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		this.grid = newGrid;
 	}
 }

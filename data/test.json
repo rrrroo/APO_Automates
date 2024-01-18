@@ -1,0 +1,26 @@
+{
+    "dimension": "1D",
+    "size": 10,
+    "alphabet": ["0", "1"],
+    "neighbourhood": [[-1], [1]],
+    "rule": {
+        "type": true,
+        "rules": [
+            {
+                "state": "1",
+                "neighbours": ["1", "1"],
+                "result": "1"
+            },
+            {
+                "state": "1",
+                "neighbours": ["1", "0"],
+                "result": "0"
+            },
+            {
+                "state": "0",
+                "neighbours": ["1", "1"],
+                "result": "1"
+            }
+        ]
+    }
+}
