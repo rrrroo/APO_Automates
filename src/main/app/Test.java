@@ -1,7 +1,7 @@
-package app;
+package main.app;
 
-import automaton.*;
-import automaton.grid.*;
+import main.automaton.*;
+import main.automaton.grid.*;
 
 public class Test {
 	public static void main(String[] args) {

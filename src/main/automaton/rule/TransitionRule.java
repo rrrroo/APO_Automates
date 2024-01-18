@@ -1,4 +1,4 @@
-package automaton.rule;
+package main.automaton.rule;
 
 import java.util.Arrays;
 

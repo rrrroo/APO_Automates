@@ -1,4 +1,4 @@
-package automaton.rule;
+package main.automaton.rule;
 
 public class Rule {
     protected char state;

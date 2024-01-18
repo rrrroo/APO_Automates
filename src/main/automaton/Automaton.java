@@ -1,7 +1,7 @@
-package automaton;
+package main.automaton;
 
-import automaton.grid.Grid;
-import automaton.rule.*;
+import main.automaton.grid.Grid;
+import main.automaton.rule.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

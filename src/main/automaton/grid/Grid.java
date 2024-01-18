@@ -1,6 +1,6 @@
-package automaton.grid;
+package main.automaton.grid;
 
-import automaton.Dimension;
+import main.automaton.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

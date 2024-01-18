@@ -1,5 +1,5 @@
-package app;
-import automaton.Automaton;
+package main.app;
+import main.automaton.Automaton;
 
 import java.io.IOException;
 import java.util.List;

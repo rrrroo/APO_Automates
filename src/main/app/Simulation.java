@@ -1,5 +1,5 @@
-package app;
-import automaton.Automaton;
+package main.app;
+import main.automaton.Automaton;
 
 /**
  * The Simulation class represents a simulation of an automaton.
