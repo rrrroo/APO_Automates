@@ -11,12 +11,31 @@ public class Simulation {
 	private Automaton automaton;
 
 	/**
+	 * Represents the window used to display the automaton.
+	 */
+	private Window window;
+
+	/**
 	 * Constructs a Simulation object with the specified automaton.
 	 * 
 	 * @param automaton the automaton to be simulated
 	 */
 	public Simulation(Automaton automaton) {
 		this.automaton = automaton;
+		switch(automaton.getDimensionAsString()) {
+			case "ONE_D":
+				this.window = new Window1D(automaton);
+				break;
+			case "TWO_D":
+				this.window = new Window2D(automaton);
+				break;
+			case "H":
+				this.window = new WindowH(automaton);
+				break;
+			default:
+				System.out.println("Dimension non reconnue" + automaton.getDimensionAsString());
+				System.exit(1);
+		}
 	}
 
 
@@ -44,7 +63,7 @@ public class Simulation {
 		display();
 		while(!stop) {
 			step();
-			//display();
+			display();
 			System.out.println(automaton);
 
 			try {
@@ -67,6 +86,6 @@ public class Simulation {
 	 * Displays the automaton.
 	 */
 	private void display() {
-		this.automaton.display();
+		this.window.display();
 	}
 }

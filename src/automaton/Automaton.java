@@ -258,15 +258,12 @@ public class Automaton {
 		return this.grid;
 	}
 
+	public String getDimensionAsString() {
+		return this.dimension.toString();
+	}
+
 
 	// === METHODS === //
-
-	/**
-	 * Displays the automaton by calling the display method of the grid.
-	 */
-	public void display() {
-		this.grid.display();
-	}
 
 	/**
 	 * Turns the automaton into a string.

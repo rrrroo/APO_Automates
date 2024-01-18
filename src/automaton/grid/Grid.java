@@ -137,7 +137,7 @@ public class Grid {
 	 * @return the cell at the specified index
 	 * @throws IndexOutOfBoundsException if the index is out of bounds
 	 */
-	private Cell getCell(int i) throws IndexOutOfBoundsException {
+	public Cell getCell(int i) throws IndexOutOfBoundsException {
 		try {
 			return this.cellList.get(i);
 		} catch (IndexOutOfBoundsException e) {
@@ -240,30 +240,6 @@ public class Grid {
 	// === DISPLAY === //
 
 	/**
-	 * Displays the grid based on the dimension of the automaton.
-	 * If the dimension is ONE_D, it calls the display1D() method.
-	 * If the dimension is TWO_D, it calls the display2D() method.
-	 * If the dimension is H, it calls the displayH() method.
-	 */
-	public void display() {
-		try {
-			switch (this.dimension) {
-				case ONE_D:
-					display1D();
-					break;
-				case TWO_D:
-					display2D();
-					break;
-				case H:
-					displayH();
-					break;
-			}
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("L'affichage de la grille a échoué à cause d'une erreur d'index.");
-		}
-	}
-
-	/**
 	 * Returns a string representation of the grid.
 	 *
 	 * @return a string representation of the grid
@@ -301,64 +277,6 @@ public class Grid {
 			System.out.println("La conversion de la grille en chaîne de caractères a échoué à cause d'une erreur d'index.");
 		}
 		return grid.toString();
-	}
-
-	/**
-	 * Displays the 1D representation of the grid.
-	 *
-	 * @throws IndexOutOfBoundsException if during the display, an index is out of
-	 *                                   bounds
-	 */
-	private void display1D() throws IndexOutOfBoundsException {
-		try {
-			for (int i = 0; i < this.size; i++) {
-				System.out.print(this.getCell(i).toString());
-			}
-			System.out.println();
-		} catch (IndexOutOfBoundsException e) {
-			throw new IndexOutOfBoundsException();
-		}
-	}
-
-	/**
-	 * Displays the 2D grid representation of the automaton.
-	 *
-	 * @throws IndexOutOfBoundsException if during the display, an index is out of
-	 *                                   bounds
-	 */
-	private void display2D() throws IndexOutOfBoundsException {
-		try {
-			for (int i = 0; i < this.size; i++) {
-				for (int j = 0; j < this.size; j++)
-					System.out.print(this.getCell(i, j).toString());
-				System.out.println();
-			}
-		} catch (IndexOutOfBoundsException e) {
-			throw new IndexOutOfBoundsException();
-		}
-	}
-
-	/**
-	 * Displays the 2D hexagonal grid representation of the automaton.
-	 *
-	 * @throws IndexOutOfBoundsException if during the display, an index is out of
-	 *                                   bounds
-	 */
-	private void displayH() throws IndexOutOfBoundsException {
-		try {
-			for (int i = 0; i < this.size; i++) {
-				printSpaces(this.size - i - 1);
-				printCells(i, this.size + i);
-				System.out.println();
-			}
-			for(int i = 1; i < this.size; i++) {
-				printSpaces(i);
-				printCells(this.size + i, 2 * this.size - i - 1);
-				System.out.println();
-			}
-		} catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-			throw new IndexOutOfBoundsException();
-		}
 	}
 
 	/**
