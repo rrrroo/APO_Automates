@@ -15,13 +15,11 @@
     <target name="clean">
         <delete dir="${build}"/>
         <delete dir="${dist}"/>
-        <echo message="Cleaned up!"/>
     </target>
 
     <target name="compile" depends="clean">
         <mkdir dir="${build}"/>
         <javac srcdir="${src}" destdir="${build}" classpathref="classpath"/>
-        <echo message="Compiled!"/>
     </target>
 
     <target name="jar" depends="compile">
@@ -31,7 +29,6 @@
                 <attribute name="Main-Class" value="${main-class}"/>
             </manifest>
         </jar>
-        <echo message="Jarred!"/>
     </target>
 
     <target name="run" depends="jar">
@@ -39,12 +36,14 @@
         <classpath>
             <path refid="classpath"/>
         </classpath>
-        <echo message="Ran!"/>
     </target>
 
     <target name="javadoc">
         <mkdir dir="${doc}"/>
-        <javadoc packagenames="*" sourcepath="${src}" destdir="${doc}"/>
-        <echo message="Documented!"/>
+        <javadoc packagenames="*" sourcepath="${src}" destdir="${doc}">
+            <classpath>
+                <path refid="classpath"/>
+            </classpath>
+        </javadoc>
     </target>
 </project>
