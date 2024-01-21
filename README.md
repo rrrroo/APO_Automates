@@ -1,5 +1,52 @@
 # Projet APO : automates cellulaires
 
+## TODO
+
+- [ ] Automates
+    - [x] définition formelle
+    - [ ] 1D
+        - [x] affichage 2D (espace * temps)
+        - [ ] affichage numéro de règle
+    - [ ] règle de la majorité
+        - [x] 1D
+        - [x] 2D
+        - [x] 3D
+        - [ ] H
+        - [x] voisinage carré
+        - [ ] voisinage rectangulaire
+    - [x] jeu de la vie
+    - [ ] feu de forêt
+        - [x] 2D classique
+        - [ ] 2D avec probabilité
+        - [ ] 2D avec vent
+        - [ ] H
+        - [ ] 4 voisins
+        - [x] 8 voisins
+- [ ] Tronc commun
+    - [x] menu
+        - [x] choisir un automate
+        - [x] créer un automate
+    - [ ] configuration de départ
+        - [x] aléatoire
+        - [ ] manuelle
+        - [ ] fichier
+    - [ ] grille
+        - [x] 1D
+        - [x] 2D
+        - [x] 3D
+        - [ ] H
+    - [ ] JavaDoc
+- [ ] Extensions
+    - [x] Git
+    - [x] Ant
+    - [ ] Tests unitaires
+    - [x] fichiers de configuration
+    - [ ] sauvegarde
+    - [ ] interface graphique
+    - [ ] statistiques
+
+
+
 ## Description
 
 L’objectif du projet est d’implémenter et d’étudier certains automates cellulaires.
