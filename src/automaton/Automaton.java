@@ -241,6 +241,15 @@ public class Automaton {
 	// === GETTERS === //
 
 	/**
+	 * Returns the dimension of this automaton.
+	 *
+	 * @return the dimension of this automaton
+	 */
+	public Dimension getDimension() {
+		return this.dimension;
+	}
+
+	/**
 	 * Returns the alphabet associated with this automaton.
 	 *
 	 * @return the alphabet associated with this automaton
@@ -265,7 +274,29 @@ public class Automaton {
 	 * Displays the automaton by calling the display method of the grid.
 	 */
 	public void display() {
-		this.grid.display();
+		try {
+			this.grid.display();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * Calculates the rule number for the 1D automaton.
+	 * 
+	 * @return The rule number.
+	 * @throws IllegalArgumentException if the automaton is not 1D.
+	 */
+	public int getRuleNumber() throws IllegalArgumentException {
+		if(this.dimension != Dimension.ONE_D)
+			throw new IllegalArgumentException("la règle ne peut être calculée que pour les automates 1D");
+		
+		int res = 0;
+		for(int i = 0; i < this.rules.size(); i++) {
+			if(this.rules.get(i).getResult() != this.alphabet[0])
+				res += Math.pow(2, i);
+		}
+		return res;
 	}
 
 	public void evaluate() {

@@ -4,9 +4,9 @@
 
 - [ ] Automates
     - [x] définition formelle
-    - [ ] 1D
+    - [x] 1D
         - [x] affichage 2D (espace * temps)
-        - [ ] affichage numéro de règle
+        - [x] affichage numéro de règle
     - [ ] règle de la majorité
         - [x] 1D
         - [x] 2D

@@ -7,27 +7,12 @@
         "type": true,
         "rules": [
             {
-                "state": "1",
-                "neighbours": ["1", "1"],
-                "result": "1"
-            },
-            {
-                "state": "1",
-                "neighbours": ["1", "0"],
+                "state": "0",
+                "neighbours": ["0", "0"],
                 "result": "0"
             },
             {
                 "state": "0",
-                "neighbours": ["1", "1"],
-                "result": "1"
-            },
-            {
-                "state": "0",
-                "neighbours": ["1", "0"],
-                "result": "0"
-            },
-            {
-                "state": "1",
                 "neighbours": ["0", "1"],
                 "result": "1"
             },
@@ -37,14 +22,29 @@
                 "result": "0"
             },
             {
-                "state": "0",
+                "state": "1",
                 "neighbours": ["0", "1"],
                 "result": "1"
             },
             {
                 "state": "0",
-                "neighbours": ["0", "0"],
+                "neighbours": ["1", "0"],
                 "result": "0"
+            },
+            {
+                "state": "0",
+                "neighbours": ["1", "1"],
+                "result": "1"
+            },
+            {
+                "state": "1",
+                "neighbours": ["1", "0"],
+                "result": "0"
+            },
+            {
+                "state": "1",
+                "neighbours": ["1", "1"],
+                "result": "1"
             }
         ]
     }

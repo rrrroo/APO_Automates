@@ -1,7 +1,6 @@
 package app;
 
 import automaton.*;
-import automaton.grid.*;
 
 public class Test {
 	public static void main(String[] args) {

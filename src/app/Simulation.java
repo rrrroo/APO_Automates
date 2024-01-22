@@ -1,5 +1,6 @@
 package app;
 import automaton.Automaton;
+import automaton.Dimension;
 
 /**
  * The Simulation class represents a simulation of an automaton.
@@ -41,7 +42,11 @@ public class Simulation {
 		boolean stop = false;
 		int step = 0;
 
+		
+		if(this.automaton.getDimension() == Dimension.ONE_D)
+			System.out.println("Numéro de la règle : " + this.automaton.getRuleNumber());
 		display();
+
 		while(!stop) {
 			step();
 			display();
