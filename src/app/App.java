@@ -14,7 +14,7 @@ public class App {
 	public static void main(String[] args) {
 		Automaton auto = menu();
         Simulation simulation = new Simulation(auto);
-        simulation.getAutomaton().getGrid().setCellState(5, 0, simulation.getAutomaton().getAlphabet()[1]);
+        simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet());
         simulation.run();
 	}
 

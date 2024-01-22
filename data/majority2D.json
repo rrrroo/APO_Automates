@@ -1,6 +1,6 @@
 {
     "dimension": "2D",
-    "size": 20,
+    "size": 10,
     "alphabet": [".", "#"],
     "neighbourhood": [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]],
     "rule": {
@@ -8,14 +8,14 @@
         "rules": [
             {
                 "state": ".",
-                "neighbours": [3],
+                "neighbours": [5, 6, 7, 8],
                 "neighbourState": "#",
                 "result": "#"
             },
             {
                 "state": "#",
-                "neighbours": [0, 1, 4, 5, 6, 7, 8],
-                "neighbourState": "#",
+                "neighbours": [5, 6, 7, 8],
+                "neighbourState": ".",
                 "result": "."
             }
         ]
