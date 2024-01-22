@@ -1,50 +1,50 @@
 {
     "dimension": "1D",
     "size": 10,
-    "alphabet": ["0", "1"],
+    "alphabet": [".", "#"],
     "neighbourhood": [[-1], [1]],
     "rule": {
         "type": true,
         "rules": [
             {
-                "state": "0",
-                "neighbours": ["0", "0"],
-                "result": "0"
+                "state": ".",
+                "neighbours": [".", "."],
+                "result": "."
             },
             {
-                "state": "0",
-                "neighbours": ["0", "1"],
-                "result": "1"
+                "state": ".",
+                "neighbours": [".", "#"],
+                "result": "#"
             },
             {
-                "state": "1",
-                "neighbours": ["0", "0"],
-                "result": "0"
+                "state": "#",
+                "neighbours": [".", "."],
+                "result": "."
             },
             {
-                "state": "1",
-                "neighbours": ["0", "1"],
-                "result": "1"
+                "state": "#",
+                "neighbours": [".", "#"],
+                "result": "#"
             },
             {
-                "state": "0",
-                "neighbours": ["1", "0"],
-                "result": "0"
+                "state": ".",
+                "neighbours": ["#", "."],
+                "result": "."
             },
             {
-                "state": "0",
-                "neighbours": ["1", "1"],
-                "result": "1"
+                "state": ".",
+                "neighbours": ["#", "#"],
+                "result": "#"
             },
             {
-                "state": "1",
-                "neighbours": ["1", "0"],
-                "result": "0"
+                "state": "#",
+                "neighbours": ["#", "."],
+                "result": "."
             },
             {
-                "state": "1",
-                "neighbours": ["1", "1"],
-                "result": "1"
+                "state": "#",
+                "neighbours": ["#", "#"],
+                "result": "#"
             }
         ]
     }
