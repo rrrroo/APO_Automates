@@ -293,7 +293,7 @@ public class Grid {
 			}
 				int x = random.nextInt(this.size);
 				int y = random.nextInt(this.size);
-				setCellState(x, y, '0');
+				setCellState(x, y, 0, '0');
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("La modification de la cellule a échoué car " + e.getMessage());
 		}
