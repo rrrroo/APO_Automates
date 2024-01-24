@@ -295,7 +295,7 @@ public class Grid {
 	 * @return the cell at the specified index
 	 * @throws IndexOutOfBoundsException if the index is out of bounds
 	 */
-	private Cell getCell(int i) throws IndexOutOfBoundsException {
+	public Cell getCell(int i) throws IndexOutOfBoundsException {
 		try {
 			return this.cellList.get(i);
 		} catch (IndexOutOfBoundsException e) {
@@ -444,14 +444,18 @@ public class Grid {
 	// === DISPLAY === //
 
 	/**
-	 * Displays the grid based on the dimension of the automaton by calling the
-	 * appropriate method.
+	 * Returns a string representation of the grid.
+	 *
+	 * @return a string representation of the grid
 	 */
-	public void display() {
+	@Override
+	public String toString() {
+		StringBuilder grid = new StringBuilder();
 		try {
 			switch (this.dimension) {
 				case ONE_D:
-					display1D();
+					for (int i = 0; i < this.size; i++)
+						grid.append(this.getCell(i).toString());
 					break;
 				case TWO_D:
 					display2D();
@@ -543,9 +547,10 @@ public class Grid {
 				printCells(this.size + i, 2 * this.size - i - 1);
 				System.out.println();
 			}
-		} catch (IllegalArgumentException | IndexOutOfBoundsException e) {
-			throw new IndexOutOfBoundsException();
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("La conversion de la grille en chaîne de caractères a échoué à cause d'une erreur d'index.");
 		}
+		return grid.toString();
 	}
 
 	/**

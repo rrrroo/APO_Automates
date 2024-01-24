@@ -267,18 +267,27 @@ public class Automaton {
 		return this.grid;
 	}
 
+	public String getDimensionAsString() {
+		return this.dimension.toString();
+	}
+
 
 	// === METHODS === //
 
 	/**
-	 * Displays the automaton by calling the display method of the grid.
+	 * Turns the automaton into a string.
+	 * 
+	 * @return the automaton as a string
 	 */
-	public void display() {
+	@Override
+	public String toString() {
 		try {
-			this.grid.display();
-			System.out.println();
+			if(this.dimension == Dimension.ONE_D)
+				return "Règle n°" + this.getRuleNumber() + "\n" + this.grid.toString() + "\n";
+			else
+				return this.grid.toString() + "\n";
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			return e.getMessage();
 		}
 	}
 
