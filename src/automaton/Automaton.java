@@ -3,13 +3,17 @@ package automaton;
 import automaton.grid.Grid;
 import automaton.rule.*;
 import java.io.IOException;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
+
 
 /**
  * This class represents a cellular automaton.
@@ -271,23 +275,6 @@ public class Automaton {
 	// === METHODS === //
 
 	/**
-	 * Turns the automaton into a string.
-	 * 
-	 * @return the automaton as a string
-	 */
-	@Override
-	public String toString() {
-		try {
-			if(this.dimension == Dimension.ONE_D)
-				return "Règle n°" + this.getRuleNumber() + "\n" + this.grid.toString() + "\n";
-			else
-				return this.grid.toString() + "\n";
-		} catch (Exception e) {
-			return e.getMessage();
-		}
-	}
-
-	/**
 	 * Calculates the rule number for the 1D automaton.
 	 * 
 	 * @return The rule number.
@@ -355,6 +342,44 @@ public class Automaton {
 				newGrid.setCellState(x, y, z, newState);
 				break;
 			}
+		}
+	}
+
+	/**
+	 * Turns the automaton into a string.
+	 * 
+	 * @return the automaton as a string
+	 */
+	@Override
+	public String toString() {
+		try {
+			if(this.dimension == Dimension.ONE_D)
+				return "Règle n°" + this.getRuleNumber() + "\n" + this.grid.toString() + "\n";
+			else
+				return this.grid.toString() + "\n";
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+	}
+
+	/**
+	 * Saves the current state of the automaton to a file.
+	 * The file name is generated based on the current dimension and the current date and time.
+	 * The automaton is saved as a string representation in the file.
+	 * If an error occurs while writing to the file, an error message is printed.
+	 */
+	public void save() throws IOException {
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+		String filename = "data/save_"
+			+ this.dimension.toString()
+			+ "_"
+			+ date.format(new Date())
+			+ ".txt";
+
+		try (FileWriter writer = new FileWriter(filename)) {
+			writer.write(this.toString());
+		} catch (IOException e) {
+			throw new IOException("une erreur est survenue lors de l'écriture du fichier " + filename);
 		}
 	}
 }

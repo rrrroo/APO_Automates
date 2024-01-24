@@ -405,7 +405,7 @@ public class Grid {
 	 * 
 	 * @param alphabet the array of characters to choose from
 	 */
-	public void setAllRandom(char [ ] alphabet) {
+	public void setAllRandom(char[] alphabet) {
 		Random random = new Random();
 		for(int i = 0; i < this.cellList.size(); i++)
 			try {
@@ -422,7 +422,7 @@ public class Grid {
 	 *
 	 * @param alphabet the array of characters to choose from
 	 */
-	public void setAllRandomForest(char [ ] alphabet) {
+	public void setAllRandomForest(char[] alphabet) {
 		Random random = new Random();
 		try {
 			for (int i = 0; i < this.cellList.size(); i++) {
@@ -481,7 +481,7 @@ public class Grid {
 	private String toString1D(int y, int z) throws IllegalArgumentException, IndexOutOfBoundsException {
 		if(y < 0 || y >= this.size || z < 0 || z >= this.size)
 			throw new IllegalArgumentException("l'index de la ligne est invalide.");
-		if (this.dimension != Dimension.ONE_D)
+		if (this.dimension == Dimension.H)
 			throw new IllegalArgumentException("la dimension de la grille n'est pas unidimensionnelle.");
 
 		StringBuilder str = new StringBuilder();
@@ -506,7 +506,7 @@ public class Grid {
 	private String toString2D(int z) throws IllegalArgumentException, IndexOutOfBoundsException {
 		if (z < 0 || z >= this.size)
 			throw new IllegalArgumentException("l'index de la couche est invalide.");
-		if (this.dimension != Dimension.TWO_D)
+		if (this.dimension != Dimension.TWO_D && this.dimension != Dimension.THREE_D)
 			throw new IllegalArgumentException("la dimension de la grille n'est pas bidimensionnelle.");
 
 		StringBuilder str = new StringBuilder();
