@@ -194,6 +194,7 @@ public class Grid {
 		// Boucle sur y
 		while (scanner.hasNextLine()) {
 			line = scanner.nextLine();
+			line = line.replace(" ", "");
 
 			// Fin de la couche
 			if(line.length() == 0)

@@ -48,7 +48,7 @@ public class Automaton {
 	private List<Rule> rules;
 
 
-	// === CONSTRUCTOR === //
+	// === CONSTRUCTORS === //
 
 	/**
 	 * The constructor of the class.
@@ -241,6 +241,35 @@ public class Automaton {
 		}
 	}
 
+	/**
+	 * The constructor of the class.
+	 *
+	 * @param configFilename the name of the file containing the automaton settings
+	 * @param gridFilename   the name of the file containing the grid
+	 * @throws IOException   if the file does not exist
+	 * @throws JSONException if the file does not contain valid JSON
+	 * @throws IllegalArgumentException if the grid file does not match the settings
+	 */
+	public Automaton(String configFilename, String gridFilename) throws IOException, JSONException, IllegalArgumentException {
+		JSONObject settings = getSettings(configFilename);
+
+		String dim;
+		try {
+			dim = settings.getString("dimension");
+		} catch (JSONException e) {
+			throw new JSONException("il manque le paramètre dimension dans le fichier " + configFilename);
+		}
+		this.dimension = Dimension.fromString(dim);
+
+		this.alphabet = getAlphabetFromSettings(settings, configFilename);
+
+		this.neighbourhood = getNeighbourhoodFromSettings(settings, configFilename);
+
+		this.grid = new Grid(this.dimension, gridFilename, this.alphabet);
+
+		this.rules = getRulesFromSettings(settings, configFilename);
+	}
+
 
 	// === GETTERS === //
 
@@ -363,6 +392,20 @@ public class Automaton {
 	}
 
 	/**
+	 * Saves the automaton to a file.
+	 *
+	 * @param filename the name of the file to save the automaton to
+	 * @throws IOException if an error occurs while writing the file
+	 */
+	public void save(String filename) throws IOException {
+		try (FileWriter writer = new FileWriter(filename)) {
+			writer.write(this.toString());
+		} catch (IOException e) {
+			throw new IOException("une erreur est survenue lors de l'écriture du fichier " + filename);
+		}
+	}
+
+	/**
 	 * Saves the current state of the automaton to a file.
 	 * The file name is generated based on the current dimension and the current date and time.
 	 * The automaton is saved as a string representation in the file.
@@ -376,10 +419,10 @@ public class Automaton {
 			+ date.format(new Date())
 			+ ".txt";
 
-		try (FileWriter writer = new FileWriter(filename)) {
-			writer.write(this.toString());
+		try {
+			this.save(filename);
 		} catch (IOException e) {
-			throw new IOException("une erreur est survenue lors de l'écriture du fichier " + filename);
+			throw new IOException(e.getMessage());
 		}
 	}
 }

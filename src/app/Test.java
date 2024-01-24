@@ -9,7 +9,10 @@ public class Test {
 			Automaton automaton = new Automaton("data/gameOfLife.json");
 			automaton.getGrid().setAllRandom(automaton.getAlphabet());
 			System.out.println(automaton);
-			automaton.save();
+			automaton.save("data/save_TWO_D.txt");
+
+			Automaton automaton2 = new Automaton("data/gameOfLife.json", "data/save_TWO_D.txt");
+			System.out.println(automaton2);
 		} catch (Exception e) {
 			System.out.println("La création de la grille a échoué car " + e.getMessage());
 		}
