@@ -1,4 +1,5 @@
-package app;
+package ui;
+
 import automaton.Automaton;
 import javax.swing.*;
 import java.awt.*;

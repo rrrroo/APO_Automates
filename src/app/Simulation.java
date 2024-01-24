@@ -1,5 +1,8 @@
 package app;
+
 import automaton.Automaton;
+import ui.*;
+
 
 /**
  * The Simulation class represents a simulation of an automaton.
