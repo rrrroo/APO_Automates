@@ -2,7 +2,6 @@ package automaton.grid;
 
 import automaton.Dimension;
 import java.io.File;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

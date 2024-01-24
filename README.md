@@ -26,10 +26,11 @@
     - [x] menu
         - [x] choisir un automate
         - [x] créer un automate
+        - [ ] charger une configuration de départ
     - [ ] configuration de départ
         - [x] aléatoire
         - [ ] manuelle
-        - [ ] fichier
+        - [x] fichier
     - [ ] grille
         - [x] 1D
         - [x] 2D
@@ -42,6 +43,8 @@
     - [ ] Tests unitaires
     - [x] fichiers de configuration
     - [ ] sauvegarde
+        - [ ] utiliser les toString
+        - [ ] adapter le constructeur de Grid aux toString
     - [ ] interface graphique
     - [ ] statistiques
 
