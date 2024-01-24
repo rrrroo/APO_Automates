@@ -116,13 +116,13 @@ public class Grid {
 		try (Scanner scanner = new Scanner(new File(filename))) {
 			switch (dimension) {
 				case ONE_D:
-					constructGrid1DFromFile(scanner.nextLine(), alphabet);
+					addLine(scanner.nextLine(), alphabet);
 					break;
 				case TWO_D:
-					constructGrid2DFromFile(scanner, alphabet);
+					addLayer(scanner, alphabet);
 					break;
 				case THREE_D:
-					constructGrid3DFromFile(scanner, alphabet);
+					add3DGrid(scanner, alphabet);
 					break;
 				case H:
 					// TODO
@@ -137,15 +137,15 @@ public class Grid {
 	}
 
 	/**
-	 * Constructs a 1D grid from a file using the provided scanner and alphabet.
+	 * Adds a line to the grid.
 	 * Each character in the file represents a state in the grid.
 	 * 
-	 * @param scanner  the scanner used to read the file
+	 * @param line     the line containing the states of the cells
 	 * @param alphabet the valid characters representing the states in the grid
 	 * @throws IllegalArgumentException if the file contains a character that is not
 	 *                                  in the alphabet
 	 */
-	private void constructGrid1DFromFile(String line, char[] alphabet) throws IllegalArgumentException {
+	private void addLine(String line, char[] alphabet) throws IllegalArgumentException {
 		char state;
 
 		// Boucle sur x
@@ -167,16 +167,28 @@ public class Grid {
 	}
 
 	/**
-	 * Constructs a 2D grid from a file using the provided scanner and alphabet.
-	 * Each character in the file represents a state in the grid.
+	 * Checks if an element is present in an array.
+	 *
+	 * @param state the element to check
+	 * @param alphabet the array to search in
+	 * @return true if the element is found, false otherwise
+	 */
+	private static boolean isElementInArray(char state, char[] alphabet) {
+		for(int i = 0; i < alphabet.length; i++)
+			if(state == alphabet[i])
+				return true;
+		return false;
+	}
+
+	/**
+	 * Adds a layer to the grid.
 	 * The shape of the grid must be a square.
 	 * 
 	 * @param scanner  the scanner used to read the file
 	 * @param alphabet the valid characters allowed in the grid
-	 * @throws IllegalArgumentException if the file contains an invalid character or
-	 *                                  if the grid dimensions are not valid
+	 * @throws IllegalArgumentException if the grid dimensions are not valid
 	 */
-	private void constructGrid2DFromFile(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
+	private void addLayer(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
 		String line;
 		int height = 0;
 
@@ -191,7 +203,7 @@ public class Grid {
 			height++;
 
 			// Boucle sur x
-			constructGrid1DFromFile(line, alphabet);
+			addLine(line, alphabet);
 		}
 
 		// Vérification de la validité de la taille de la grille
@@ -200,17 +212,15 @@ public class Grid {
 	}
 
 	/**
-	 * Constructs a 3D grid from a file using the provided scanner and alphabet.
-	 * Each character in the file represents a state in the grid.
+	 * Adds a 3D grid to the grid.
 	 * Each empty line in the file represents a new layer in the grid.
 	 * The shape of the grid must be a cube.
 	 * 
 	 * @param scanner  the scanner used to read the file
 	 * @param alphabet the valid characters for the grid
-	 * @throws IllegalArgumentException if the file contains an invalid character or
-	 *                                  if the grid dimensions are not valid
+	 * @throws IllegalArgumentException if the grid dimensions are not valid
 	 */
-	private void constructGrid3DFromFile(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
+	private void add3DGrid(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
 		int depth = 0;
 
 		// Boucle sur les lignes du fichier
@@ -218,26 +228,12 @@ public class Grid {
 			depth++;
 
 			// Boucle sur une couche
-			constructGrid2DFromFile(scanner, alphabet);
+			addLayer(scanner, alphabet);
 		}
 
 		// Vérification de la validité de la taille de la grille
 		if(this.size != depth)
 			throw new IllegalArgumentException("la grille n'est pas cubique.");
-	}
-
-	/**
-	 * Checks if an element is present in an array.
-	 *
-	 * @param state the element to check
-	 * @param alphabet the array to search in
-	 * @return true if the element is found, false otherwise
-	 */
-	private static boolean isElementInArray(char state, char[] alphabet) {
-		for(int i = 0; i < alphabet.length; i++)
-			if(state == alphabet[i])
-				return true;
-		return false;
 	}
 
 
