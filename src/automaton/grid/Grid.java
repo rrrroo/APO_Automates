@@ -116,7 +116,7 @@ public class Grid {
 		try (Scanner scanner = new Scanner(new File(filename))) {
 			switch (dimension) {
 				case ONE_D:
-					constructGrid1DFromFile(scanner, alphabet);
+					constructGrid1DFromFile(scanner.nextLine(), alphabet);
 					break;
 				case TWO_D:
 					constructGrid2DFromFile(scanner, alphabet);
@@ -134,7 +134,7 @@ public class Grid {
 		} catch (Exception e) {
 			throw new IllegalArgumentException("le fichier n'a pas pu être lu.");
 		}
-	} // TODO: dimension H + refactorisation
+	}
 
 	/**
 	 * Constructs a 1D grid from a file using the provided scanner and alphabet.
@@ -145,13 +145,11 @@ public class Grid {
 	 * @throws IllegalArgumentException if the file contains a character that is not
 	 *                                  in the alphabet
 	 */
-	private void constructGrid1DFromFile(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
-		String line = scanner.nextLine();
+	private void constructGrid1DFromFile(String line, char[] alphabet) throws IllegalArgumentException {
 		char state;
 
-		// Boucle sur les caractères de la ligne
+		// Boucle sur x
 		for (int i = 0; i < line.length(); i++) {
-			this.size++;
 			state = line.charAt(i);
 
 			// Vérification de la validité du caractère
@@ -160,6 +158,12 @@ public class Grid {
 			else
 				throw new IllegalArgumentException("le fichier contient un caractère qui n'est pas dans l'alphabet.");
 		}
+
+		// Vérification de la validité de la taille de la grille
+		if (this.size == 0)
+			this.size = line.length();
+		else if(this.size != line.length())
+			throw new IllegalArgumentException(" une des lignes n'est pas de la bonne taille.");
 	}
 
 	/**
@@ -174,39 +178,25 @@ public class Grid {
 	 */
 	private void constructGrid2DFromFile(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
 		String line;
-		char state;
 		int height = 0;
-		List<Integer> widths = new ArrayList<>();
-		int width;
 
-		// Boucle sur les lignes du fichier
+		// Boucle sur y
 		while (scanner.hasNextLine()) {
-			height++;
-			width = 0;
 			line = scanner.nextLine();
 
-			// Boucle sur les caractères de la ligne
-			for (int i = 0; i < line.length(); i++) {
-				state = line.charAt(i);
-				width++;
+			// Fin de la couche
+			if(line.length() == 0)
+				return;
 
-				// Vérification de la validité du caractère
-				if (isElementInArray(state, alphabet))
-					this.cellList.add(new Cell(state));
-				else
-					throw new IllegalArgumentException("le fichier contient un caractère qui n'est pas dans l'alphabet.");
-			}
+			height++;
 
-			widths.add(width);
+			// Boucle sur x
+			constructGrid1DFromFile(line, alphabet);
 		}
 
 		// Vérification de la validité de la taille de la grille
-		this.size = widths.get(0);
-		for(int i = 1; i < widths.size(); i++)
-			if(widths.get(i) != this.size)
-				throw new IllegalArgumentException("la grille n'est pas rectangulaire.");
-		if (height != this.size)
-			throw new IllegalArgumentException("la grille n'est pas carrée.");
+		if(this.size != height)
+			throw new IllegalArgumentException("une des couches n'est pas carrée.");
 	}
 
 	/**
@@ -221,53 +211,18 @@ public class Grid {
 	 *                                  if the grid dimensions are not valid
 	 */
 	private void constructGrid3DFromFile(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
-		String line;
-		char state;
 		int depth = 0;
-		List<Integer> heights = new ArrayList<>();
-		int height = 0;
-		List<Integer> widths = new ArrayList<>();
-		int width;
 
 		// Boucle sur les lignes du fichier
 		while (scanner.hasNextLine()) {
-			width = 0;
-			line = scanner.nextLine();
+			depth++;
 
-			// Fin d'une couche
-			if(line.length() == 0) {
-				heights.add(height);
-				depth++;
-				height = 0;
-				continue;
-			}
-			else
-				height++;
-
-			// Boucle sur les caractères de la ligne
-			for (int i = 0; i < line.length(); i++) {
-				state = line.charAt(i);
-				width++;
-
-				// Vérification de la validité du caractère
-				if (isElementInArray(state, alphabet))
-					this.cellList.add(new Cell(state));
-				else
-					throw new IllegalArgumentException("le fichier contient un caractère qui n'est pas dans l'alphabet.");
-			}
-			widths.add(width);
+			// Boucle sur une couche
+			constructGrid2DFromFile(scanner, alphabet);
 		}
-		heights.add(height);
 
 		// Vérification de la validité de la taille de la grille
-		this.size = widths.get(0);
-		for(int i = 1; i < widths.size(); i++)
-			if(widths.get(i) != this.size)
-				throw new IllegalArgumentException("une des couches n'est pas rectangulaire.");
-		for(int i = 0; i < heights.size(); i++)
-			if(heights.get(i) != this.size)
-				throw new IllegalArgumentException("une des couches n'est pas carrée.");
-		if ((depth + 1) != this.size)
+		if(this.size != depth)
 			throw new IllegalArgumentException("la grille n'est pas cubique.");
 	}
 
