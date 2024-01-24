@@ -1,9 +1,12 @@
 package automaton.grid;
 
 import automaton.Dimension;
+import java.io.File;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * Represents a grid.
@@ -80,11 +83,9 @@ public class Grid {
 	}
 
 	/**
-	 * Constructs a Grid object with the specified dimension and size.
-	 *
-	 * @param dimension the dimension of the grid
-	 * @param size      the size of the grid
-	 * @throws IllegalArgumentException if the size or the dimension is invalid
+	 * Constructs a new grid by copying the given grid.
+	 * 
+	 * @param grid the grid to be copied
 	 */
 	public Grid(Grid grid) {
 		this.dimension = grid.dimension;
@@ -92,6 +93,196 @@ public class Grid {
 		this.cellList = new ArrayList<>(grid.cellList.size());
 		for(int i = 0; i < grid.cellList.size(); i++)
 			this.cellList.add(new Cell(grid.cellList.get(i).getState()));
+	}
+
+	/**
+	 * Constructs a Grid object with the specified dimension and configuration.
+	 * 
+	 * @param dimension the dimension of the grid (1D, 2D, or 3D)
+	 * @param filename  the name of the file containing the grid configuration
+	 * @param alphabet  the alphabet of characters used in the grid
+	 * @throws IllegalArgumentException if the filename is invalid, if the dimension
+	 *                                  is invalid, or if the file cannot be read
+	 */
+	public Grid(Dimension dimension, String filename, char[] alphabet) throws IllegalArgumentException {
+		// Vérification de la validité du nom de fichier
+		if(filename == null || !filename.contains(".txt"))
+			throw new IllegalArgumentException("le nom de fichier n'est pas valide.");
+
+		this.dimension = dimension;
+		this.size = 0;
+		this.cellList = new ArrayList<>();
+
+		try (Scanner scanner = new Scanner(new File(filename))) {
+			switch (dimension) {
+				case ONE_D:
+					constructGrid1DFromFile(scanner, alphabet);
+					break;
+				case TWO_D:
+					constructGrid2DFromFile(scanner, alphabet);
+					break;
+				case THREE_D:
+					constructGrid3DFromFile(scanner, alphabet);
+					break;
+				case H:
+					// TODO
+				default:
+					throw new IllegalArgumentException("la dimension de la grille n'est pas valide.");
+			}
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("le fichier n'a pas pu être lu car " + e.getMessage());
+		} catch (Exception e) {
+			throw new IllegalArgumentException("le fichier n'a pas pu être lu.");
+		}
+	} // TODO: dimension H + refactorisation
+
+	/**
+	 * Constructs a 1D grid from a file using the provided scanner and alphabet.
+	 * Each character in the file represents a state in the grid.
+	 * 
+	 * @param scanner  the scanner used to read the file
+	 * @param alphabet the valid characters representing the states in the grid
+	 * @throws IllegalArgumentException if the file contains a character that is not
+	 *                                  in the alphabet
+	 */
+	private void constructGrid1DFromFile(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
+		String line = scanner.nextLine();
+		char state;
+
+		// Boucle sur les caractères de la ligne
+		for (int i = 0; i < line.length(); i++) {
+			this.size++;
+			state = line.charAt(i);
+
+			// Vérification de la validité du caractère
+			if (isElementInArray(state, alphabet))
+				this.cellList.add(new Cell(state));
+			else
+				throw new IllegalArgumentException("le fichier contient un caractère qui n'est pas dans l'alphabet.");
+		}
+	}
+
+	/**
+	 * Constructs a 2D grid from a file using the provided scanner and alphabet.
+	 * Each character in the file represents a state in the grid.
+	 * The shape of the grid must be a square.
+	 * 
+	 * @param scanner  the scanner used to read the file
+	 * @param alphabet the valid characters allowed in the grid
+	 * @throws IllegalArgumentException if the file contains an invalid character or
+	 *                                  if the grid dimensions are not valid
+	 */
+	private void constructGrid2DFromFile(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
+		String line;
+		char state;
+		int height = 0;
+		List<Integer> widths = new ArrayList<>();
+		int width;
+
+		// Boucle sur les lignes du fichier
+		while (scanner.hasNextLine()) {
+			height++;
+			width = 0;
+			line = scanner.nextLine();
+
+			// Boucle sur les caractères de la ligne
+			for (int i = 0; i < line.length(); i++) {
+				state = line.charAt(i);
+				width++;
+
+				// Vérification de la validité du caractère
+				if (isElementInArray(state, alphabet))
+					this.cellList.add(new Cell(state));
+				else
+					throw new IllegalArgumentException("le fichier contient un caractère qui n'est pas dans l'alphabet.");
+			}
+
+			widths.add(width);
+		}
+
+		// Vérification de la validité de la taille de la grille
+		this.size = widths.get(0);
+		for(int i = 1; i < widths.size(); i++)
+			if(widths.get(i) != this.size)
+				throw new IllegalArgumentException("la grille n'est pas rectangulaire.");
+		if (height != this.size)
+			throw new IllegalArgumentException("la grille n'est pas carrée.");
+	}
+
+	/**
+	 * Constructs a 3D grid from a file using the provided scanner and alphabet.
+	 * Each character in the file represents a state in the grid.
+	 * Each empty line in the file represents a new layer in the grid.
+	 * The shape of the grid must be a cube.
+	 * 
+	 * @param scanner  the scanner used to read the file
+	 * @param alphabet the valid characters for the grid
+	 * @throws IllegalArgumentException if the file contains an invalid character or
+	 *                                  if the grid dimensions are not valid
+	 */
+	private void constructGrid3DFromFile(Scanner scanner, char[] alphabet) throws IllegalArgumentException {
+		String line;
+		char state;
+		int depth = 0;
+		List<Integer> heights = new ArrayList<>();
+		int height = 0;
+		List<Integer> widths = new ArrayList<>();
+		int width;
+
+		// Boucle sur les lignes du fichier
+		while (scanner.hasNextLine()) {
+			width = 0;
+			line = scanner.nextLine();
+
+			// Fin d'une couche
+			if(line.length() == 0) {
+				heights.add(height);
+				depth++;
+				height = 0;
+				continue;
+			}
+			else
+				height++;
+
+			// Boucle sur les caractères de la ligne
+			for (int i = 0; i < line.length(); i++) {
+				state = line.charAt(i);
+				width++;
+
+				// Vérification de la validité du caractère
+				if (isElementInArray(state, alphabet))
+					this.cellList.add(new Cell(state));
+				else
+					throw new IllegalArgumentException("le fichier contient un caractère qui n'est pas dans l'alphabet.");
+			}
+			widths.add(width);
+		}
+		heights.add(height);
+
+		// Vérification de la validité de la taille de la grille
+		this.size = widths.get(0);
+		for(int i = 1; i < widths.size(); i++)
+			if(widths.get(i) != this.size)
+				throw new IllegalArgumentException("une des couches n'est pas rectangulaire.");
+		for(int i = 0; i < heights.size(); i++)
+			if(heights.get(i) != this.size)
+				throw new IllegalArgumentException("une des couches n'est pas carrée.");
+		if ((depth + 1) != this.size)
+			throw new IllegalArgumentException("la grille n'est pas cubique.");
+	}
+
+	/**
+	 * Checks if an element is present in an array.
+	 *
+	 * @param state the element to check
+	 * @param alphabet the array to search in
+	 * @return true if the element is found, false otherwise
+	 */
+	private static boolean isElementInArray(char state, char[] alphabet) {
+		for(int i = 0; i < alphabet.length; i++)
+			if(state == alphabet[i])
+				return true;
+		return false;
 	}
 
 
