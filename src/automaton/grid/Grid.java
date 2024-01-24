@@ -441,7 +441,7 @@ public class Grid {
 	}
 
 
-	// === DISPLAY === //
+	// === TOSTRING === //
 
 	/**
 	 * Returns a string representation of the grid.
@@ -449,142 +449,176 @@ public class Grid {
 	 * @return a string representation of the grid
 	 */
 	@Override
-	public String toString() {
-		StringBuilder grid = new StringBuilder();
+	public String toString() throws IllegalArgumentException, IndexOutOfBoundsException {
 		try {
 			switch (this.dimension) {
 				case ONE_D:
-					for (int i = 0; i < this.size; i++)
-						grid.append(this.getCell(i).toString());
-					break;
+					return this.toString1D(0, 0);
 				case TWO_D:
-					display2D();
-					break;
+					return this.toString2D(0);
 				case THREE_D:
-					display3D();
-					break;
+					return this.toString3D();
 				case H:
-					displayH();
-					break;
+					return this.toStringH();
+				default:
+					throw new IllegalArgumentException("la dimension de la grille n'est pas valide.");
 			}
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("L'affichage de la grille a échoué à cause d'une erreur d'index.");
+		} catch (Exception e) {
+			System.out.println("L'affichage de la grille a échoué car " + e.getMessage());
 		}
+		return "";
 	}
 
 	/**
-	 * Displays the 1D representation of the grid.
-	 *
-	 * @throws IndexOutOfBoundsException if during the display, an index is out of
-	 *                                   bounds
+	 * Returns a string representation of the specified row in the 1D grid.
+	 * 
+	 * @param y the index of the row
+	 * @param z the index of the layer
+	 * @return a string representation of the specified row
+	 * @throws IllegalArgumentException if the index of the row or the layer is invalid
+	 * @throws IndexOutOfBoundsException if the index of the row is out of bounds
 	 */
-	private void display1D() throws IndexOutOfBoundsException {
-		try {
-			for (int i = 0; i < this.size; i++) {
-				System.out.print(" " + this.getCell(i, 0, 0).getState() + " ");
-			}
-			System.out.println();
-		} catch (IndexOutOfBoundsException e) {
-			throw new IndexOutOfBoundsException();
-		}
-	}
+	private String toString1D(int y, int z) throws IllegalArgumentException, IndexOutOfBoundsException {
+		if(y < 0 || y >= this.size || z < 0 || z >= this.size)
+			throw new IllegalArgumentException("l'index de la ligne est invalide.");
+		if (this.dimension != Dimension.ONE_D)
+			throw new IllegalArgumentException("la dimension de la grille n'est pas unidimensionnelle.");
 
-	/**
-	 * Displays the 2D grid representation of the automaton.
-	 *
-	 * @throws IndexOutOfBoundsException if during the display, an index is out of
-	 *                                   bounds
-	 */
-	private void display2D() throws IndexOutOfBoundsException {
+		StringBuilder str = new StringBuilder();
 		try {
-			for (int i = 0; i < this.size; i++) {
-				for (int j = 0; j < this.size; j++)
-					System.out.print(" " + this.getCell(j, i, 0).getState() + " ");
-				System.out.println();
-			}
+			for (int i = 0; i < this.size; i++)
+				str.append(" " + this.getCell(i, y, z).getState() + " ");
+			str.append("\n");
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException();
 		}
+		return str.toString();
 	}
 
 	/**
-	 * Displays the 3D grid representation of the automaton.
-	 *
-	 * @throws IndexOutOfBoundsException if during the display, an index is out of
-	 *                                   bounds
+	 * Returns a string representation of the 2D grid at the specified layer.
+	 * 
+	 * @param z the layer index
+	 * @return a string representation of the 2D grid at the specified layer
+	 * @throws IllegalArgumentException if the layer index is invalid
+	 * @throws IndexOutOfBoundsException if the grid dimension is not bidimensional
 	 */
-	private void display3D() throws IndexOutOfBoundsException {
+	private String toString2D(int z) throws IllegalArgumentException, IndexOutOfBoundsException {
+		if (z < 0 || z >= this.size)
+			throw new IllegalArgumentException("l'index de la couche est invalide.");
+		if (this.dimension != Dimension.TWO_D)
+			throw new IllegalArgumentException("la dimension de la grille n'est pas bidimensionnelle.");
+
+		StringBuilder str = new StringBuilder();
 		try {
-			for (int i = 0; i < this.size; i++) {
-				System.out.println("Couche " + i);
-				for (int j = 0; j < this.size; j++) {
-					for (int k = 0; k < this.size; k++)
-						System.out.print(" " + this.getCell(k, j, i).getState() + " ");
-					System.out.println();
-				}
-				System.out.println();
-			}
+			for (int i = 0; i < this.size; i++)
+				str.append(this.toString1D(i, z));
+			str.append("\n");
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException();
 		}
+		return str.toString();
 	}
 
 	/**
-	 * Displays the 2D hexagonal grid representation of the automaton.
-	 *
-	 * @throws IndexOutOfBoundsException if during the display, an index is out of
-	 *                                   bounds
+	 * Returns a string representation of a 3D grid.
+	 * 
+	 * @return the string representation of a 3D grid
+	 * @throws IndexOutOfBoundsException if the grid dimension is not three-dimensional
 	 */
-	private void displayH() throws IndexOutOfBoundsException {
+	private String toString3D() throws IndexOutOfBoundsException {
+		if (this.dimension != Dimension.THREE_D)
+			throw new IllegalArgumentException("la dimension de la grille n'est pas tridimensionnelle.");
+
+		StringBuilder str = new StringBuilder();
 		try {
 			for (int i = 0; i < this.size; i++) {
-				printSpaces(this.size - i - 1);
-				printCells(i, this.size + i);
-				System.out.println();
+				str.append("Couche " + i);
+				str.append(this.toString2D(i));
 			}
+			str.append("\n");
+		} catch (IndexOutOfBoundsException e) {
+			throw new IndexOutOfBoundsException();
+		}
+		return str.toString();
+	}
+
+	/**
+	 * Returns a string representation of an hexagonal grid.
+	 * 
+	 * @return the string representation of an hexagonal grid
+	 * @throws IllegalArgumentException if the dimension of the grid is not hexagonal
+	 * @throws IndexOutOfBoundsException if the grid indices are out of bounds
+	 */
+	private String toStringH() throws IllegalArgumentException, IndexOutOfBoundsException {
+		if (this.dimension != Dimension.H)
+			throw new IllegalArgumentException("la dimension de la grille n'est pas hexagonale.");
+
+		StringBuilder str = new StringBuilder();
+		try {
+			// Première moitié de la grille
+			for (int i = 0; i < this.size; i++) {
+				str.append(this.toStringHSpaces(this.size - i - 1));
+				str.append(this.toStringHCells(i, this.size + i));
+				str.append("\n");
+			}
+
+			// Deuxième moitié de la grille
 			for(int i = 1; i < this.size; i++) {
-				printSpaces(i);
-				printCells(this.size + i, 2 * this.size - i - 1);
-				System.out.println();
+				str.append(this.toStringHSpaces(i));
+				str.append(this.toStringHCells(this.size + i, 2 * this.size - i - 1));
+				str.append("\n");
 			}
 		} catch (IndexOutOfBoundsException e) {
-			System.out.println("La conversion de la grille en chaîne de caractères a échoué à cause d'une erreur d'index.");
+			throw new IndexOutOfBoundsException();
 		}
-		return grid.toString();
+		return str.toString();
 	}
 
 	/**
-	 * Prints a specified number of spaces.
+	 * Returns a string consisting of the specified number of horizontal spaces.
 	 *
-	 * @param count the number of spaces to print
-	 * @throws IllegalArgumentException if the number of spaces to print is negative
+	 * @param count the number of horizontal spaces to generate
+	 * @return a string of horizontal spaces
+	 * @throws IllegalArgumentException if the count is negative or the dimension is
+	 *                                  not hexagonal
 	 */
-	private void printSpaces(int count) throws IllegalArgumentException {
+	private String toStringHSpaces(int count) throws IllegalArgumentException {
 		if (count < 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("le nombre d'espaces ne peut pas être négatif.");
+		if (this.dimension != Dimension.H)
+			throw new IllegalArgumentException("la dimension de la grille n'est pas hexagonale.");
 
+		StringBuilder str = new StringBuilder();
 		for (int i = 0; i < count; i++)
-			System.out.print("  ");
+			str.append("  ");
+		return str.toString();
 	}
 
 	/**
-	 * Prints the states of cells in a specific row.
+	 * Returns a string representation of the cells in the specified row of an
+	 * hexagonal grid.
 	 *
-	 * @param row   the row index of the cells to be printed
-	 * @param count the number of cells to be printed
-	 * @throws IndexOutOfBoundsException if the row index is out of bounds
-	 * @throws IllegalArgumentException  if the number of cells to be printed is
-	 *                                   negative
+	 * @param row   the row to display
+	 * @param count the number of cells to display
+	 * @return a string representation of the cells in the specified row
+	 * @throws IllegalArgumentException  if the count is negative or if the grid is
+	 *                                   not hexagonal
+	 * @throws IndexOutOfBoundsException if the row is out of bounds
 	 */
-	private void printCells(int row, int count) throws IllegalArgumentException, IndexOutOfBoundsException {
-		if (count < 0)
-			throw new IllegalArgumentException();
+	private String toStringHCells(int row, int count) throws IllegalArgumentException, IndexOutOfBoundsException {
+		if (count < 0 || row < 0)
+			throw new IllegalArgumentException("le nombre de cellules et le numéro de la ligne ne peuvent pas être négatifs.");
+		if (this.dimension != Dimension.H)
+			throw new IllegalArgumentException("la dimension de la grille n'est pas hexagonale.");
 
+		StringBuilder str = new StringBuilder();
 		try {
 			for (int i = 0; i < count; i++)
-				System.out.print(" " + this.getCell(row, i, 0).getState() + "  ");
+				str.append(" " + this.getCell(row, i, 0).getState() + "  ");
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException();
 		}
+		return str.toString();
 	}
 }

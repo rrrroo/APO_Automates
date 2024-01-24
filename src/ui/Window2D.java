@@ -20,7 +20,7 @@ public class Window2D extends Window {
                 super.paintComponent(g);
                 for(int i = 0; i < automaton.getGrid().getSize(); i++){
                     for(int j = 0; j < automaton.getGrid().getSize(); j++){
-                        if(automaton.getGrid().getCell(j,i).getState() == automaton.getAlphabet()[0]){
+                        if(automaton.getGrid().getCell(j, i, 0).getState() == automaton.getAlphabet()[0]){
                             g.setColor(Color.WHITE);
                         }else{
                             g.setColor(Color.BLACK);

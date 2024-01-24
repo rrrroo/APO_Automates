@@ -267,10 +267,6 @@ public class Automaton {
 		return this.grid;
 	}
 
-	public String getDimensionAsString() {
-		return this.dimension.toString();
-	}
-
 
 	// === METHODS === //
 
@@ -320,9 +316,8 @@ public class Automaton {
 		try {
 			switch (this.dimension) {
 				case ONE_D:
-					for(int i = 0; i < this.grid.getSize(); i++) {
+					for(int i = 0; i < this.grid.getSize(); i++)
 						applyRules(newGrid, i, 0, 0);
-					}
 					break;
 				case TWO_D:
 					for(int i = 0; i < this.grid.getSize(); i++)

@@ -26,19 +26,21 @@ public class Simulation {
 	 */
 	public Simulation(Automaton automaton) {
 		this.automaton = automaton;
-		switch(automaton.getDimensionAsString()) {
-			case "ONE_D":
+		switch(automaton.getDimension()) {
+			case ONE_D:
 				this.window = new Window1D(automaton);
 				break;
-			case "TWO_D":
+			case TWO_D:
 				this.window = new Window2D(automaton);
 				break;
-			case "H":
+			case THREE_D:
+				this.window = new Window3D(automaton);
+				break;
+			case H:
 				this.window = new WindowH(automaton);
 				break;
 			default:
-				System.out.println("Dimension non reconnue" + automaton.getDimensionAsString());
-				System.exit(1);
+				throw new IllegalArgumentException("Dimension non reconnue" + automaton.getDimension());
 		}
 	}
 

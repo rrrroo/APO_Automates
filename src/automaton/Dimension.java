@@ -5,10 +5,10 @@ package automaton;
  * It can be either 1D, 2D, 3D, or H (for higher dimensions).
  */
 public enum Dimension {
-	ONE_D("1D"),
-	TWO_D("2D"),
-	THREE_D("3D"),
-	H("H");
+	ONE_D	("1D"),
+	TWO_D	("2D"),
+	THREE_D	("3D"),
+	H		("H");
 
 	/**
 	 * Represents a dimension value.
