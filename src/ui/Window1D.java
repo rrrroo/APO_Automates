@@ -1,12 +1,16 @@
 package ui;
 
 import automaton.Automaton;
+import automaton.grid.Grid;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 
 public class Window1D extends Window {
+    private ArrayList<Grid> steps = new ArrayList<Grid>();
     private int stepNb;
     
     public Window1D(Automaton automaton){
@@ -22,13 +26,16 @@ public class Window1D extends Window {
             @Override
             public void paintComponent(Graphics g){
                 super.paintComponent(g);
-                for(int i = 0; i < automaton.getGrid().getSize(); i++){
-                    if(automaton.getGrid().getCell(i).getState() == automaton.getAlphabet()[0]){
-                        g.setColor(Color.WHITE);
-                    }else{
-                        g.setColor(Color.BLACK);
+                steps.add(automaton.getGrid());
+                for(int s = 0; s <= stepNb; s++){
+                    for(int i = 0; i < steps.get(s).getSize(); i++){
+                        if(steps.get(s).getCell(i).getState() == automaton.getAlphabet()[0]){
+                            g.setColor(Color.WHITE);
+                        }else{
+                            g.setColor(Color.BLACK);
+                        }
+                        g.fillRect(i*cellSize, s*cellSize, cellSize, cellSize);
                     }
-                    g.fillRect(i*cellSize, stepNb*cellSize, cellSize, cellSize);
                 }
                 stepNb++;
             }
