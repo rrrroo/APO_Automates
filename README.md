@@ -1,5 +1,7 @@
 # Projet APO : automates cellulaires
 
+[lien du GitHub](https://github.com/rrrroo/APO_Automates)
+
 ## TODO
 
 - [ ] Automates
