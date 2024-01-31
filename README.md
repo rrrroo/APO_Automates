@@ -20,7 +20,7 @@
         - [ ] 2D avec probabilité
         - [ ] 2D avec vent
         - [ ] H
-        - [ ] 4 voisins
+        - [x] 4 voisins
         - [x] 8 voisins
 - [ ] Tronc commun
     - [x] menu
