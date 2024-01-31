@@ -13,7 +13,7 @@
         - [x] 1D
         - [x] 2D
         - [x] 3D
-        - [ ] H
+        - [x] H
         - [x] voisinage carré
         - [ ] voisinage rectangulaire
     - [x] jeu de la vie
@@ -21,7 +21,7 @@
         - [x] 2D classique
         - [ ] 2D avec probabilité
         - [ ] 2D avec vent
-        - [ ] H
+        - [x] H
         - [x] 4 voisins
         - [x] 8 voisins
 - [ ] Tronc commun
@@ -37,7 +37,7 @@
         - [x] 1D
         - [x] 2D
         - [x] 3D
-        - [ ] H
+        - [x] H
     - [ ] JavaDoc
 - [ ] Extensions
     - [x] Git
@@ -45,7 +45,7 @@
     - [ ] Tests unitaires
     - [x] fichiers de configuration
     - [ ] sauvegarde
-        - [ ] utiliser les toString
+        - [x] utiliser les toString
         - [ ] adapter le constructeur de Grid aux toString
     - [ ] interface graphique
     - [ ] statistiques

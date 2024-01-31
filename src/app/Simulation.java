@@ -48,6 +48,7 @@ public class Simulation {
 		if(this.automaton.getDimension() == Dimension.ONE_D)
 			System.out.println("Numéro de la règle : " + this.automaton.getRuleNumber());
 
+		System.out.println(automaton);
 		while(!stop) {
 			this.step();
 			System.out.println(automaton);
