@@ -11,7 +11,7 @@ public class Test {
 			//simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet());
 			//simulation.getAutomaton().getGrid().setAllRandomForest(simulation.getAutomaton().getAlphabet());
 
-			Simulation simulation = new Simulation(new Automaton("data/majority3D.json"));
+			Simulation simulation = new Simulation(new Automaton("data/feuWithoutWind.json"));
 			simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet());
 			// simulation.getAutomaton().getGrid().setCellState(0, 1, '1');
 			simulation.run();

@@ -19,8 +19,8 @@ public class NeighbourhoodRule extends Rule {
 	 * @param neighbours the array of characters representing the neighbors of the
 	 *                   automaton
 	 */
-	public NeighbourhoodRule(char state, char result, char[] neighbours) {
-		super(state, result);
+	public NeighbourhoodRule(char state, char result,double probability, char[] neighbours) {
+		super(state, result, probability);
 		this.neighbours = neighbours;
 	}
 

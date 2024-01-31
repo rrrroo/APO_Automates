@@ -5,9 +5,12 @@ public class Rule {
 
     protected char result;
 
-    public Rule(char state, char result) {
+    protected double probability;
+
+    public Rule(char state, char result, double probability) {
         this.state = state;
         this.result = result;
+        this.probability = probability;
     }
 
     /**

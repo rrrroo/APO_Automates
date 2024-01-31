@@ -86,6 +86,7 @@ public class Automaton {
 		if(ruleNb < 0 || ruleNb > 255) {
 			throw new IllegalArgumentException("la règle doit être comprise entre 0 et 255");
 		}
+		double probability = 1;
 		JSONObject settings = getSettings("data/1D.json");
 		this.dimension = Dimension.ONE_D;
 		this.alphabet = getAlphabetFromSettings(settings, "data/1D.json");
@@ -106,11 +107,11 @@ public class Automaton {
 		}
 		for(int i = 0; i < res.length(); i++) {
 			if(res.charAt(7-i) == '1') {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1],probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[1]);
 			}
 			else {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0],probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[0]);
 			}
 			
@@ -204,34 +205,72 @@ public class Automaton {
 			JSONArray array = data.getJSONArray("rules");
 			List<Rule> rules = new ArrayList<>();
 			JSONObject rule;
-			if (data.getBoolean("type")) {
+			if (data.getInt("type")==1) {
 				for (int i = 0; i < array.length(); i++) {
 					rule = array.getJSONObject(i);
 					char state = rule.getString("state").charAt(0);
 					char result = rule.getString("result").charAt(0);
+					double probability = 1;
+					if (rule.has("probability")) {
+						probability = rule.getDouble("probability");
+					}
 					JSONArray arrNeig = rule.getJSONArray("neighbours");
 					char[] neighbours = new char[arrNeig.length()];
 					for (int j = 0; j < arrNeig.length(); j++) {
 						neighbours[j] = arrNeig.getString(j).charAt(0);
 					}
-					rules.add(new NeighbourhoodRule(state, result, neighbours));
+					rules.add(new NeighbourhoodRule(state, result, probability, neighbours));
 				}
-			} else {
-				for (int i = 0; i < array.length(); i++) {
-					rule = array.getJSONObject(i);
-					JSONArray arrNeig = rule.getJSONArray("neighbours");
-					int[] neighbours = new int[arrNeig.length()];
-					for (int j = 0; j < arrNeig.length(); j++) {
-						neighbours[j] = arrNeig.getInt(j);
+			}
+			else {
+				if (data.getInt("type") == 2) {
+					for (int i = 0; i < array.length(); i++) {
+						rule = array.getJSONObject(i);
+						JSONArray arrNeig = rule.getJSONArray("neighbours");
+						int[] neighbours = new int[arrNeig.length()];
+						for (int j = 0; j < arrNeig.length(); j++) {
+							neighbours[j] = arrNeig.getInt(j);
+						}
+						char state = rule.getString("state").charAt(0);
+						char result = rule.getString("result").charAt(0);
+						double probability = 1;
+						if (rule.has("probability")) {
+							probability = rule.getDouble("probability");
+						}
+						char neighbourState = rule.getString("neighbourState").charAt(0);
+						rules.add(new TransitionRule(state, result, probability, neighbours, neighbourState));
 					}
-					char state = rule.getString("state").charAt(0);
-					char result = rule.getString("result").charAt(0);
-					char neighbourState = rule.getString("neighbourState").charAt(0);
-					rules.add(new TransitionRule(state, result, neighbours, neighbourState));
-
+				} else {
+					if (data.getInt("type") == 4) {
+						for (int i = 0; i < array.length(); i++) {
+							rule = array.getJSONObject(i);
+							JSONArray arrNeig = rule.getJSONArray("neighbours");
+							int[] neighbours = new int[arrNeig.length()];
+							for (int j = 0; j < arrNeig.length(); j++) {
+								neighbours[j] = arrNeig.getInt(j);
+							}
+							char state = rule.getString("state").charAt(0);
+							char result = rule.getString("result").charAt(0);
+							double probability = 1;
+							if (rule.has("probability")) {
+								probability = rule.getDouble("probability");
+							}
+							char neighbourState = rule.getString("neighbourState").charAt(0);
+							int ventVertical = 0;
+							if (rule.has("ventVertical")) {
+								ventVertical = rule.getInt("ventVertical");
+							}
+							int ventHorizontal = 0;
+							if (rule.has("ventHorizontal")) {
+								ventHorizontal = rule.getInt("ventHorizontal");
+							}
+							rules.add(new ForetRule(state, result, probability, neighbours, neighbourState, ventVertical, ventHorizontal));
+						}
+					}
 				}
 			}
 			return rules;
+
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre rules dans le fichier " + filename);
 		}
