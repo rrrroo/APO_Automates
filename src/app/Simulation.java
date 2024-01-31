@@ -1,6 +1,9 @@
 package app;
+
 import automaton.Automaton;
 import automaton.Dimension;
+import ui.*;
+
 
 /**
  * The Simulation class represents a simulation of an automaton.
@@ -12,12 +15,33 @@ public class Simulation {
 	private Automaton automaton;
 
 	/**
+	 * Represents the window used to display the automaton.
+	 */
+	private Window window;
+
+	/**
 	 * Constructs a Simulation object with the specified automaton.
 	 * 
 	 * @param automaton the automaton to be simulated
 	 */
 	public Simulation(Automaton automaton) {
 		this.automaton = automaton;
+		switch(automaton.getDimension()) {
+			case ONE_D:
+				this.window = new Window1D(automaton);
+				break;
+			case TWO_D:
+				this.window = new Window2D(automaton);
+				break;
+			case THREE_D:
+				this.window = new Window3D(automaton);
+				break;
+			case H:
+				this.window = new WindowH(automaton);
+				break;
+			default:
+				throw new IllegalArgumentException("Dimension non reconnue" + automaton.getDimension());
+		}
 	}
 
 
@@ -50,6 +74,7 @@ public class Simulation {
 		while(!stop) {
 			step();
 			display();
+			System.out.println(automaton);
 
 			try {
 				Thread.sleep(500);
@@ -71,6 +96,6 @@ public class Simulation {
 	 * Displays the automaton.
 	 */
 	private void display() {
-		this.automaton.display();
+		this.window.display();
 	}
 }

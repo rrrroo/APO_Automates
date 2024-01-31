@@ -3,13 +3,17 @@ package automaton;
 import automaton.grid.Grid;
 import automaton.rule.*;
 import java.io.IOException;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
+
 
 /**
  * This class represents a cellular automaton.
@@ -44,7 +48,7 @@ public class Automaton {
 	private List<Rule> rules;
 
 
-	// === CONSTRUCTOR === //
+	// === CONSTRUCTORS === //
 
 	/**
 	 * The constructor of the class.
@@ -237,6 +241,35 @@ public class Automaton {
 		}
 	}
 
+	/**
+	 * The constructor of the class.
+	 *
+	 * @param configFilename the name of the file containing the automaton settings
+	 * @param gridFilename   the name of the file containing the grid
+	 * @throws IOException   if the file does not exist
+	 * @throws JSONException if the file does not contain valid JSON
+	 * @throws IllegalArgumentException if the grid file does not match the settings
+	 */
+	public Automaton(String configFilename, String gridFilename) throws IOException, JSONException, IllegalArgumentException {
+		JSONObject settings = getSettings(configFilename);
+
+		String dim;
+		try {
+			dim = settings.getString("dimension");
+		} catch (JSONException e) {
+			throw new JSONException("il manque le paramètre dimension dans le fichier " + configFilename);
+		}
+		this.dimension = Dimension.fromString(dim);
+
+		this.alphabet = getAlphabetFromSettings(settings, configFilename);
+
+		this.neighbourhood = getNeighbourhoodFromSettings(settings, configFilename);
+
+		this.grid = new Grid(this.dimension, gridFilename, this.alphabet);
+
+		this.rules = getRulesFromSettings(settings, configFilename);
+	}
+
 
 	// === GETTERS === //
 
@@ -271,18 +304,6 @@ public class Automaton {
 	// === METHODS === //
 
 	/**
-	 * Displays the automaton by calling the display method of the grid.
-	 */
-	public void display() {
-		try {
-			this.grid.display();
-			System.out.println();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
-
-	/**
 	 * Calculates the rule number for the 1D automaton.
 	 * 
 	 * @return The rule number.
@@ -311,9 +332,8 @@ public class Automaton {
 		try {
 			switch (this.dimension) {
 				case ONE_D:
-					for(int i = 0; i < this.grid.getSize(); i++) {
+					for(int i = 0; i < this.grid.getSize(); i++)
 						applyRules(newGrid, i, 0, 0);
-					}
 					break;
 				case TWO_D:
 					for(int i = 0; i < this.grid.getSize(); i++)
@@ -351,6 +371,58 @@ public class Automaton {
 				newGrid.setCellState(x, y, z, newState);
 				break;
 			}
+		}
+	}
+
+	/**
+	 * Turns the automaton into a string.
+	 * 
+	 * @return the automaton as a string
+	 */
+	@Override
+	public String toString() {
+		try {
+			if(this.dimension == Dimension.ONE_D)
+				return "Règle n°" + this.getRuleNumber() + "\n" + this.grid.toString() + "\n";
+			else
+				return this.grid.toString() + "\n";
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+	}
+
+	/**
+	 * Saves the automaton to a file.
+	 *
+	 * @param filename the name of the file to save the automaton to
+	 * @throws IOException if an error occurs while writing the file
+	 */
+	public void save(String filename) throws IOException {
+		try (FileWriter writer = new FileWriter(filename)) {
+			writer.write(this.toString());
+		} catch (IOException e) {
+			throw new IOException("une erreur est survenue lors de l'écriture du fichier " + filename);
+		}
+	}
+
+	/**
+	 * Saves the current state of the automaton to a file.
+	 * The file name is generated based on the current dimension and the current date and time.
+	 * The automaton is saved as a string representation in the file.
+	 * If an error occurs while writing to the file, an error message is printed.
+	 */
+	public void save() throws IOException {
+		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+		String filename = "data/save_"
+			+ this.dimension.toString()
+			+ "_"
+			+ date.format(new Date())
+			+ ".txt";
+
+		try {
+			this.save(filename);
+		} catch (IOException e) {
+			throw new IOException(e.getMessage());
 		}
 	}
 }

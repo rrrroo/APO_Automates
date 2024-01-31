@@ -4,10 +4,15 @@ package automaton.grid;
  * Represents a cell in a grid.
  */
 public class Cell {
+	// === ATTRIBUTES === //
+
 	/**
 	 * The state of the cell.
 	 */
 	private char state;
+
+
+	// === CONSTRUCTORS === //
 
 	/**
 	 * Constructs a Cell object with the specified state.
@@ -18,6 +23,9 @@ public class Cell {
 		this.state = state;
 	}
 
+
+	// === GETTERS === //
+
 	/**
 	 * Returns the state of the cell.
 	 *
@@ -27,6 +35,9 @@ public class Cell {
 		return this.state;
 	}
 
+
+	// === SETTERS === //
+
 	/**
 	 * Sets the state of the cell.
 	 *
@@ -34,5 +45,18 @@ public class Cell {
 	 */
 	public void setState(char state) {
 		this.state = state;
+	}
+
+
+	// === METHODS === //
+
+	/**
+	 * Returns a string representation of the cell.
+	 * 
+	 * @return a string representation of the cell
+	 */
+	@Override
+	public String toString() {
+		return " " + this.state + " ";
 	}
 }

@@ -1,21 +1,20 @@
 package app;
 
 import automaton.*;
+import automaton.grid.*;
 
 public class Test {
 	public static void main(String[] args) {
 		try {
+			Automaton automaton = new Automaton("data/gameOfLife.json");
+			automaton.getGrid().setAllRandom(automaton.getAlphabet());
+			System.out.println(automaton);
+			automaton.save("data/save_TWO_D.txt");
 
-			//Simulation simulation = new Simulation(new Automaton("data/feuWithoutWind.json"));
-			//simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet());
-			//simulation.getAutomaton().getGrid().setAllRandomForest(simulation.getAutomaton().getAlphabet());
-
-			Simulation simulation = new Simulation(new Automaton("data/majority3D.json"));
-			simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet());
-			// simulation.getAutomaton().getGrid().setCellState(0, 1, '1');
-			simulation.run();
+			Automaton automaton2 = new Automaton("data/gameOfLife.json", "data/save_TWO_D.txt");
+			System.out.println(automaton2);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("La création de la grille a échoué car " + e.getMessage());
 		}
 	}
 }
