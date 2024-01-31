@@ -301,6 +301,15 @@ public class Automaton {
 		return this.grid;
 	}
 
+	/**
+	 * Returns the neighbourhood associated with this automaton.
+	 *
+	 * @return the neighbourhood associated with this automaton
+	 */
+	public List<int[]> getNeighbourhood() {
+		return this.neighbourhood;
+	}
+
 
 	// === METHODS === //
 
@@ -336,20 +345,23 @@ public class Automaton {
 					for(int i = 0; i < this.grid.getSize(); i++)
 						applyRules(newGrid, i, 0, 0);
 					break;
+
 				case TWO_D:
+				case H:
 					for(int i = 0; i < this.grid.getSize(); i++)
 						for(int j = 0; j < this.grid.getSize(); j++)
 							applyRules(newGrid, j, i, 0);
 					break;
+
 				case THREE_D:
 					for(int i = 0; i < this.grid.getSize(); i++)
 						for(int j = 0; j < this.grid.getSize(); j++)
 							for(int k = 0; k < this.grid.getSize(); k++)
 								applyRules(newGrid, k, j, i);
 					break;
-				case H:
-					// TODO
-					break;
+
+				default:
+					throw new IllegalArgumentException("la dimension de l'automate n'est pas valide");
 			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

@@ -2,7 +2,6 @@ package app;
 
 import automaton.Automaton;
 import automaton.Dimension;
-import ui.*;
 
 
 /**
@@ -15,33 +14,12 @@ public class Simulation {
 	private Automaton automaton;
 
 	/**
-	 * Represents the window used to display the automaton.
-	 */
-	private Window window;
-
-	/**
 	 * Constructs a Simulation object with the specified automaton.
 	 * 
 	 * @param automaton the automaton to be simulated
 	 */
 	public Simulation(Automaton automaton) {
 		this.automaton = automaton;
-		switch(automaton.getDimension()) {
-			case ONE_D:
-				this.window = new Window1D(automaton);
-				break;
-			case TWO_D:
-				this.window = new Window2D(automaton);
-				break;
-			case THREE_D:
-				this.window = new Window3D(automaton);
-				break;
-			case H:
-				this.window = new WindowH(automaton);
-				break;
-			default:
-				throw new IllegalArgumentException("Dimension non reconnue" + automaton.getDimension());
-		}
 	}
 
 
@@ -69,15 +47,13 @@ public class Simulation {
 		
 		if(this.automaton.getDimension() == Dimension.ONE_D)
 			System.out.println("Numéro de la règle : " + this.automaton.getRuleNumber());
-		display();
 
 		while(!stop) {
-			step();
-			display();
+			this.step();
 			System.out.println(automaton);
 
 			try {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}
@@ -90,12 +66,5 @@ public class Simulation {
 
 	private void step() {
 		this.automaton.evaluate();
-	}
-
-	/**
-	 * Displays the automaton.
-	 */
-	private void display() {
-		this.window.display();
 	}
 }

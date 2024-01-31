@@ -50,7 +50,7 @@ public class Grid {
 		// Initialisation de la taille de la grille
 		if (size <= 0)
 			throw new IllegalArgumentException("la taille de la grille ne peut pas être négative ou nulle.");
-		if((size > Grid.MAX_SIZE && (dimension == Dimension.ONE_D || dimension == Dimension.TWO_D)) || (size > (Grid.MAX_SIZE / 2) && dimension == Dimension.H))
+		if(size > Grid.MAX_SIZE)
 			throw new IllegalArgumentException("la taille de la grille est trop grande.");
 		this.size = size;
 
@@ -61,21 +61,20 @@ public class Grid {
 				for(int i = 0; i < size; i++)
 					this.cellList.add(new Cell(initialState));
 				break;
+
 			case TWO_D:
+			case H:
 				this.cellList = new ArrayList<>(size * size);
 				for(int i = 0; i < size * size; i++)
 					this.cellList.add(new Cell(initialState));
 				break;
+
 			case THREE_D:
 				this.cellList = new ArrayList<>(size * size * size);
 				for(int i = 0; i < size * size * size; i++)
 					this.cellList.add(new Cell(initialState));
 				break;
-			case H:
-				this.cellList = new ArrayList<>(1 + 3 * size * (size - 1));
-				for(int i = 0; i < 1 + 3 * size * (size - 1); i++)
-					this.cellList.add(new Cell(initialState));
-				break;
+
 			default:
 				throw new IllegalArgumentException("la dimension de la grille n'est pas valide.");
 		}
@@ -275,12 +274,14 @@ public class Grid {
 			switch (this.dimension) {
 				case ONE_D:
 					return this.getCell(x);
+
 				case TWO_D:
+				case H:
 					return this.getCell(x + y * this.size);
+
 				case THREE_D:
 					return this.getCell(x + y * this.size + z * this.size * this.size);
-				case H:
-					return this.getCell(x + y * (y + 1) / 2);
+
 				default:
 					return null;
 			}
@@ -357,8 +358,11 @@ public class Grid {
 						).getState();
 						break;
 					case H:
+						int offset = 0;
+						if(neighbourhood.get(i)[1] != 0 && y % 2 != 0)
+							offset = 1;
 						neighbours[i] = this.getCell(
-							modulo(x + neighbourhood.get(i)[0], this.size),
+							modulo(x + offset + neighbourhood.get(i)[0], this.size),
 							modulo(y + neighbourhood.get(i)[1], this.size),
 							0
 						).getState();
@@ -483,7 +487,7 @@ public class Grid {
 		if(y < 0 || y >= this.size || z < 0 || z >= this.size)
 			throw new IllegalArgumentException("l'index de la ligne est invalide.");
 		if (this.dimension == Dimension.H)
-			throw new IllegalArgumentException("la dimension de la grille n'est pas unidimensionnelle.");
+			throw new IllegalArgumentException("la dimension de la grille n'est pas la bonne.");
 
 		StringBuilder str = new StringBuilder();
 		try {
@@ -557,17 +561,11 @@ public class Grid {
 
 		StringBuilder str = new StringBuilder();
 		try {
-			// Première moitié de la grille
 			for (int i = 0; i < this.size; i++) {
-				str.append(this.toStringHSpaces(this.size - i - 1));
-				str.append(this.toStringHCells(i, this.size + i));
-				str.append("\n");
-			}
-
-			// Deuxième moitié de la grille
-			for(int i = 1; i < this.size; i++) {
-				str.append(this.toStringHSpaces(i));
-				str.append(this.toStringHCells(this.size + i, 2 * this.size - i - 1));
+				if(i % 2 != 0)
+					str.append("  ");
+				for (int j = 0; j < this.size; j++)
+					str.append(" " + this.getCell(j, i, 0).getState() + "  ");
 				str.append("\n");
 			}
 		} catch (IndexOutOfBoundsException e) {
