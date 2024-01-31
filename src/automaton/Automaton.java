@@ -87,13 +87,14 @@ public class Automaton {
 	 * @param rule the rule number of the 1D automaton
 	 */
 	public Automaton(int ruleNb) throws IOException, JSONException, IllegalArgumentException {
+		String filename = "data/1D.json";
 		if(ruleNb < 0 || ruleNb > 255) {
 			throw new IllegalArgumentException("la règle doit être comprise entre 0 et 255");
 		}
-		JSONObject settings = getSettings("data/1D.json");
+		JSONObject settings = getSettings(filename);
 		this.dimension = Dimension.ONE_D;
-		this.alphabet = getAlphabetFromSettings(settings, "data/1D.json");
-		this.neighbourhood = getNeighbourhoodFromSettings(settings, "data/1D.json");
+		this.alphabet = getAlphabetFromSettings(settings, filename);
+		this.neighbourhood = getNeighbourhoodFromSettings(settings, filename);
 		int size;
 		try {
 			size = settings.getInt("size");
@@ -103,23 +104,23 @@ public class Automaton {
 
 		this.grid = new Grid(this.dimension, size, this.alphabet[0]);
 		
-		List<Rule> rules = new ArrayList<>();
-		String res = Integer.toBinaryString(ruleNb);
+		List<Rule> newRules = new ArrayList<>();
+		StringBuilder res = new StringBuilder(Integer.toBinaryString(ruleNb));
 		while(res.length() < 8) {
-			res = "0" + res;
+			res.append("0" + res);
 		}
 		for(int i = 0; i < res.length(); i++) {
 			if(res.charAt(7-i) == '1') {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				newRules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[1]);
 			}
 			else {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				newRules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[0]);
 			}
 			
 		}
-		this.rules = rules;
+		this.rules = newRules;
 	}
 
 	/**
