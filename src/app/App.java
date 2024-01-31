@@ -3,6 +3,7 @@ package app;
 import automaton.Automaton;
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,7 +16,7 @@ public class App {
 	public static void main(String[] args) {
 		Automaton auto = menu();
         Simulation simulation = new Simulation(auto);
-        simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet());
+        simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet(), new Random());
         simulation.run();
 	}
 

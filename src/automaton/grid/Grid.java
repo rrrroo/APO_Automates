@@ -410,8 +410,7 @@ public class Grid {
 	 * 
 	 * @param alphabet the array of characters to choose from
 	 */
-	public void setAllRandom(char[] alphabet) {
-		Random random = new Random();
+	public void setAllRandom(char[] alphabet, Random random) {
 		for(int i = 0; i < this.cellList.size(); i++)
 			try {
 				this.getCell(i).setState(alphabet[random.nextInt(alphabet.length)]);
@@ -427,8 +426,7 @@ public class Grid {
 	 *
 	 * @param alphabet the array of characters to choose from
 	 */
-	public void setAllRandomForest(char[] alphabet) {
-		Random random = new Random();
+	public void setAllRandomForest(char[] alphabet, Random random) {
 		try {
 			for (int i = 0; i < this.cellList.size(); i++) {
 				do {
@@ -568,53 +566,6 @@ public class Grid {
 					str.append(" " + this.getCell(j, i, 0).getState() + "  ");
 				str.append("\n");
 			}
-		} catch (IndexOutOfBoundsException e) {
-			throw new IndexOutOfBoundsException();
-		}
-		return str.toString();
-	}
-
-	/**
-	 * Returns a string consisting of the specified number of horizontal spaces.
-	 *
-	 * @param count the number of horizontal spaces to generate
-	 * @return a string of horizontal spaces
-	 * @throws IllegalArgumentException if the count is negative or the dimension is
-	 *                                  not hexagonal
-	 */
-	private String toStringHSpaces(int count) throws IllegalArgumentException {
-		if (count < 0)
-			throw new IllegalArgumentException("le nombre d'espaces ne peut pas être négatif.");
-		if (this.dimension != Dimension.H)
-			throw new IllegalArgumentException("la dimension de la grille n'est pas hexagonale.");
-
-		StringBuilder str = new StringBuilder();
-		for (int i = 0; i < count; i++)
-			str.append("  ");
-		return str.toString();
-	}
-
-	/**
-	 * Returns a string representation of the cells in the specified row of an
-	 * hexagonal grid.
-	 *
-	 * @param row   the row to display
-	 * @param count the number of cells to display
-	 * @return a string representation of the cells in the specified row
-	 * @throws IllegalArgumentException  if the count is negative or if the grid is
-	 *                                   not hexagonal
-	 * @throws IndexOutOfBoundsException if the row is out of bounds
-	 */
-	private String toStringHCells(int row, int count) throws IllegalArgumentException, IndexOutOfBoundsException {
-		if (count < 0 || row < 0)
-			throw new IllegalArgumentException("le nombre de cellules et le numéro de la ligne ne peuvent pas être négatifs.");
-		if (this.dimension != Dimension.H)
-			throw new IllegalArgumentException("la dimension de la grille n'est pas hexagonale.");
-
-		StringBuilder str = new StringBuilder();
-		try {
-			for (int i = 0; i < count; i++)
-				str.append(" " + this.getCell(row, i, 0).getState() + "  ");
 		} catch (IndexOutOfBoundsException e) {
 			throw new IndexOutOfBoundsException();
 		}
