@@ -116,14 +116,16 @@ public class Grid {
 				case ONE_D:
 					addLine(scanner.nextLine(), alphabet);
 					break;
+
 				case TWO_D:
+				case H:
 					addLayer(scanner, alphabet);
 					break;
+
 				case THREE_D:
 					add3DGrid(scanner, alphabet);
 					break;
-				case H:
-					// TODO
+
 				default:
 					throw new IllegalArgumentException("la dimension de la grille n'est pas valide.");
 			}
@@ -426,7 +428,7 @@ public class Grid {
 	 *
 	 * @param alphabet the array of characters to choose from
 	 */
-	public void setAllRandomForest(char[] alphabet, Random random) {
+	public void setAllRandomForest(char[] alphabet, Random random) { // TODO: utiliser l'alphabet de l'automate
 		try {
 			for (int i = 0; i < this.cellList.size(); i++) {
 				do {

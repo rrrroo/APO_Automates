@@ -46,7 +46,7 @@
     - [x] fichiers de configuration
     - [ ] sauvegarde
         - [x] utiliser les toString
-        - [ ] adapter le constructeur de Grid aux toString
+        - [x] adapter le constructeur de Grid aux toString
     - [ ] interface graphique
     - [ ] statistiques
 
