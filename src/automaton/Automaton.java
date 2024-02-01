@@ -2,17 +2,18 @@ package automaton;
 
 import automaton.grid.Grid;
 import automaton.rule.*;
-import java.io.IOException;
+import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -435,11 +436,31 @@ public class Automaton {
 			+ "_"
 			+ date.format(new Date())
 			+ ".txt";
+		ensureDirectoryExists("data/saves");
 
 		try {
 			this.save(filename);
 		} catch (IOException e) {
 			throw new IOException(e.getMessage());
+		}
+	}
+
+	/**
+	 * Ensures that the specified directory exists.
+	 * If the directory does not exist, it will be created.
+	 * 
+	 * @param directoryName the name of the directory to ensure existence
+	 * @throws IOException if the directory cannot be created
+	 */
+	private void ensureDirectoryExists(String directoryName) throws IOException {
+		File directory = new File(directoryName);
+		if (!directory.exists()) {
+			// Création du répertoire
+			boolean wasDirectoryMade = directory.mkdir();
+			if (wasDirectoryMade)
+				System.out.println("Le répertoire " + directoryName + " a été créé");
+			else
+				throw new IOException("Le répertoire " + directoryName + " n'a pas pu être créé");
 		}
 	}
 }
