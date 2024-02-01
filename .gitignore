@@ -9,7 +9,7 @@ lib/
 doc/javadoc/
 
 # Sauvegardes
-data/save_*.txt
+data/saves/
 
 # Autres
 .idea/
