@@ -76,6 +76,8 @@ public class Automaton {
 		} catch (JSONException e) {
 			throw new JSONException("il manque le paramètre size dans le fichier " + filename);
 		}
+		if(this.dimension == Dimension.H && size % 2 != 0)
+			throw new IllegalArgumentException("la taille de la grille doit être paire pour un automate hexagonal");
 		this.grid = new Grid(this.dimension, size, this.alphabet[0]);
 
 		this.rules = getRulesFromSettings(settings, filename);
@@ -267,6 +269,8 @@ public class Automaton {
 		this.neighbourhood = getNeighbourhoodFromSettings(settings, configFilename);
 
 		this.grid = new Grid(this.dimension, gridFilename, this.alphabet);
+		if(this.dimension == Dimension.H && this.grid.getSize() % 2 != 0)
+			throw new IllegalArgumentException("la taille de la grille doit être paire pour un automate hexagonal");
 
 		this.rules = getRulesFromSettings(settings, configFilename);
 	}
