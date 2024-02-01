@@ -40,6 +40,9 @@ public class NeighbourhoodRule extends Rule {
 				return cell;
 			}
 		}
+		if (Math.random() > this.probability) {
+			return cell;
+		}
 		return this.result;
 	}
 }
