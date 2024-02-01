@@ -9,13 +9,13 @@
     - [x] 1D
         - [x] affichage 2D (espace * temps)
         - [x] affichage numéro de règle
-    - [ ] règle de la majorité
+    - [x] règle de la majorité
         - [x] 1D
         - [x] 2D
         - [x] 3D
         - [x] H
         - [x] voisinage carré
-        - [ ] voisinage rectangulaire
+        - [x] voisinage rectangulaire
     - [x] jeu de la vie
     - [ ] feu de forêt
         - [x] 2D classique
@@ -33,7 +33,7 @@
         - [x] aléatoire
         - [ ] manuelle
         - [x] fichier
-    - [ ] grille
+    - [x] grille
         - [x] 1D
         - [x] 2D
         - [x] 3D
@@ -44,7 +44,7 @@
     - [x] Ant
     - [ ] Tests unitaires
     - [x] fichiers de configuration
-    - [ ] sauvegarde
+    - [x] sauvegarde
         - [x] utiliser les toString
         - [x] adapter le constructeur de Grid aux toString
     - [ ] interface graphique

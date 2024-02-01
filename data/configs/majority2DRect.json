@@ -1,0 +1,27 @@
+{
+    "dimension": "2D",
+    "size": 10,
+    "alphabet": [".", "#"],
+    "neighbourhood": [
+        [-2, -1], [-1, -1], [ 0, -1], [ 1, -1], [ 2, -1],
+        [-2,  0], [-1,  0],           [ 1,  0], [ 2,  0],
+        [-2,  1], [-1,  1], [ 0,  1], [ 1,  1], [ 2,  1]
+    ],
+    "rule": {
+        "type": false,
+        "rules": [
+            {
+                "state": ".",
+                "neighbours": [8, 9, 10, 11, 12, 13, 14],
+                "neighbourState": "#",
+                "result": "#"
+            },
+            {
+                "state": "#",
+                "neighbours": [8, 9, 10, 11, 12, 13, 14],
+                "neighbourState": ".",
+                "result": "."
+            }
+        ]
+    }
+}

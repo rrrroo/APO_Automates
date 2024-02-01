@@ -26,7 +26,7 @@ public class Grid {
 	/**
 	 * The maximum size of the grid.
 	 */
-	private static final int MAX_SIZE = 100;
+	private static final int MAX_SIZE = 1000;
 
 	/**
 	 * Represents a grid of cells.
