@@ -12,38 +12,66 @@ import java.util.ArrayList;
 public class Window1D extends Window {
     private ArrayList<Grid> steps = new ArrayList<Grid>();
     private int stepNb;
+    private int shift;
     
     public Window1D(Automaton automaton){
         super(automaton);
-        this.stepNb = 0;
+        stepNb = 0;
+        shift = 0;
 
-        this.frame = new JFrame("Automate cellulaire à 1 dimension");
-        this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*14);
-        this.frame.setResizable(false);
-        this.frame.setLayout(new FlowLayout());
+        frame = new JFrame("Automate cellulaire à 1 dimension");
+        frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*12);
+        frame.setResizable(false);
+        frame.setLayout(new FlowLayout());
 
-        this.drawPanel = new JPanel(){
+        drawPanel = new JPanel(){
             @Override
             public void paintComponent(Graphics g){
                 super.paintComponent(g);
                 steps.add(automaton.getGrid());
                 for(int s = 0; s <= stepNb; s++){
-                    for(int i = 0; i < steps.get(s).getSize(); i++){
-                        if(steps.get(s).getCell(i).getState() == automaton.getAlphabet()[0]){
+                    for(int i = 0; i < steps.get(s+shift).getSize(); i++){
+                        if(steps.get(s+shift).getCell(i).getState() == automaton.getAlphabet()[0]){
                             g.setColor(Color.WHITE);
                         }else{
                             g.setColor(Color.BLACK);
                         }
-                        g.fillRect(i*cellSize, s*cellSize, cellSize, cellSize);
+                        g.fillRect(i*cellSize, (s-1)*cellSize, cellSize, cellSize);
                     }
                 }
-                stepNb++;
+                if(stepNb < 16){
+                    stepNb++;
+                }
             }
         };
-        this.drawPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, cellSize*12));
+        drawPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, cellSize*10));
 
-        this.controlPanel = new JPanel();
-        this.controlPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, cellSize));
+        controlPanel = new JPanel();
+        controlPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, cellSize));
+        
+        JButton upButton = new JButton("Up");
+        upButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(shift > 0){
+                    shift--;
+                }
+                drawPanel.repaint();
+            }
+        });
+        controlPanel.add(upButton);
+
+        JButton downButton = new JButton("Down");
+        downButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(shift < 5){
+                    shift++;
+                }
+                drawPanel.repaint();
+            }
+        });
+        controlPanel.add(downButton);
 
         JButton quitButton = new JButton("Quitter");
         quitButton.addActionListener(new ActionListener(){
@@ -52,9 +80,9 @@ public class Window1D extends Window {
                 System.exit(0);
             }
         });
-        this.controlPanel.add(quitButton);
+        controlPanel.add(quitButton);
 
-        this.frame.add(this.drawPanel);
-        this.frame.add(this.controlPanel);
+        frame.add(drawPanel);
+        frame.add(controlPanel);
     }
 }

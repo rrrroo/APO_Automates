@@ -77,7 +77,7 @@ public class Simulation {
 
 			// condition d'arrêt temporaire
 			step++;
-			stop = (step > 10);
+			stop = (step > 15);
 		}
 	}
 
