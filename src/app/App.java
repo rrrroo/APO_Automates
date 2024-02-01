@@ -37,7 +37,7 @@ public class App {
         switch(choice) {
             case 1:
                 List<String> files = null;
-                try (Stream<Path> paths = Files.walk(Paths.get("data"))) {
+                try (Stream<Path> paths = Files.walk(Paths.get("data/configs"))) {
                     files = paths
                         .filter(Files::isRegularFile)
                         .map(Path::getFileName)
@@ -74,7 +74,7 @@ public class App {
                     }
                 }
                 else {
-                    filename = "data/" + files.get(choice - 1);
+                    filename = "data/configs/" + files.get(choice - 1);
                     
                     while(auto == null){
                         try {
@@ -83,7 +83,7 @@ public class App {
                             System.out.println("L'automate n'a pas pu être créé car " + e.getMessage());
                             System.out.print("Votre choix : ");
                             choice = scanner.nextInt();
-                            filename = "data/" + files.get(choice);
+                            filename = "data/configs/" + files.get(choice);
                         }
                     }
                 }

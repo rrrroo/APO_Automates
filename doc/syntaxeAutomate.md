@@ -1,7 +1,7 @@
 # Syntaxe des fichiers de configuration des automates
 
 Ces fichiers sont au format JSON. Ils contiennent les informations nécessaires à la création d'un automate.
-Ils sont rangés dans le dossier `data/`.
+Ils sont rangés dans le dossier `data/configs/`.
 
 
 ## I. Dimension

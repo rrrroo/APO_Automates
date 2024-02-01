@@ -89,7 +89,7 @@ public class Automaton {
 	 * @param rule the rule number of the 1D automaton
 	 */
 	public Automaton(int ruleNb) throws IOException, JSONException, IllegalArgumentException {
-		String filename = "data/1D.json";
+		String filename = "data/configs/1D.json";
 		if(ruleNb < 0 || ruleNb > 255) {
 			throw new IllegalArgumentException("la règle doit être comprise entre 0 et 255");
 		}
@@ -101,7 +101,7 @@ public class Automaton {
 		try {
 			size = settings.getInt("size");
 		} catch (JSONException e) {
-			throw new JSONException("il manque le paramètre size dans le fichier data/1D.json");
+			throw new JSONException("il manque le paramètre size dans le fichier data/configs/1D.json");
 		}
 
 		this.grid = new Grid(this.dimension, size, this.alphabet[0]);
@@ -430,7 +430,7 @@ public class Automaton {
 	 */
 	public void save() throws IOException {
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-		String filename = "data/save_"
+		String filename = "data/saves/save_"
 			+ this.dimension.toString()
 			+ "_"
 			+ date.format(new Date())
