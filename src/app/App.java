@@ -14,14 +14,16 @@ import java.nio.file.Paths;
 
 public class App {
 	public static void main(String[] args) {
-		Automaton auto = menu();
+        Scanner scanner = new Scanner(System.in);
+		Automaton auto = menu(scanner);
         Simulation simulation = new Simulation(auto);
         simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet(), new Random());
         simulation.run();
+        menuSauvegarde(auto, scanner);
+        scanner.close();
 	}
 
-	public static Automaton menu() {
-		Scanner scanner = new Scanner(System.in);
+	public static Automaton menu(Scanner scanner) {
         Automaton auto = null;
         String filename = null;
 
@@ -87,7 +89,6 @@ public class App {
                         }
                     }
                 }
-                scanner.close();
                 return auto;
 
             case 2:
@@ -103,8 +104,31 @@ public class App {
                     }
                 }
             default:
-                scanner.close();
                 return null;
+        }
+    }
+
+    public static void menuSauvegarde(Automaton auto, Scanner scanner) {
+        System.out.println("Sauvegarder l'automate ? (o/n)");
+        String choice = scanner.next();
+        while(!choice.equals("o") && !choice.equals("n")) {
+            System.out.println("Valeur incorrecte");
+            System.out.print("Votre choix : ");
+            choice = scanner.next();
+        }
+        if(choice.equals("o")) {
+            System.out.print("Entrez le nom du fichier (laisser vide pour nom par défaut):");
+            scanner.nextLine();
+            String filename = scanner.nextLine();
+            try {
+                if(filename.equals("")) {
+                    auto.save();
+                } else {
+                    auto.save(filename);
+                }
+            } catch (IOException e) {
+                System.out.println("L'automate n'a pas pu être sauvegardé car " + e.getMessage());
+            }
         }
     }
 }
