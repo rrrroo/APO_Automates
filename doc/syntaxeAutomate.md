@@ -80,9 +80,9 @@ Si `type` est 4, `rules` est un tableau d'objets qui contiennent :
 - une chaîne de caractères `result` : l'état de la cellule après la transition
 
 il peut contenir un entier `probability` : la  probabilité de la transition.
-il peut contenir un entier `ventVertical` : la  force du vent vertical
-il peut contenir un entier `ventHorizontal` : la  force du vent horizontal
-*ex : {"state": "0", "neighbours": \[1, 2], "neighbourState": "1","probability": 0.1, "result": "1","ventVertical": 0, "ventHorizontal": 0}*
+il peut contenir un tableau de double `vent` : la  force du vent pour chaque voisin
+
+*ex : {"state": "0", "neighbours": \[1, 2], "neighbourState": "1","probability": 0.1, "result": "1","vent": [0, 0.1]}*
 
 ## V. Automate pré-reglés
 

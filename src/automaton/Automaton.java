@@ -256,15 +256,15 @@ public class Automaton {
 								probability = rule.getDouble("probability");
 							}
 							char neighbourState = rule.getString("neighbourState").charAt(0);
-							int ventVertical = 0;
-							if (rule.has("ventVertical")) {
-								ventVertical = rule.getInt("ventVertical");
+
+                            double[] vent = new double[arrNeig.length()]; //arrNeig.length() = arrVent.length()
+                            if (rule.has("vent")) {
+                                JSONArray arrVent = rule.getJSONArray("vent");
+                                for (int j = 0; j < arrVent.length(); j++) {
+                                    vent[j] = arrVent.getDouble(j);
+                                }
 							}
-							int ventHorizontal = 0;
-							if (rule.has("ventHorizontal")) {
-								ventHorizontal = rule.getInt("ventHorizontal");
-							}
-							rules.add(new ForetRule(state, result, probability, neighbours, neighbourState, ventVertical, ventHorizontal));
+							rules.add(new ForetRule(state, result, probability, neighbours, neighbourState, vent));
 						}
 					}
 				}

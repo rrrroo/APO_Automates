@@ -12,8 +12,7 @@
                 "neighbourState": "0",
                 "probability": 0.1,
                 "result": "0",
-                "ventVertical": 0.1,
-                "ventHorizontal": 0.1
+                "vent":[0, 0.1, 0 , 0, 0, 0, -0.1, 0]
             },
             {
                 "state": "0",
