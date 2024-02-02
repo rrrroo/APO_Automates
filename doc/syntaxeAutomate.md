@@ -48,12 +48,12 @@ L'attribut `neighbourhood` représente le voisinage de chaque cellule. Son conte
 ## IV. Règle
 
 L'attribut `rule` est un objet qui contient :
-- un booléen `type` indiquant si la règle est de type voisinnage (**true**) ou transition (**false**)
+- un entier `type` indiquant si la règle est de type voisinnage (1), transition (2) ou de type foret(4)
 - un tableau de règles `rules` qui dépend du type de règle choisi
 
 ### Règles de type voisinage
 
-Si `type` est **true**, `rules` est un tableau d'objets qui contiennent :
+Si `type` est 1, `rules` est un tableau d'objets qui contiennent :
 - une chaîne de caractères `state` : l'état de la cellule
 - un tableau `neighbours` de chaînes de caractères : les états des voisins
 - une chaîne de caractères `result` : l'état de la cellule après la transition
@@ -62,13 +62,27 @@ Si `type` est **true**, `rules` est un tableau d'objets qui contiennent :
 
 ### Règles de type transition
 
-Si `type` est **false**, `rules` est un tableau d'objets qui contiennent :
+Si `type` est 2, `rules` est un tableau d'objets qui contiennent :
 - une chaîne de caractères `state` : l'état de la cellule
 - un tableau d'entiers `neighbours` : les différents nombres de voisins possibles
 - une chaîne de caractères `neighbourState` : l'état des voisins
 - une chaîne de caractères `result` : l'état de la cellule après la transition
 
-*ex : {"state": "0", "neighbours": \[1, 2], "neighbourState": "1", "result": "1"}*
+il peut contenir un entier `probability` : la  probabilité de la transition.
+*ex : {"state": "0", "neighbours": \[1, 2], "neighbourState": "1","probability": 0.1, "result": "1"}*
+
+### Règles de type Foret
+
+Si `type` est 4, `rules` est un tableau d'objets qui contiennent :
+- une chaîne de caractères `state` : l'état de la cellule
+- un tableau d'entiers `neighbours` : les différents nombres de voisins possibles
+- une chaîne de caractères `neighbourState` : l'état des voisins
+- une chaîne de caractères `result` : l'état de la cellule après la transition
+
+il peut contenir un entier `probability` : la  probabilité de la transition.
+il peut contenir un tableau de double `vent` : la  force du vent pour chaque voisin
+
+*ex : {"state": "0", "neighbours": \[1, 2], "neighbourState": "1","probability": 0.1, "result": "1","vent": [0, 0.1]}*
 
 ## V. Automate pré-reglés
 

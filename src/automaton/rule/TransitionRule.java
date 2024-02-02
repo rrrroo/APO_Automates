@@ -23,11 +23,12 @@ public class TransitionRule extends Rule {
      * 
      * @param state The current state of the automaton.
      * @param result The resulting state after the transition.
+     * @param probability The probability of the transition.
      * @param neighbours The array of neighbor indices.
      * @param neighboursState The state of the neighbors.
      */
-    public TransitionRule(char state, char result, int[] neighbours, char neighboursState) {
-        super(state, result);
+    public TransitionRule(char state, char result, double probability, int[] neighbours, char neighboursState) {
+        super(state, result, probability);
         this.neighbours = neighbours;
         this.neighboursState = neighboursState;
     }
@@ -49,8 +50,16 @@ public class TransitionRule extends Rule {
             for(int i = 0; i < neighbours.length; i++)
                 if(neighbours[i] == this.neighboursState)
                     n++;
-            if(Arrays.binarySearch(this.neighbours, n) >= 0)
-                return this.result;
+            if(Arrays.binarySearch(this.neighbours, n) >= 0) {
+                double p = n * probability;
+                if (n==0)
+                {p=1;}
+                double r = Math.random();
+                if(r < p)
+                    return this.result;
+                else
+                    return this.state;
+            }
         }
         return cell;
     }

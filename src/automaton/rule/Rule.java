@@ -15,6 +15,11 @@ public class Rule {
      */
     protected char result;
 
+    /**
+    * The probability associated with this rule.
+    */
+    protected double probability;
+
 
     // === Constructor ===
 
@@ -23,10 +28,12 @@ public class Rule {
      *
      * @param state  the state of the rule
      * @param result the result of applying the rule
+     * @param probability the probability of the rule
      */
-    public Rule(char state, char result) {
+    public Rule(char state, char result, double probability) {
         this.state = state;
         this.result = result;
+        this.probability = probability;
     }
 
 

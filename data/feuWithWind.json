@@ -1,0 +1,25 @@
+{
+    "dimension": "2D",
+    "size": 10,
+    "alphabet": [" ", "f", "0", "."],
+    "neighbourhood": [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]],
+    "rule": {
+        "type": 4,
+        "rules": [
+            {
+                "state": "f",
+                "neighbours": [1 , 2, 3, 4, 5, 6, 7, 8],
+                "neighbourState": "0",
+                "probability": 0.1,
+                "result": "0",
+                "vent":[0, 0.1, 0 , 0, 0, 0, -0.1, 0]
+            },
+            {
+                "state": "0",
+                "neighbours": [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                "neighbourState": "0",
+                "result": "."
+            }
+        ]
+    }
+}
