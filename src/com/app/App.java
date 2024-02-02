@@ -1,6 +1,6 @@
-package app;
+package com.app;
 
-import automaton.Automaton;
+import com.automaton.Automaton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;

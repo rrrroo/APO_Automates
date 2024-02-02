@@ -1,4 +1,4 @@
-package automaton.grid;
+package com.automaton.grid;
 
 /**
  * Represents a cell in a grid.

@@ -1,6 +1,6 @@
-package automaton.grid;
+package com.automaton.grid;
 
-import automaton.Dimension;
+import com.automaton.Dimension;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

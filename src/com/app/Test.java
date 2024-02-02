@@ -1,7 +1,7 @@
-package app;
+package com.app;
 
-import automaton.*;
-import automaton.grid.*;
+import com.automaton.*;
+import com.automaton.grid.*;
 import java.util.Random;
 
 public class Test {

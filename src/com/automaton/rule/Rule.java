@@ -1,4 +1,4 @@
-package automaton.rule;
+package com.automaton.rule;
 
 /**
  * Represents a rule for an automaton.
