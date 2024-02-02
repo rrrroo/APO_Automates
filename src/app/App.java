@@ -29,9 +29,10 @@ public class App {
 
         System.out.println("1: Choisir un automate");
         System.out.println("2: Entrer un chemin de fichier");
+        System.out.println("3: Charger une sauvegarde");
         System.out.print("Votre choix : ");
         int choice = scanner.nextInt();
-        while(choice < 1 || choice > 2) {
+        while(choice < 1 || choice > 3) {
             System.out.println("Choix incorrect");
             System.out.print("Votre choix : ");
             choice = scanner.nextInt();
@@ -103,6 +104,69 @@ public class App {
                         filename = scanner.next();
                     }
                 }
+                return auto;
+
+            case 3:
+                files = null;
+                try (Stream<Path> paths = Files.walk(Paths.get("data/saves"))) {
+                    files = paths
+                        .filter(Files::isRegularFile)
+                        .map(Path::getFileName)
+                        .map(Path::toString)
+                        .collect(Collectors.toList());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                for(int i = 0; i < files.size(); i++) {
+                    System.out.println(i + 1 + " : " + files.get(i).replace(".txt", "").replace("save_", ""));
+                }
+
+                System.out.print("Votre choix : ");
+                choice = scanner.nextInt();
+                while(choice < 1 || choice >= files.size() + 1) {
+                    System.out.println("Choix incorrect");
+                    System.out.print("Votre choix : ");
+                    choice = scanner.nextInt();
+                }
+                String gridFilename = "data/saves/" + files.get(choice - 1);
+
+                files = null;
+                try (Stream<Path> paths = Files.walk(Paths.get("data/configs"))) {
+                    files = paths
+                        .filter(Files::isRegularFile)
+                        .map(Path::getFileName)
+                        .map(Path::toString)
+                        .collect(Collectors.toList());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                for(int i = 0; i < files.size(); i++) {
+                    System.out.println(i + 1 + " : " + files.get(i).replace(".json", ""));
+                }
+
+                System.out.print("Votre choix : ");
+                choice = scanner.nextInt();
+                while(choice < 1 || choice >= files.size() + 1) {
+                    System.out.println("Choix incorrect");
+                    System.out.print("Votre choix : ");
+                    choice = scanner.nextInt();
+                }
+                String configFilename = "data/configs/" + files.get(choice - 1);
+
+                while(auto == null){
+                    try {
+                        auto = new Automaton(configFilename, gridFilename);
+                    } catch (Exception e) {
+                        System.out.println("L'automate n'a pas pu être créé car " + e.getMessage());
+                        System.out.print("Votre choix : ");
+                        choice = scanner.nextInt();
+                        gridFilename = "data/saves/" + files.get(choice);
+                    }
+                }
+                return auto;
+
             default:
                 return null;
         }
