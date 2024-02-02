@@ -17,7 +17,7 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 		Automaton auto = menu(scanner);
         Simulation simulation = new Simulation(auto);
-        simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet(), new Random());
+        // simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet(), new Random());
         simulation.run();
         menuSauvegarde(auto, scanner);
         scanner.close();
@@ -90,6 +90,7 @@ public class App {
                         }
                     }
                 }
+                auto.getGrid().setAllRandom(auto.getAlphabet(), new Random());
                 return auto;
 
             case 2:
@@ -104,6 +105,7 @@ public class App {
                         filename = scanner.next();
                     }
                 }
+                auto.getGrid().setAllRandom(auto.getAlphabet(), new Random());
                 return auto;
 
             case 3:
