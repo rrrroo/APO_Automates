@@ -18,8 +18,12 @@ public class App {
 		Automaton auto = menu(scanner);
         Simulation simulation = new Simulation(auto);
         // simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet(), new Random());
-        simulation.run();
-        menuSauvegarde(auto, scanner);
+        int steps = stepsNbMenu(scanner);
+        while(steps != 0) {
+            simulation.run(steps);
+            steps = stepsNbMenu(scanner);
+        }
+        saveMenu(auto, scanner);
         scanner.close();
 	}
 
@@ -174,7 +178,7 @@ public class App {
         }
     }
 
-    public static void menuSauvegarde(Automaton auto, Scanner scanner) {
+    public static void saveMenu(Automaton auto, Scanner scanner) {
         System.out.println("Sauvegarder l'automate ? (o/n)");
         String choice = scanner.next();
         while(!choice.equals("o") && !choice.equals("n")) {
@@ -197,5 +201,16 @@ public class App {
                 System.out.println("L'automate n'a pas pu être sauvegardé car " + e.getMessage());
             }
         }
+    }
+
+    public static int stepsNbMenu(Scanner scanner) {
+        System.out.print("Entrez le nombre d'étapes (0 pour quitter): ");
+        int steps = scanner.nextInt();
+        while(steps < 0) {
+            System.out.println("Valeur incorrecte");
+            System.out.print("Entrez le nombre d'étapes : ");
+            steps = scanner.nextInt();
+        }
+        return steps;
     }
 }

@@ -40,7 +40,7 @@ public class Simulation {
 	/**
 	 * Runs the simulation.
 	 */
-	public void run() {
+	public void run(int steps) {
 		boolean stop = false;
 		int step = 0;
 
@@ -61,7 +61,7 @@ public class Simulation {
 
 			// condition d'arrêt temporaire
 			step++;
-			stop = (step > 10);
+			stop = (step > steps);
 		}
 	}
 
