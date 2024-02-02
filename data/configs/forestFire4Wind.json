@@ -4,14 +4,15 @@
     "alphabet": [".", "T", "F", "-"],
     "neighbourhood": [[-1, 0], [0, -1], [0, 1], [1, 0]],
     "rule": {
-        "type": false,
+        "type": 4,
         "rules": [
             {
                 "state": "T",
-                "neighbours": [1, 2, 3, 4],
+                "neighbours": [1 , 2, 3, 4],
                 "neighbourState": "F",
-                "probability": 0.5,
-                "result": "F"
+                "probability": 0.3,
+                "result": "F",
+                "vent":[0, 1, -1, 0]
             },
             {
                 "state": "F",

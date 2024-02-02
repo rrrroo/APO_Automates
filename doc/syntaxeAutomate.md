@@ -71,7 +71,7 @@ Si `type` est 2, `rules` est un tableau d'objets qui contiennent :
 il peut contenir un entier `probability` : la  probabilité de la transition.
 *ex : {"state": "0", "neighbours": \[1, 2], "neighbourState": "1","probability": 0.1, "result": "1"}*
 
-### Règles de type Foret
+### Règles de type Vent
 
 Si `type` est 4, `rules` est un tableau d'objets qui contiennent :
 - une chaîne de caractères `state` : l'état de la cellule

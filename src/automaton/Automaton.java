@@ -94,9 +94,8 @@ public class Automaton {
 		if(ruleNb < 0 || ruleNb > 255) {
 			throw new IllegalArgumentException("la règle doit être comprise entre 0 et 255");
 		}
-		JSONObject settings = getSettings(filename);
 		double probability = 1;
-		JSONObject settings = getSettings("data/1D.json");
+		JSONObject settings = getSettings(filename);
 		this.dimension = Dimension.ONE_D;
 		this.alphabet = getAlphabetFromSettings(settings, filename);
 		this.neighbourhood = getNeighbourhoodFromSettings(settings, filename);
