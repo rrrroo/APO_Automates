@@ -4,7 +4,7 @@
     "alphabet": [".", "T", "F", "-"],
     "neighbourhood": [[-1, 0], [0, -1], [0, 1], [1, 0]],
     "rule": {
-        "type": false,
+        "type": 2,
         "rules": [
             {
                 "state": "T",

@@ -4,7 +4,7 @@
     "alphabet": [".", "#"],
     "neighbourhood": [[-1], [1]],
     "rule": {
-        "type": true,
+        "type": 1,
         "rules": [
             {
                 "state": ".",
