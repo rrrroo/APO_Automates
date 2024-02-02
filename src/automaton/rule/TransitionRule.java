@@ -48,12 +48,13 @@ public class TransitionRule extends Rule {
         if(cell == this.state) {
             int n = 0;
             for(int i = 0; i < neighbours.length; i++)
-                if(neighbours[i] == this.neighboursState)
+                if(neighbours[i] == this.neighboursState){
                     n++;
+                }
             if(Arrays.binarySearch(this.neighbours, n) >= 0) {
                 double p = n * probability;
                 if (n==0)
-                {p=1;}
+                    p=1;
                 double r = Math.random();
                 if(r < p)
                     return this.result;

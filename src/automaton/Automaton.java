@@ -80,13 +80,13 @@ public class Automaton {
 	/**
 	 * The constructor of the class.
 	 *
-	 * @param rule the rule number of the 1D automaton
+	 * @param ruleNb the rule number of the 1D automaton
 	 */
 	public Automaton(int ruleNb) throws IOException, JSONException, IllegalArgumentException {
 		if(ruleNb < 0 || ruleNb > 255) {
 			throw new IllegalArgumentException("la règle doit être comprise entre 0 et 255");
 		}
-		double probability = 1;
+		
 		JSONObject settings = getSettings("data/1D.json");
 		this.dimension = Dimension.ONE_D;
 		this.alphabet = getAlphabetFromSettings(settings, "data/1D.json");
@@ -99,24 +99,23 @@ public class Automaton {
 		}
 
 		this.grid = new Grid(this.dimension, size, this.alphabet[0]);
-		
-		List<Rule> rules = new ArrayList<>();
+		double probability = 1;
+		List<Rule> rule = new ArrayList<>();
 		String res = Integer.toBinaryString(ruleNb);
 		while(res.length() < 8) {
 			res = "0" + res;
 		}
 		for(int i = 0; i < res.length(); i++) {
 			if(res.charAt(7-i) == '1') {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1],probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				rule.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1],probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[1]);
-			}
-			else {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0],probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+			} else {
+				rule.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0],probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[0]);
 			}
 			
 		}
-		this.rules = rules;
+		this.rules = rule;
 	}
 
 	/**
@@ -205,16 +204,22 @@ public class Automaton {
 			JSONArray array = data.getJSONArray("rules");
 			List<Rule> rules = new ArrayList<>();
 			JSONObject rule;
-			if (data.getInt("type")==1) {
+			double probability;
+			char state;
+			char result;
+			JSONArray arrNeig;
+
+			switch (data.getInt("type")) {
+			case 1:{
 				for (int i = 0; i < array.length(); i++) {
 					rule = array.getJSONObject(i);
-					char state = rule.getString("state").charAt(0);
-					char result = rule.getString("result").charAt(0);
-					double probability = 1;
+					state = rule.getString("state").charAt(0);
+					result = rule.getString("result").charAt(0);
+					probability = 1;
 					if (rule.has("probability")) {
 						probability = rule.getDouble("probability");
 					}
-					JSONArray arrNeig = rule.getJSONArray("neighbours");
+					arrNeig = rule.getJSONArray("neighbours");
 					char[] neighbours = new char[arrNeig.length()];
 					for (int j = 0; j < arrNeig.length(); j++) {
 						neighbours[j] = arrNeig.getString(j).charAt(0);
@@ -222,52 +227,52 @@ public class Automaton {
 					rules.add(new NeighbourhoodRule(state, result, probability, neighbours));
 				}
 			}
-			else {
-				if (data.getInt("type") == 2) {
-					for (int i = 0; i < array.length(); i++) {
-						rule = array.getJSONObject(i);
-						JSONArray arrNeig = rule.getJSONArray("neighbours");
-						int[] neighbours = new int[arrNeig.length()];
-						for (int j = 0; j < arrNeig.length(); j++) {
-							neighbours[j] = arrNeig.getInt(j);
-						}
-						char state = rule.getString("state").charAt(0);
-						char result = rule.getString("result").charAt(0);
-						double probability = 1;
-						if (rule.has("probability")) {
-							probability = rule.getDouble("probability");
-						}
-						char neighbourState = rule.getString("neighbourState").charAt(0);
-						rules.add(new TransitionRule(state, result, probability, neighbours, neighbourState));
+			break;
+			case 2:{
+				for (int i = 0; i < array.length(); i++) {
+					rule = array.getJSONObject(i);
+					arrNeig = rule.getJSONArray("neighbours");
+					int[] neighbours = new int[arrNeig.length()];
+					for (int j = 0; j < arrNeig.length(); j++) {
+						neighbours[j] = arrNeig.getInt(j);
 					}
-				} else {
-					if (data.getInt("type") == 4) {
-						for (int i = 0; i < array.length(); i++) {
-							rule = array.getJSONObject(i);
-							JSONArray arrNeig = rule.getJSONArray("neighbours");
-							int[] neighbours = new int[arrNeig.length()];
-							for (int j = 0; j < arrNeig.length(); j++) {
-								neighbours[j] = arrNeig.getInt(j);
-							}
-							char state = rule.getString("state").charAt(0);
-							char result = rule.getString("result").charAt(0);
-							double probability = 1;
-							if (rule.has("probability")) {
-								probability = rule.getDouble("probability");
-							}
-							char neighbourState = rule.getString("neighbourState").charAt(0);
-
-                            double[] vent = new double[arrNeig.length()]; //arrNeig.length() = arrVent.length()
-                            if (rule.has("vent")) {
-                                JSONArray arrVent = rule.getJSONArray("vent");
-                                for (int j = 0; j < arrVent.length(); j++) {
-                                    vent[j] = arrVent.getDouble(j);
-                                }
-							}
-							rules.add(new WindTransitionRule(state, result, probability, neighbours, neighbourState, vent));
-						}
+					state = rule.getString("state").charAt(0);
+					result = rule.getString("result").charAt(0);
+					probability = 1;
+					if (rule.has("probability")) {
+						probability = rule.getDouble("probability");
 					}
+					char neighbourState = rule.getString("neighbourState").charAt(0);
+					rules.add(new TransitionRule(state, result, probability, neighbours, neighbourState));
 				}
+			}
+			break;
+			case 4: {
+				for (int i = 0; i < array.length(); i++) {
+					rule = array.getJSONObject(i);
+					arrNeig = rule.getJSONArray("neighbours");
+					int[] neighbours = new int[arrNeig.length()];
+					for (int j = 0; j < arrNeig.length(); j++) {
+						neighbours[j] = arrNeig.getInt(j);
+					}
+					state = rule.getString("state").charAt(0);
+					result = rule.getString("result").charAt(0);
+					probability = 1;
+					if (rule.has("probability")) {
+						probability = rule.getDouble("probability");
+					}
+					char neighbourState = rule.getString("neighbourState").charAt(0);
+					double[] vent = new double[arrNeig.length()]; //arrNeig.length() = arrVent.length()
+					if (rule.has("vent")) {
+						JSONArray arrVent = rule.getJSONArray("vent");
+						for (int j = 0; j < arrVent.length(); j++) {
+							vent[j] = arrVent.getDouble(j);
+						}
+					}
+					rules.add(new WindTransitionRule(state, result, probability, neighbours, neighbourState, vent));
+				}
+			}
+			break;
 			}
 			return rules;
 

@@ -27,20 +27,23 @@ public class WindTransitionRule extends TransitionRule {
         if(cell == this.state) {
             int n = 0;
             double v=0;
-            for(int i = 0; i < neighbours.length; i++)
+            for(int i = 0; i < neighbours.length; i++){
                 if(neighbours[i] == this.neighboursState) {
                     n ++;
                     v += this.vent[i];
                 }
+            }
             if(Arrays.binarySearch(this.neighbours, n) >= 0) { // si le n est dans le tableau
                 double p = n * probability +v;
-                if (n==0)
-                {p=1;}
+                if (n==0){
+                    p=1;
+                }
                 double r = Math.random();
-                if(r < p)
+                if(r < p){
                     return this.result;
-                else
+                }else{
                     return this.state;
+                }
             }
         }
         return cell;

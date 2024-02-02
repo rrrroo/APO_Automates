@@ -70,17 +70,12 @@ direction TB
             ~ setState(state: char) void
         }
 
-        class Coordinate {
-            - coordinates: int[]
-
-            + Coordinate(coordinates[]: int)
-            + getCoordinates() int[]
-        }
     }
 
     class Rule {
         - state: char
         - result: char
+        - probability: double
 
         + apply(Cell, List~Cell~)
     }
@@ -97,6 +92,9 @@ direction TB
 
         + apply(Grid, Coordinate)
     }
+    class WindTransitionRule {
+        - vent: double[]
+    }
 
 
     %% Links :
@@ -105,12 +103,11 @@ direction TB
     Simulation       o-- "1"    Automaton
     Automaton        <|--       Automaton1D
     Automaton        --         Dimension
-    Automaton "1"    *-- "1..n" Coordinate
     Automaton "1"    *-- "1"    Grid
     Automaton "1"    *-- "1..n" Rule
     Grid             --         Dimension
     Grid      "1"    *-- "1..n" Cell
-    Grid             -->        Coordinate
     Rule            <|--       NeighbourhoodRule
     Rule            <|--       TransitionRule
+    TransitionRule  <|--       WindTransitionRule
 ```
