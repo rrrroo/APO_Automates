@@ -1,7 +1,7 @@
-package ui;
+package com.ui;
 
-import automaton.Automaton;
-import automaton.grid.Grid;
+import com.automaton.Automaton;
+import com.automaton.grid.Grid;
 
 import javax.swing.*;
 import java.awt.*;

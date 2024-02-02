@@ -1,6 +1,6 @@
-package ui;
+package com.ui;
 
-import automaton.Automaton;
+import com.automaton.Automaton;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
