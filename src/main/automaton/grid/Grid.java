@@ -1,11 +1,12 @@
-package com.automaton.grid;
+package main.automaton.grid;
 
-import com.automaton.Dimension;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+
+import main.automaton.Dimension;
 
 /**
  * Represents a grid.

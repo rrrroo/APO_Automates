@@ -1,7 +1,7 @@
-package com.app;
+package main.app;
 
-import com.automaton.Automaton;
-import com.automaton.Dimension;
+import main.automaton.Automaton;
+import main.automaton.Dimension;
 
 
 /**

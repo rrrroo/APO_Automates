@@ -1,4 +1,4 @@
-package com.automaton;
+package main.automaton;
 
 /**
  * The Dimension enum represents the dimensions of an automaton.

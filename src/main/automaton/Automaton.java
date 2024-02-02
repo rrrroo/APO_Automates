@@ -1,7 +1,5 @@
-package com.automaton;
+package main.automaton;
 
-import com.automaton.grid.Grid;
-import com.automaton.rule.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +12,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import main.automaton.grid.Grid;
+import main.automaton.rule.*;
 
 
 /**

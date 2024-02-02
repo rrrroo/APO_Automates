@@ -1,9 +1,10 @@
-package com.ui;
-
-import com.automaton.Automaton;
-import com.automaton.grid.Grid;
+package main.ui;
 
 import javax.swing.*;
+
+import main.automaton.Automaton;
+import main.automaton.grid.Grid;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;

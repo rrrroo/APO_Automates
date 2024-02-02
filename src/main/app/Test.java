@@ -1,8 +1,9 @@
-package com.app;
+package main.app;
 
-import com.automaton.*;
-import com.automaton.grid.*;
 import java.util.Random;
+
+import main.automaton.*;
+import main.automaton.grid.*;
 
 public class Test {
 	public static void main(String[] args) {
