@@ -4,113 +4,141 @@ direction TB
 
     class App {
         + main(args[]: String) void$
-        + menu() Automaton$
+        + menu(scanner: scanner) Automaton$
+        + saveMenu(Automaton auto, Scanner scanner) void$
     }
 
     class Simulation {
         - automaton: Automaton
 
-        + Simulation(a: Automaton)
+        + Simulation(automaton: Automaton)
+        + getAutomaton() Automaton
         + run() void
         - step() void
-        - display() void
     }
 
     class Automaton {
         - dimension: Dimension
         - alphabet: char[]
-        - neighborhood: List~Coordinate~
+        - neighbourhood: List~int[]~
         - grid: Grid
         - rules: List~Rule~
 
         + Automaton(filename: String)
-        + update() void
-        - getNeighbours(coordinates: Coordinate) List~Cell~
-    }
-
-    class Automaton1D {
-        + Automaton1D(ruleNumber: int, size: int)
+        + Automaton(ruleNb: int)
+        + Automaton(configFilename: String, gridFilename: String)
+        - getSettings(filename: String) JSONObject$
+        - getAlphabetFromSettings(settings: JSONObject) char[]$
+        - getNeighbourhoodFromSettings(settings: JSONObject) List~int[]~$
+        - getRulesFromSettings(settings: JSONObject) List~Rule~$
+        + getDimension() Dimension
+        + getAlphabet() char[]
+        + getNeighbourhood() List~int[]~
+        + getGrid() Grid
+        + getRuleNumber() int
+        + evaluate() void
+        - applyRules() void
+        + toString() String
+        + save(filename: String) void
+        + save() void
+        - ensureDirectoryExists(directoryName: String) void
     }
 
     class Dimension {
         <<enum>>
 
-        1D
-        2D
+        ONE_D
+        TWO_D
+        THREE_D
         H
+
+        - value: String
 
         - Dimension(value: String)
         + fromString(value: String) Dimension$
     }
 
-    namespace grid {
-        class Grid {
-            - dimension: Dimension
-            - size: int
-            - MAX_SIZE: int
-            - cellList: List~Cell~
+    class Grid {
+        - dimension: Dimension
+        - size: int
+        - MAX_SIZE: int
+        - cellList: List~Cell~
 
-            + Grid(dimension: short, size: int, initialState: char)
-            + getSettings() String
-            + getCell(x: int, y: int) Cell
-            - getCell(i: int) Cell
-            + setCellState(x: int, y: int, state: char) void
-            + display() void
-            - display1D() void
-            - display2D() void
-            - displayH() void
-            - printSpaces(count: int) void
-            + printCells(row: int, count: int) void
-        }
+        + Grid(dimension: short, size: int, initialState: char)
+        + Grid(grid: Grid)
+        + Grid(dimension: Dimension, filename: String, alphabet: char[])
+        - addLine(filename: String, alphabet: char[]) void
+        - isElementInArray(state: char, alphabet: char[]) boolean$
+        - addLayer(scanner: Scanner, alphabet: char[]) void
+        - add3DGrid(scanner: Scanner, alphabet: char[]) void
+        + getSettings() String
+        + getSize() int
+        + getCell(x: int, y: int, z: int) Cell
+        - getCell(i: int) Cell
+        + getCellState(x: int, y: int, z: int) char
+        + getneighboursState(x: int, y: int, z: int, neighbourhood: List~int[]~) char[]
+        - modulo(a: int, b: int) int$
+        + setCellState(x: int, y: int, state: char) void
+        + setAllRandom(alphabet: char[], random: Random) void
+        + toString() String
+        - toString1D() void
+        - toString2D() void
+        - toStringH() void
+    }
 
-        class Cell {
-            - state: char
+    class Cell {
+        - state: char
 
-            ~ getState() char
-            ~ setState(state: char) void
-        }
-
-        class Coordinate {
-            - coordinates: int[]
-
-            + Coordinate(coordinates[]: int)
-            + getCoordinates() int[]
-        }
+        + Cell(state: char)
+        + getState() char
+        + setState(state: char) void
+        + toString() String
     }
 
     class Rule {
         - state: char
         - result: char
+        - probability: double
 
-        + apply(Cell, List~Cell~)
+        + Rule(state: char, result: char, probability: double)
+        + getResults() char
+        + apply(cell: char, neighbours: char[]) char
     }
 
     class NeighbourhoodRule {
-        - neighbours: List~String~
+        # neighbours: char[]
 
-        + apply(Grid, Coordinate)
+        + NeighbourhoodRule(state: char, result: char, probability: double, neighbours: char[])
+        + apply(cell: char, neighbours: char[]) char
     }
 
     class TransitionRule {
-        - neighbours: int[]
-        - neighbourState: char
+        # neighbours: int[]
+        # neighbourState: char
 
-        + apply(Grid, Coordinate)
+        + TransitionRule(state: char, result: char, probability: double, neighbours: int[], neighbourState: char)
+        + apply(cell: char, neighbours: char[]) char
+    }
+
+    class WindTransitionRule {
+        # wind: double[]
+
+        + WindTransitionRule(state: char, result: char, probability: double, neighbours: int[], neighbourState: char, wind: double[])
+        + apply(cell: char, neighbours: char[]) char
     }
 
 
     %% Links :
-    App              -->        Automaton
-    App              -->        Simulation
-    Simulation       o-- "1"    Automaton
-    Automaton        <|--       Automaton1D
-    Automaton        --         Dimension
-    Automaton "1"    *-- "1..n" Coordinate
-    Automaton "1"    *-- "1"    Grid
-    Automaton "1"    *-- "1..n" Rule
-    Grid             --         Dimension
-    Grid      "1"    *-- "1..n" Cell
-    Grid             -->        Coordinate
-    Rule            <|--       NeighbourhoodRule
-    Rule            <|--       TransitionRule
+    App                -->         Simulation
+    App                -->         Automaton
+    Simulation         o--  "1"    Automaton
+    Automaton      "1" *--  "1"    Dimension
+    Automaton      "1" *--  "1"    Grid
+    Automaton      "1" *--  "1..n" Rule
+    Grid               --          Dimension
+    Grid           "1" *--  "1..n" Cell
+    Grid               -->         Coordinate
+    Rule               <|--        NeighbourhoodRule
+    Rule               <|--        TransitionRule
+    TransitionRule     <|--        WindTransitionRule
 ```
