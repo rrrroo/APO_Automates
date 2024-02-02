@@ -190,6 +190,7 @@ public class App {
                 if(filename.equals("")) {
                     auto.save();
                 } else {
+                    filename = "data/saves/save_" + filename + ".txt";
                     auto.save(filename);
                 }
             } catch (IOException e) {
