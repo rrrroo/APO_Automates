@@ -2,7 +2,7 @@ package automaton.rule;
 
 import java.util.Arrays;
 
-public class ForetRule extends TransitionRule {
+public class WindTransitionRule extends TransitionRule {
     /**
      * The value of the wind from each direction.
      */
@@ -17,7 +17,7 @@ public class ForetRule extends TransitionRule {
      * @param neighboursState The state of the neighbors.
      * @param vent The value of the wind from each direction.
      */
-    public ForetRule(char state, char result, double probability, int[] neighbours, char neighboursState, double[] vent) {
+    public WindTransitionRule(char state, char result, double probability, int[] neighbours, char neighboursState, double[] vent) {
         super(state, result, probability, neighbours, neighboursState);
         this.vent = vent;
     }

@@ -264,7 +264,7 @@ public class Automaton {
                                     vent[j] = arrVent.getDouble(j);
                                 }
 							}
-							rules.add(new ForetRule(state, result, probability, neighbours, neighbourState, vent));
+							rules.add(new WindTransitionRule(state, result, probability, neighbours, neighbourState, vent));
 						}
 					}
 				}
