@@ -40,7 +40,7 @@ public class Window1D extends Window {
                         g.fillRect(i*cellSize, (s-1)*cellSize, cellSize, cellSize);
                     }
                 }
-                if(stepNb < 16){
+                if(stepNb < 15){
                     stepNb++;
                 }
             }
@@ -66,7 +66,7 @@ public class Window1D extends Window {
         downButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                if(shift < 5){
+                if(shift < stepNb-10){
                     shift++;
                 }
                 drawPanel.repaint();

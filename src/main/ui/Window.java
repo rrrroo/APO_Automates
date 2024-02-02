@@ -4,9 +4,6 @@ import javax.swing.*;
 
 import main.automaton.Automaton;
 
-import java.awt.*;
-import java.awt.event.*;
-
 public class Window {
     protected Automaton automaton;
     protected JFrame frame;
@@ -23,7 +20,7 @@ public class Window {
     }
 
     public void display(){
-        this.frame.setVisible(true);
         this.drawPanel.repaint();
+        this.frame.setVisible(true);
     }
 }

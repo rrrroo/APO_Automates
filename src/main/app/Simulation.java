@@ -2,6 +2,7 @@ package main.app;
 
 import main.automaton.Automaton;
 import main.automaton.Dimension;
+import main.ui.*;
 
 
 /**
@@ -12,6 +13,11 @@ public class Simulation {
 	 * Represents an automaton.
 	 */
 	private Automaton automaton;
+
+	/**
+	 * Window used to display the automaton.
+	 */
+	private Window window;
 
 	/**
 	 * Constructs a Simulation object with the specified automaton.
@@ -44,14 +50,29 @@ public class Simulation {
 		boolean stop = false;
 		int step = 0;
 
+		switch(this.automaton.getDimension()) {
+			case ONE_D:
+				this.window = new Window1D(this.automaton);
+				break;
+			case TWO_D:
+				this.window = new Window2D(this.automaton);
+				break;
+			case THREE_D:
+				this.window = new Window3D(this.automaton);
+				break;
+			case H:
+				this.window = new WindowH(this.automaton);
+				break;
+		}
+
 		
 		if(this.automaton.getDimension() == Dimension.ONE_D)
 			System.out.println("Numéro de la règle : " + this.automaton.getRuleNumber());
 
-		System.out.println(automaton);
+		printAndDisplay();
 		while(!stop) {
 			this.step();
-			System.out.println(automaton);
+			printAndDisplay();
 
 			try {
 				Thread.sleep(100);
@@ -67,5 +88,10 @@ public class Simulation {
 
 	private void step() {
 		this.automaton.evaluate();
+	}
+
+	private void printAndDisplay() {
+		System.out.println(this.automaton);
+		this.window.display();
 	}
 }
