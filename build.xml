@@ -2,7 +2,7 @@
     <property name="src" value="src"/>
     <property name="build" value="bin"/>
     <property name="dist" value="exe"/>
-    <property name="main-class" value="app.App"/>
+    <property name="main-class" value="main.app.App"/>
     <property name="lib" value="lib"/>
     <property name="doc" value="doc/javadoc"/>
 
@@ -31,11 +31,19 @@
         </jar>
     </target>
 
-    <target name="run" depends="jar">
+    <!-- <target name="run" depends="jar">
         <java jar="${dist}/Automates.jar" fork="true"/>
         <classpath>
             <path refid="classpath"/>
         </classpath>
+    </target> -->
+    <target name="run" depends="jar">
+        <java classname="${main-class}" fork="true">
+            <classpath>
+                <pathelement location="${dist}/Automates.jar"/>
+                <path refid="classpath"/>
+            </classpath>
+        </java>
     </target>
 
     <target name="javadoc">
