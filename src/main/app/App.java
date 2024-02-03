@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import main.automaton.Automaton;
+import main.ui.WindowMenu;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,14 +18,14 @@ import java.nio.file.Paths;
 public class App {
 	public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-		Automaton auto = menu(scanner);
-        Simulation simulation = new Simulation(auto);
-        boolean gui = false;
-        gui = guiMenu(scanner);
+        boolean gui = guiMenu(scanner);
+        
         if(gui) {
-            simulation.runGUI();
+            new WindowMenu().display();
         }
         else {
+            Automaton auto = menu(scanner);
+            Simulation simulation = new Simulation(auto);
             int steps = stepsNbMenu(scanner);
             while(steps != 0) {
                 simulation.runCLI(steps);
