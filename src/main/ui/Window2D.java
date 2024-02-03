@@ -64,6 +64,9 @@ public class Window2D extends Window {
                             case 4:
                                 getTheRightColor4(state, g);
                                 break;
+                            default:
+                                g.setColor(Color.BLACK);
+                                break;
                         }
                         g.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
                     }
@@ -73,7 +76,7 @@ public class Window2D extends Window {
         this.drawPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, automaton.getGrid().getSize()*cellSize));
 
         this.controlPanel = new JPanel();
-        this.controlPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, cellSize));
+        this.controlPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, 64));
         
         JButton nextButton = new JButton("Next step");
         nextButton.addActionListener(new ActionListener(){

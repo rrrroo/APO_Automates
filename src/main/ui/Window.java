@@ -17,7 +17,7 @@ public class Window {
         this.frame = new JFrame();
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setAlwaysOnTop(true);
-        this.cellSize = 30;
+        this.cellSize = 100;
     }
 
     public void display(){

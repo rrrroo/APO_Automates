@@ -59,7 +59,6 @@ public class Window1D extends Window {
             @Override
             public void actionPerformed(ActionEvent e){
                 automaton.evaluate();
-                System.out.println(automaton);
                 while(shift + 9 <= stepNb){
                     shift++;
                 }
