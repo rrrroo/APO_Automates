@@ -7,6 +7,8 @@ import java.util.Arrays;
  * Extends the base class Rule.
  */
 public class TransitionRule extends Rule {
+    // === Attributes ===
+
     /**
      * The array of integers representing the number of neighbors needed to apply
      * the rule.
@@ -17,6 +19,9 @@ public class TransitionRule extends Rule {
      * The state of the neighboring cells.
      */
     protected char neighboursState;
+
+
+    // === Constructors ===
 
     /**
      * Constructs a TransitionRule object with the specified parameters.
@@ -32,6 +37,30 @@ public class TransitionRule extends Rule {
         this.neighbours = neighbours;
         this.neighboursState = neighboursState;
     }
+
+
+    // === Getters ===
+
+    /**
+     * Returns an array of integers representing the neighbors of the current transition rule.
+     *
+     * @return an array of integers representing the neighbors
+     */
+    public int[] getNeighbours() {
+        return this.neighbours;
+    }
+
+    /**
+     * Returns the state of the neighbors.
+     *
+     * @return the state of the neighbors
+     */
+    public char getNeighboursState() {
+        return this.neighboursState;
+    }
+
+
+    // === Methods ===
 
     /**
      * Applies the transition rule to a given cell and its neighbors.
