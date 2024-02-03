@@ -45,7 +45,7 @@ public class Window3D extends Window {
     public Window3D(Automaton automaton){
         super(automaton);
         this.frame = new JFrame("Automate cellulaire à 3 dimensions");
-        this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, (automaton.getGrid().getSize()+1)*cellSize + 64);
+        this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, (automaton.getGrid().getSize())*cellSize + 100);
         this.frame.setResizable(false);
         this.frame.setLayout(new FlowLayout());
 
@@ -81,7 +81,7 @@ public class Window3D extends Window {
         this.drawPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, automaton.getGrid().getSize()*cellSize));
 
         this.controlPanel = new JPanel();
-        this.controlPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, cellSize));
+        this.controlPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, 64));
 
         JButton nextButton = new JButton("Next step");
         nextButton.addActionListener(new ActionListener(){
@@ -92,6 +92,30 @@ public class Window3D extends Window {
             }
         });
         this.controlPanel.add(nextButton);
+
+        JButton upButton = new JButton("Up");
+        upButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(depth > 0){
+                    depth--;
+                }
+                drawPanel.repaint();
+            }
+        });
+        this.controlPanel.add(upButton);
+
+        JButton downButton = new JButton("Down");
+        downButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(depth + 1 < automaton.getGrid().getSize()){
+                    depth++;
+                }
+                drawPanel.repaint();
+            }
+        });
+        this.controlPanel.add(downButton);
 
         JButton quitButton = new JButton("Quitter");
         quitButton.addActionListener(new ActionListener(){
