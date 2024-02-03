@@ -5,11 +5,10 @@
 ## TODO
 
 - [ ] Modélisation
-    - [ ] cas d'utilisation
+    - [x] diagramme de cas d'utilisation
     - [ ] diagramme de classe
     - [ ] diagramme de séquence initialisation
     - [ ] diagramme de séquence évolution
-    - [ ] diagramme d'activité menu
 - [x] Automates
     - [x] définition formelle
     - [x] 1D
