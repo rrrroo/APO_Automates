@@ -1,10 +1,8 @@
 package main.ui;
-
-import javax.swing.*;
-
 import main.automaton.Automaton;
 import main.automaton.grid.Grid;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -166,7 +164,7 @@ public class Window1D extends Window {
         quitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                System.exit(0);
+                frame.dispose();
             }
         });
         controlPanel.add(quitButton);

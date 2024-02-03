@@ -20,6 +20,7 @@ public class WindowMenu extends Window {
     public WindowMenu(){
         super(null, 0);
         frame = new JFrame("Menu");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 400);
         frame.setResizable(false);
         frame.setLayout(new FlowLayout());

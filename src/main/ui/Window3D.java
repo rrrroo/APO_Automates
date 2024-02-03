@@ -89,7 +89,7 @@ public class Window3D extends Window {
             @Override
             public void mouseMoved(MouseEvent e){
                 int x = e.getX() - 8;
-                int y = e.getY()- 35;
+                int y = e.getY() - 35;
                 currentX = x/cellSize;
                 currentY = y/cellSize;
                 drawPanel.repaint();
@@ -213,7 +213,7 @@ public class Window3D extends Window {
         quitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                System.exit(0);
+                frame.dispose();
             }
         });
         this.controlPanel.add(quitButton);
