@@ -70,35 +70,11 @@ public class Simulation {
 		}
 	}
 
-	/**
-	 * Runs the simulation in the GUI mode.
-	 */
-	public void runGUI() {
-		switch(this.automaton.getDimension()) {
-			case ONE_D:
-				this.window = new Window1D(this.automaton);
-				break;
-			case TWO_D:
-				this.window = new Window2D(this.automaton);
-				break;
-			case THREE_D:
-				this.window = new Window3D(this.automaton);
-				break;
-			case H:
-				this.window = new WindowH(this.automaton);
-				break;
-		}
-
-		this.window.display();
-	}
-
-
 	private void step() {
 		this.automaton.evaluate();
 	}
 
 	private void print() {
 		System.out.println(this.automaton);
-		
 	}
 }

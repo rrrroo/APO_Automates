@@ -14,6 +14,23 @@ public class Window1D extends Window {
     private ArrayList<Grid> steps = new ArrayList<Grid>();
     private int stepNb;
     private int shift;
+    private int currentX;
+    private int currentY;
+
+    public char getNextState(char state){
+        if(state == automaton.getAlphabet()[automaton.getAlphabet().length-1]){
+            return automaton.getAlphabet()[0];
+        }else{
+            int actualIndex = 0;
+            for(int i = 0; i < automaton.getAlphabet().length; i++){
+                if(automaton.getAlphabet()[i] == state){
+                    actualIndex = i;
+                    break;
+                }
+            }
+            return automaton.getAlphabet()[actualIndex + 1];
+        }
+    }
     
     public Window1D(Automaton automaton, int cellSize){
         super(automaton, cellSize);
@@ -26,6 +43,28 @@ public class Window1D extends Window {
         frame.setResizable(false);
         frame.setLayout(new FlowLayout());
 
+        frame.addMouseMotionListener(new MouseMotionAdapter(){
+            @Override
+            public void mouseMoved(MouseEvent e){
+                int x = e.getX() - 8;
+                int y = e.getY() - 30;
+                currentX = x/cellSize;
+                currentY = y/cellSize;
+                drawPanel.repaint();
+            }
+        });
+
+        frame.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(e.getButton() == MouseEvent.BUTTON1 && currentY + shift <= stepNb){
+                    automaton.getGrid().getCell(currentX, 0, 0).setState(getNextState(automaton.getGrid().getCell(currentX, 0, 0).getState()));
+                    steps.set(stepNb, automaton.getGrid());
+                    drawPanel.repaint();
+                }
+            }
+        });
+
         drawPanel = new JPanel(){
             @Override
             public void paintComponent(Graphics g){
@@ -37,9 +76,17 @@ public class Window1D extends Window {
                 for(int s = 0; s <= stepNb; s++){
                     for(int i = 0; i < steps.get(s).getSize(); i++){
                         if(steps.get(s).getCell(i, 0, 0).getState() == automaton.getAlphabet()[0]){
-                            g.setColor(Color.WHITE);
+                            if (s == currentY + shift && i == currentX && s == stepNb) {
+                                g.setColor(new Color(200,200,200)); // Light gray if selected
+                            }else{
+                                g.setColor(Color.WHITE);
+                            }
                         }else{
-                            g.setColor(Color.BLACK);
+                            if(s == currentY + shift && i == currentX && s == stepNb){
+                                g.setColor(new Color(100,100,100)); // Dark gray if selected
+                            }else{
+                                g.setColor(Color.BLACK);
+                            }
                         }
                         g.fillRect(i*cellSize, (s-shift)*cellSize, cellSize, cellSize);
                     }
