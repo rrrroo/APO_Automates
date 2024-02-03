@@ -35,7 +35,11 @@ public class App {
         }
         scanner.close();
 	}
-
+    /**
+     * CLI menu to choose an automaton and load a save
+     * @param scanner The scanner to use for input
+     * @return the chosen automaton
+     */
 	public static Automaton menu(Scanner scanner) {
         Automaton auto = null;
         String filename = null;
@@ -186,7 +190,11 @@ public class App {
                 return null;
         }
     }
-
+    /**
+     * CLI menu to save the automaton
+     * @param auto The automaton to save
+     * @param scanner The scanner to use for input
+     */
     public static void saveMenu(Automaton auto, Scanner scanner) {
         System.out.println("Sauvegarder l'automate ? (o/n)");
         String choice = scanner.next();
@@ -212,6 +220,11 @@ public class App {
         }
     }
 
+    /**
+     * CLI menu to choose the number of steps
+     * @param scanner The scanner to use for input
+     * @return the number of steps
+     */
     public static int stepsNbMenu(Scanner scanner) {
         System.out.print("Entrez le nombre d'étapes (0 pour quitter): ");
         int steps = scanner.nextInt();
@@ -223,6 +236,11 @@ public class App {
         return steps;
     }
 
+    /**
+     * CLI menu to choose if the GUI should be used
+     * @param scanner The scanner to use for input
+     * @return true if the GUI should be used, false otherwise
+     */
     public static boolean guiMenu(Scanner scanner) {
         System.out.println("Voulez-vous utiliser l'interface graphique ? (o/n)");
         String choice = scanner.next();
