@@ -19,13 +19,19 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 		Automaton auto = menu(scanner);
         Simulation simulation = new Simulation(auto);
-        // simulation.getAutomaton().getGrid().setAllRandom(simulation.getAutomaton().getAlphabet(), new Random());
-        int steps = stepsNbMenu(scanner);
-        while(steps != 0) {
-            simulation.run(steps);
-            steps = stepsNbMenu(scanner);
+        boolean gui = false;
+        gui = guiMenu(scanner);
+        if(gui) {
+            simulation.runGUI();
         }
-        saveMenu(auto, scanner);
+        else {
+            int steps = stepsNbMenu(scanner);
+            while(steps != 0) {
+                simulation.runCLI(steps);
+                steps = stepsNbMenu(scanner);
+            }
+            saveMenu(auto, scanner);
+        }
         scanner.close();
 	}
 
@@ -214,5 +220,17 @@ public class App {
             steps = scanner.nextInt();
         }
         return steps;
+    }
+
+    public static boolean guiMenu(Scanner scanner) {
+        System.out.println("Voulez-vous utiliser l'interface graphique ? (o/n)");
+        String choice = scanner.next();
+        while(!choice.equals("o") && !choice.equals("n")) {
+            System.out.println("Valeur incorrecte");
+            System.out.print("Votre choix : ");
+            choice = scanner.next();
+        }
+
+        return choice.equals("o");
     }
 }
