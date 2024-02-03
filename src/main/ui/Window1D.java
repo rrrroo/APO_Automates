@@ -21,15 +21,14 @@ public class Window1D extends Window {
         stepNb = 0;
         shift = 0;
 
-        frame = new JFrame("Shift = " + shift + ", stepNb = " + stepNb);
-        frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*12);
+        frame = new JFrame("Automate cellulaire à 1 dimension");
+        frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*11 + 64);
         frame.setResizable(false);
         frame.setLayout(new FlowLayout());
 
         drawPanel = new JPanel(){
             @Override
             public void paintComponent(Graphics g){
-                super.paintComponent(g);
                 boolean addStep = false;
                 if(automaton.getGrid() != steps.get(stepNb)){
                     steps.add(automaton.getGrid());
@@ -53,7 +52,7 @@ public class Window1D extends Window {
         drawPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, cellSize*10));
 
         controlPanel = new JPanel();
-        controlPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, cellSize));
+        controlPanel.setPreferredSize(new Dimension(automaton.getGrid().getSize()*cellSize, 64));
         
         JButton nextButtons = new JButton("Next step");
         nextButtons.addActionListener(new ActionListener(){
@@ -61,8 +60,9 @@ public class Window1D extends Window {
             public void actionPerformed(ActionEvent e){
                 automaton.evaluate();
                 System.out.println(automaton);
-                frame.setTitle("Shift = " + shift + ", stepNb = " + stepNb);
-                shift++;
+                while(shift + 9 <= stepNb){
+                    shift++;
+                }
                 drawPanel.repaint();
             }
         });
@@ -74,7 +74,6 @@ public class Window1D extends Window {
             public void actionPerformed(ActionEvent e){
                 if(shift > 0){
                     shift--;
-                    frame.setTitle("Shift = " + shift + ", stepNb = " + stepNb);
                 }
                 drawPanel.repaint();
             }
@@ -85,9 +84,8 @@ public class Window1D extends Window {
         downButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                if(shift + 10 < stepNb){
+                if(shift + 10 <= stepNb){
                     shift++;
-                    frame.setTitle("Shift = " + shift + ", stepNb = " + stepNb);
                 }
                 drawPanel.repaint();
             }
