@@ -64,7 +64,6 @@ public class Simulation {
 				Thread.currentThread().interrupt();
 			}
 
-			// condition d'arrêt temporaire
 			step++;
 			stop = (step >= steps);
 		}

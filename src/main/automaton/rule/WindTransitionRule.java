@@ -3,10 +3,15 @@ package main.automaton.rule;
 import java.util.Arrays;
 
 public class WindTransitionRule extends TransitionRule {
+    // === Attributes ===
+
     /**
      * The value of the wind from each direction.
      */
     protected double[] vent;
+
+
+    // === Constructors ===
 
     /**
      * Constructs a ForetRule object with the specified parameters.
@@ -22,6 +27,21 @@ public class WindTransitionRule extends TransitionRule {
         this.vent = vent;
     }
 
+
+    // === Getters ===
+
+    /**
+     * Returns the value of the wind from each direction.
+     *
+     * @return the value of the wind from each direction
+     */
+    public double[] getWind() {
+        return this.vent;
+    }
+
+
+    // === Methods ===
+
     @Override
     public char apply(char cell, char[] neighbours) {
         if(cell == this.state) {
@@ -33,7 +53,7 @@ public class WindTransitionRule extends TransitionRule {
                     v += this.vent[i];
                 }
             if(Arrays.binarySearch(this.neighbours, n) >= 0) { // si le n est dans le tableau
-                double p = n * probability +v;
+                double p = n * probability + v;
                 if (n==0)
                 {p=1;}
                 double r = Math.random();
