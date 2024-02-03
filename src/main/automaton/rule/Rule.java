@@ -40,12 +40,30 @@ public class Rule {
     // === Getters ===
 
     /**
+     * Returns the state of the rule.
+     *
+     * @return the state of the rule
+     */
+    public char getState() {
+        return this.state;
+    }
+
+    /**
      * Returns the result of the rule.
      *
      * @return the result of the rule
      */
     public char getResult() {
         return this.result;
+    }
+
+    /**
+     * Returns the probability of the rule.
+     *
+     * @return the probability of the rule
+     */
+    public double getProbability() {
+        return this.probability;
     }
 
 
