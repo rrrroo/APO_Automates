@@ -129,6 +129,37 @@ public class Automaton {
 	}
 
 	/**
+	 * The constructor of the class.
+	 *
+	 * @param configFilename the name of the file containing the automaton settings
+	 * @param gridFilename   the name of the file containing the grid
+	 * @throws IOException   if the file does not exist
+	 * @throws JSONException if the file does not contain valid JSON
+	 * @throws IllegalArgumentException if the grid file does not match the settings
+	 */
+	public Automaton(String configFilename, String gridFilename) throws IOException, JSONException, IllegalArgumentException {
+		JSONObject settings = getSettings(configFilename);
+
+		String dim;
+		try {
+			dim = settings.getString("dimension");
+		} catch (JSONException e) {
+			throw new JSONException("il manque le paramètre dimension dans le fichier " + configFilename);
+		}
+		this.dimension = Dimension.fromString(dim);
+
+		this.alphabet = getAlphabetFromSettings(settings, configFilename);
+
+		this.neighbourhood = getNeighbourhoodFromSettings(settings, configFilename);
+
+		this.grid = new Grid(this.dimension, gridFilename, this.alphabet);
+		if(this.dimension == Dimension.H && this.grid.getSize() % 2 != 0)
+			throw new IllegalArgumentException("la taille de la grille doit être paire pour un automate hexagonal");
+
+		this.rules = getRulesFromSettings(settings, configFilename);
+	}
+
+	/**
 	 * Returns the settings of the automaton.
 	 *
 	 * @param filename the name of the file containing the automaton settings
@@ -212,108 +243,159 @@ public class Automaton {
 		try {
 			JSONObject data = settings.getJSONObject("rule");
 			JSONArray array = data.getJSONArray("rules");
-			List<Rule> rules = new ArrayList<>();
-			JSONObject rule;
-			if (data.getInt("type")==1) {
-				for (int i = 0; i < array.length(); i++) {
-					rule = array.getJSONObject(i);
-					char state = rule.getString("state").charAt(0);
-					char result = rule.getString("result").charAt(0);
-					double probability = 1;
-					if (rule.has("probability")) {
-						probability = rule.getDouble("probability");
-					}
-					JSONArray arrNeig = rule.getJSONArray("neighbours");
-					char[] neighbours = new char[arrNeig.length()];
-					for (int j = 0; j < arrNeig.length(); j++) {
-						neighbours[j] = arrNeig.getString(j).charAt(0);
-					}
-					rules.add(new NeighbourhoodRule(state, result, probability, neighbours));
-				}
-			}
-			else {
-				if (data.getInt("type") == 2) {
-					for (int i = 0; i < array.length(); i++) {
-						rule = array.getJSONObject(i);
-						JSONArray arrNeig = rule.getJSONArray("neighbours");
-						int[] neighbours = new int[arrNeig.length()];
-						for (int j = 0; j < arrNeig.length(); j++) {
-							neighbours[j] = arrNeig.getInt(j);
-						}
-						char state = rule.getString("state").charAt(0);
-						char result = rule.getString("result").charAt(0);
-						double probability = 1;
-						if (rule.has("probability")) {
-							probability = rule.getDouble("probability");
-						}
-						char neighbourState = rule.getString("neighbourState").charAt(0);
-						rules.add(new TransitionRule(state, result, probability, neighbours, neighbourState));
-					}
-				} else {
-					if (data.getInt("type") == 4) {
-						for (int i = 0; i < array.length(); i++) {
-							rule = array.getJSONObject(i);
-							JSONArray arrNeig = rule.getJSONArray("neighbours");
-							int[] neighbours = new int[arrNeig.length()];
-							for (int j = 0; j < arrNeig.length(); j++) {
-								neighbours[j] = arrNeig.getInt(j);
-							}
-							char state = rule.getString("state").charAt(0);
-							char result = rule.getString("result").charAt(0);
-							double probability = 1;
-							if (rule.has("probability")) {
-								probability = rule.getDouble("probability");
-							}
-							char neighbourState = rule.getString("neighbourState").charAt(0);
 
-                            double[] vent = new double[arrNeig.length()]; //arrNeig.length() = arrVent.length()
-                            if (rule.has("vent")) {
-                                JSONArray arrVent = rule.getJSONArray("vent");
-                                for (int j = 0; j < arrVent.length(); j++) {
-                                    vent[j] = arrVent.getDouble(j);
-                                }
-							}
-							rules.add(new WindTransitionRule(state, result, probability, neighbours, neighbourState, vent));
-						}
-					}
-				}
-			}
-			return rules;
+			switch (data.getInt("type")) {
+				case 1:
+					return getRules1FromSettings(array);
 
+				case 2:
+					return getRules2FromSettings(array);
+
+				case 4:
+					return getRules4FromSettings(array);
+
+				default:
+					throw new JSONException("le type de règle n'est pas valide");
+			}
 		} catch (JSONException e) {
-			throw new JSONException("il manque le paramètre rules dans le fichier " + filename);
+			throw new JSONException(e.getMessage() + " dans le fichier " + filename);
 		}
 	}
 
 	/**
-	 * The constructor of the class.
+	 * Parses a JSONArray of rules and returns a list of Rule objects.
+	 * Each rule is represented by a JSONObject containing the state, result, probability, and neighbours.
+	 * - "state": the current state of the automaton (char)
+	 * - "result": the resulting state after the transition (char)
+	 * - "probability": the probability of the transition (double, default value is 1)
+	 * - "neighbours": an array of characters representing the neighboring states
 	 *
-	 * @param configFilename the name of the file containing the automaton settings
-	 * @param gridFilename   the name of the file containing the grid
-	 * @throws IOException   if the file does not exist
-	 * @throws JSONException if the file does not contain valid JSON
-	 * @throws IllegalArgumentException if the grid file does not match the settings
+	 * @param array the JSONArray of rules to parse
+	 * @return a list of Rule objects representing the parsed rules
+	 * @throws JSONException if the rules are not valid
 	 */
-	public Automaton(String configFilename, String gridFilename) throws IOException, JSONException, IllegalArgumentException {
-		JSONObject settings = getSettings(configFilename);
+	private static List<Rule> getRules1FromSettings(JSONArray array) {
+		List<Rule> rules = new ArrayList<>();
+		JSONObject rule;
+		char state, result;
+		double probability;
+		JSONArray arrNeig;
+		char[] neighbours;
 
-		String dim;
 		try {
-			dim = settings.getString("dimension");
+			for (int i = 0; i < array.length(); i++) {
+				rule = array.getJSONObject(i);
+
+				state = rule.getString("state").charAt(0);
+				result = rule.getString("result").charAt(0);
+				probability = rule.has("probability") ? rule.getDouble("probability") : 1;
+				arrNeig = rule.getJSONArray("neighbours");
+				neighbours = new char[arrNeig.length()];
+				for (int j = 0; j < arrNeig.length(); j++)
+					neighbours[j] = arrNeig.getString(j).charAt(0);
+
+				rules.add(new NeighbourhoodRule(state, result, probability, neighbours));
+			}
 		} catch (JSONException e) {
-			throw new JSONException("il manque le paramètre dimension dans le fichier " + configFilename);
+			throw new JSONException("les règles ne sont pas valides");
 		}
-		this.dimension = Dimension.fromString(dim);
 
-		this.alphabet = getAlphabetFromSettings(settings, configFilename);
+		return rules;
+	}
 
-		this.neighbourhood = getNeighbourhoodFromSettings(settings, configFilename);
+	/**
+	 * Parses a JSONArray of rules and returns a list of Rule objects.
+	 * Each rule is represented by a JSONObject containing the following properties:
+	 * - "state": the current state of the automaton (char)
+	 * - "result": the resulting state after the transition (char)
+	 * - "probability": the probability of the transition (double, default value is 1)
+	 * - "neighbours": an array of integers representing the neighboring states
+	 * - "neighbourState": the state of the neighboring cells after the transition (char)
+	 *
+	 * @param array the JSONArray of rules to parse
+	 * @return a list of Rule objects representing the parsed rules
+	 * @throws JSONException if the rules are not valid
+	 */
+	private static List<Rule> getRules2FromSettings(JSONArray array) {
+		List<Rule> rules = new ArrayList<>();
+		JSONObject rule;
+		char state, result, neighbourState;
+		double probability;
+		JSONArray arrNeig;
+		int[] neighbours;
 
-		this.grid = new Grid(this.dimension, gridFilename, this.alphabet);
-		if(this.dimension == Dimension.H && this.grid.getSize() % 2 != 0)
-			throw new IllegalArgumentException("la taille de la grille doit être paire pour un automate hexagonal");
+		try {
+			for (int i = 0; i < array.length(); i++) {
+				rule = array.getJSONObject(i);
 
-		this.rules = getRulesFromSettings(settings, configFilename);
+				state = rule.getString("state").charAt(0);
+				result = rule.getString("result").charAt(0);
+				probability = rule.has("probability") ? rule.getDouble("probability") : 1;
+				arrNeig = rule.getJSONArray("neighbours");
+				neighbours = new int[arrNeig.length()];
+				for (int j = 0; j < arrNeig.length(); j++)
+					neighbours[j] = arrNeig.getInt(j);
+				neighbourState = rule.getString("neighbourState").charAt(0);
+
+				rules.add(new TransitionRule(state, result, probability, neighbours, neighbourState));
+			}
+		} catch (JSONException e) {
+			throw new JSONException("les règles ne sont pas valides");
+		}
+
+		return rules;
+	}
+
+	/**
+	 * Parses a JSONArray of rules and returns a list of Rule objects.
+	 * Each rule is represented by a JSONObject containing the following properties:
+	 * - "state": The current state of the automaton (char).
+	 * - "result": The resulting state after the transition (char).
+	 * - "probability": The probability of the transition (double, default value is 1).
+	 * - "neighbours": An array of integers representing the neighboring cells.
+	 * - "neighbourState": The state of the neighboring cells (char).
+	 * - "vent": An optional array of wind values for each neighboring cell (double).
+	 *
+	 * @param array The JSONArray of rules to parse.
+	 * @return A list of Rule objects representing the parsed rules.
+	 * @throws JSONException If the rules are not valid.
+	 */
+	private static List<Rule> getRules4FromSettings(JSONArray array) {
+		List<Rule> rules = new ArrayList<>();
+		JSONObject rule;
+		char state, result, neighbourState;
+		double probability;
+		JSONArray arrNeig, windArray;
+		int[] neighbours;
+		double[] wind;
+
+		try {
+			for (int i = 0; i < array.length(); i++) {
+				rule = array.getJSONObject(i);
+
+				state = rule.getString("state").charAt(0);
+				result = rule.getString("result").charAt(0);
+				probability = rule.has("probability") ? rule.getDouble("probability") : 1;
+				arrNeig = rule.getJSONArray("neighbours");
+				neighbours = new int[arrNeig.length()];
+				for (int j = 0; j < arrNeig.length(); j++)
+					neighbours[j] = arrNeig.getInt(j);
+				neighbourState = rule.getString("neighbourState").charAt(0);
+
+				wind = new double[arrNeig.length()]; // arrNeig.length() = arrVent.length()
+				if (rule.has("vent")) {
+					windArray = rule.getJSONArray("vent");
+					for (int j = 0; j < windArray.length(); j++)
+						wind[j] = windArray.getDouble(j);
+				}
+
+				rules.add(new WindTransitionRule(state, result, probability, neighbours, neighbourState, wind));
+			}
+		} catch (JSONException e) {
+			throw new JSONException("les règles ne sont pas valides");
+		}
+
+		return rules;
 	}
 
 
