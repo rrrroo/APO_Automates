@@ -4,6 +4,7 @@
 
 ## TODO
 
+- [ ] Rapport
 - [ ] Modélisation
     - [x] diagramme de cas d'utilisation
     - [ ] diagramme de classe
@@ -34,9 +35,9 @@
         - [x] choisir un automate
         - [x] créer un automate
         - [x] charger une configuration de départ
-    - [ ] configuration de départ
+    - [x] configuration de départ
         - [x] aléatoire
-        - [ ] dessin
+        - [x] dessin
         - [x] fichier
     - [x] grille
         - [x] 1D
@@ -55,31 +56,56 @@
     - [ ] interface graphique
         - [x] 1D
         - [x] 2D
-        - [ ] 3D
+        - [x] 3D
         - [ ] H
-        - [ ] menu
-        - [ ] dessin
+        - [x] menu
+        - [x] dessin
         - [x] next step
-        - [ ] play/pause
+        - [x] play/pause
     - [ ] statistiques
 
-## Déroulé temporel du projet : 
-Début décembre, nous avons commencé par une phase de conception en créant un premier jet des diagrammes de classe et de cas d’utilisation. Nous avons également commencé à créer et à documenter la syntaxe des fichiers JSON que nous utilisons pour stocker nos automates. 
-Nous avons modifié certaines parties de notre conception originale au fil du projet quand nous nous rendions compte qu'elles pouvaient être améliorées.
-Suite à cela, mi-décembre, nous avons créé toutes les classes et commencé à implémenter leurs méthodes.
+## Auteurs
 
-Nous avons commencé à faire un affichage console pour notre application et à faire tourner les automates les plus simples (grille carrée, pas de vent…).
-
-Nous avons ensuite continué en créant une interface graphique et en ajoutant des automates plus complexes (grille hexagonale, probabilité, vent …). 
-
-
-## Répartition des tâches : 
-
+- [Auriane Gonindard](https://github.com/AurianeG)
+- [Romain Rochebloine](https://github.com/rrrroo)
+- [Dorian Tonnis](https://github.com/Dorian-T)
+- [Thomas Vittore](https://github.com/Sipior4)
 
 ## Description
 
 L’objectif du projet est d’implémenter et d’étudier certains automates cellulaires. Nous avons fait le choix d'implémenter en premier un automate entièrement paramétrable, puis d'implémenter des automates spécifiques en utilisant cet automate paramétrable.
 Tous les automates implémentés sont au format `.json`. Ainsi, il est facile de les modifier ou d'en créer de nouveaux.
+
+## Méthodologie
+
+Début décembre, nous avons commencé par une phase de conception en créant un premier jet des diagrammes de classe et de cas d’utilisation. Nous avons également commencé à créer et à documenter la syntaxe des fichiers JSON que nous utilisons pour stocker nos automates. 
+Nous avons modifié certaines parties de notre conception originale au fil du projet quand nous nous rendions compte qu'elles pouvaient être améliorées.
+Suite à cela, mi-décembre, nous avons créé toutes les classes et commencé à implémenter leurs méthodes.
+Mi-janvier, l'affichage dans la console et les automates les plus simples (grille carrée, pas de vent…) fonctionnaient.
+Nous avons ensuite continué en créant une interface graphique et en ajoutant des automates plus complexes (grille hexagonale, probabilité, vent…).
+
+Toute la phase de conception a été faite en commun, puis nous avons séparé l'équipe en deux pour l'implémentation. Dorian et Auriane se sont occupés du noyau de l'application, tandis que Thomas et Romain se sont occupés de l'interface graphique et des intéractions avec l'utilisateur.
+
+## Conception
+
+Nous avons choisi de créer une implémentation d'automate la plus générale possible pour pouvoir créer n'importe quel automate à partir d'un simple fichier de configuration.
+Pour des raisons de facilité d'affichage, nous avons choisi de limiter les automates à 3 dimensions.
+
+### Diagramme de cas d'utilisation
+
+![Diagramme de cas d'utilisation](doc/uml/useCaseDiagram.png)
+
+### Diagramme de classes
+
+![Diagramme de classes](doc/uml/classDiagram.png)
+
+### Diagramme de séquence initialisation
+
+![Diagramme de séquence initialisation](doc/uml/sequenceDiagramInitialisation.png)
+
+### Diagramme de séquence évolution
+
+![Diagramme de séquence évolution](doc/uml/sequenceDiagramSimulation.png)
 
 ## Architecture
 
