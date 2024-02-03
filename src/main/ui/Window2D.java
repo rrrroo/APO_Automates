@@ -10,33 +10,66 @@ import java.awt.event.*;
 
 public class Window2D extends Window {
 
-    private void getTheRightColor2(char state, Graphics g){
-        if(state == automaton.getAlphabet()[0]){
-            g.setColor(Color.WHITE);
+    private int currentX;
+    private int currentY;
+
+    private void getTheRightColor2(int i, int j, char state, Graphics g){
+        if(currentX == j && currentY == i){
+            if(state == automaton.getAlphabet()[0]){
+                g.setColor(new Color(200, 200, 200));
+            }else{
+                g.setColor(new Color(100, 100, 100));
+            }
         }else{
-            g.setColor(Color.BLACK);
+            if(state == automaton.getAlphabet()[0]){
+                g.setColor(Color.WHITE);
+            }else{
+                g.setColor(Color.BLACK);
+            }
         }
     }
 
-    private void getTheRightColor3(char state, Graphics g){
-        if(state == automaton.getAlphabet()[0]){
-            g.setColor(Color.WHITE);
-        }else if(state == automaton.getAlphabet()[1]){
-            g.setColor(Color.RED);
+    private void getTheRightColor3(int i, int j, char state, Graphics g){
+        if(currentX == j && currentY == i){
+            if(state == automaton.getAlphabet()[0]){
+                g.setColor(new Color(200, 200, 200));
+            }else if(state == automaton.getAlphabet()[1]){
+                g.setColor(new Color(255, 127, 127));
+            }else{
+                g.setColor(new Color(100, 100, 100));
+            }
         }else{
-            g.setColor(Color.BLACK);
+            if(state == automaton.getAlphabet()[0]){
+                g.setColor(Color.WHITE);
+            }else if(state == automaton.getAlphabet()[1]){
+                g.setColor(Color.RED);
+            }else{
+                g.setColor(Color.BLACK);
+            }
         }
     }
 
-    private void getTheRightColor4(char state, Graphics g){
-        if(state == automaton.getAlphabet()[0]){
-            g.setColor(Color.WHITE);
-        }else if(state == automaton.getAlphabet()[1]){
-            g.setColor(Color.GREEN);
-        }else if(state == automaton.getAlphabet()[2]){
-            g.setColor(Color.RED);
+    private void getTheRightColor4(int i, int j, char state, Graphics g){
+        if(currentX == j && currentY == i){
+            if(state == automaton.getAlphabet()[0]){
+                g.setColor(new Color(200, 200, 200));
+            }else if(state == automaton.getAlphabet()[1]){
+                g.setColor(new Color(127, 255, 127));
+            }else if(state == automaton.getAlphabet()[2]){
+                g.setColor(new Color(255, 127, 127));
+            }else{
+                g.setColor(new Color(100, 100, 100));
+            }
         }else{
-            g.setColor(Color.GRAY);
+            if(state == automaton.getAlphabet()[0]){
+                g.setColor(Color.WHITE);
+            }else if(state == automaton.getAlphabet()[1]){
+                g.setColor(Color.GREEN);
+            }else if(state == automaton.getAlphabet()[2]){
+                g.setColor(Color.RED);
+            }else{
+                g.setColor(Color.GRAY);
+            }
         }
     }
 
@@ -47,6 +80,31 @@ public class Window2D extends Window {
         this.frame.setResizable(false);
         this.frame.setLayout(new FlowLayout());
 
+        this.currentX = 0;
+        this.currentY = 0;
+
+        frame.addMouseMotionListener(new MouseMotionAdapter(){
+            @Override
+            public void mouseMoved(MouseEvent e){
+                int x = e.getX() - 8;
+                int y = e.getY() - 35;
+                currentX = x/cellSize;
+                currentY = y/cellSize;
+                drawPanel.repaint();
+                frame.setTitle("Current cell : (" + currentX + ", " + currentY + ") " + x + ", " + y);
+            }
+        });
+
+        frame.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(e.getButton() == MouseEvent.BUTTON1){
+                    automaton.getGrid().getCell(currentY, currentX, 0).setState(getNextState(automaton.getGrid().getCell(currentY, currentX, 0).getState()));
+                    drawPanel.repaint();
+                }
+            }
+        });
+
         this.drawPanel = new JPanel(){
             @Override
             public void paintComponent(Graphics g){
@@ -56,13 +114,13 @@ public class Window2D extends Window {
                         int alphabetSize = automaton.getAlphabet().length;
                         switch (alphabetSize){
                             case 2:
-                                getTheRightColor2(state, g);
+                                getTheRightColor2(i, j, state, g);
                                 break;
                             case 3:
-                                getTheRightColor3(state, g);
+                                getTheRightColor3(i, j, state, g);
                                 break;
                             case 4:
-                                getTheRightColor4(state, g);
+                                getTheRightColor4(i, j, state, g);
                                 break;
                             default:
                                 g.setColor(Color.BLACK);

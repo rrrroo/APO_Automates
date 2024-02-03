@@ -16,27 +16,14 @@ public class Window1D extends Window {
     private int shift;
     private int currentX;
     private int currentY;
-
-    public char getNextState(char state){
-        if(state == automaton.getAlphabet()[automaton.getAlphabet().length-1]){
-            return automaton.getAlphabet()[0];
-        }else{
-            int actualIndex = 0;
-            for(int i = 0; i < automaton.getAlphabet().length; i++){
-                if(automaton.getAlphabet()[i] == state){
-                    actualIndex = i;
-                    break;
-                }
-            }
-            return automaton.getAlphabet()[actualIndex + 1];
-        }
-    }
     
     public Window1D(Automaton automaton, int cellSize){
         super(automaton, cellSize);
         steps.add(automaton.getGrid());
         stepNb = 0;
         shift = 0;
+        currentX = 0;
+        currentY = 0;
 
         frame = new JFrame("Automate cellulaire à 1 dimension");
         frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*11 + 64);

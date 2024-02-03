@@ -24,4 +24,19 @@ public class Window {
         this.drawPanel.repaint();
         this.frame.setVisible(true);
     }
+
+    public char getNextState(char state){
+        if(state == automaton.getAlphabet()[automaton.getAlphabet().length-1]){
+            return automaton.getAlphabet()[0];
+        }else{
+            int actualIndex = 0;
+            for(int i = 0; i < automaton.getAlphabet().length; i++){
+                if(automaton.getAlphabet()[i] == state){
+                    actualIndex = i;
+                    break;
+                }
+            }
+            return automaton.getAlphabet()[actualIndex + 1];
+        }
+    }
 }
