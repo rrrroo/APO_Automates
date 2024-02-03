@@ -1,41 +1,51 @@
 ```mermaid
 sequenceDiagram
     title Diagramme de séquence Simulation
-    actor App
     participant Simulation
+    participant Automaton
+    participant this.Grid
+    participant Rule
 
-    App ->> Simulation: run()
-    activate Simulation
-    create participant Thread
-    Simulation ->> Thread: Thread()
-    activate Thread
-    create participant Scanner
-    Thread ->> Scanner: Scanner()
-    Simulation ->> Thread: start()
-    loop !this.pause
-        par simulation
-            activate Simulation
-            Simulation ->> Simulation: step()
-            deactivate Simulation
-            activate Simulation
-            Simulation ->> Simulation: display()
-            deactivate Simulation
-        and menu pause
-            opt if user input
-                Thread ->> Scanner: next().charAt(0)
-                activate Scanner
-                Scanner -->> Thread: x = next().charAt(0)
-                deactivate Scanner
-                alt x == 'p' || x == 'P'
-                    %% la variable volatile change de valeur
-                    Simulation ->> Simulation: pause()
-                else
-                    Simulation ->> Thread: sleep(100)
+    Simulation ->>+ Simulation: step()
+    Simulation ->>+ Automaton: evaluate()
+    deactivate Simulation
+    create participant newGrid
+    Automaton ->>+ newGrid: new newGrid(this.grid)
+
+    alt ONE_D
+        loop this.grid.getSize()
+            Automaton ->>+ Automaton: applyRules(newGrid, i, 0, 0)
+            Automaton ->>+ this.Grid: getCellState(i, 0, 0)
+            this.Grid -->>- Automaton: state = getCellState(i, 0, 0)
+            Automaton ->>+ this.Grid: getNeighboursState(i, 0, 0, this.neighbourhood)
+            this.Grid -->>- Automaton: neighboursState = getNeighboursState(i, 0, 0, this.neighbourhood)
+            loop this.rules
+                Automaton ->>+ Rule: apply(state, neighboursState)
+                Rule -->>- Automaton: newState = apply(state, neighboursState)
+                Automaton ->>+ newGrid: getCellState(i, 0, 0)
+                newGrid -->>- Automaton: oldState = getCellState(i, 0, 0)
+                opt newState != oldState
+                    Automaton ->>+ newGrid: setCellState(i, 0, 0, newState)
+                    deactivate newGrid
                 end
-                deactivate Thread
+            end
+            deactivate Automaton
+        end
+    else TWO_D || H
+        loop this.grid.getSize()
+            loop this.grid.getSize()
+                Note over Automaton, newGrid: même traitement que pour 1D
+            end
+        end
+    else THREE_D
+        loop this.grid.getSize()
+            loop this.grid.getSize()
+                loop this.grid.getSize()
+                    Note over Automaton, newGrid: même traitement que pour 1D
+                end
             end
         end
     end
-    deactivate Simulation
 
+    deactivate Automaton
 ```

@@ -504,9 +504,11 @@ public class Automaton {
 	 * @param y The y-coordinate of the cell.
 	 */
 	private void applyRules(Grid newGrid, int x, int y, int z) {
+		char state = this.grid.getCellState(x, y, z);
+		char[] neighboursState = this.grid.getNeighboursState(x, y, z, this.neighbourhood);
 		char newState;
 		for(Rule rule : this.rules) {
-			newState = rule.apply(this.grid.getCellState(x, y, z), this.grid.getNeighboursState(x, y, z, this.neighbourhood));
+			newState = rule.apply(state, neighboursState);
 			if(newState != newGrid.getCellState(x, y, z)) {
 				newGrid.setCellState(x, y, z, newState);
 				break;
