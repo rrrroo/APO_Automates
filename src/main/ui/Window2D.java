@@ -40,8 +40,8 @@ public class Window2D extends Window {
         }
     }
 
-    public Window2D(Automaton automaton){
-        super(automaton);
+    public Window2D(Automaton automaton, int cellSize){
+        super(automaton, cellSize);
         this.frame = new JFrame("Automate cellulaire à 2 dimensions");
         this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, (automaton.getGrid().getSize()+1)*cellSize + 64);
         this.frame.setResizable(false);
@@ -87,6 +87,43 @@ public class Window2D extends Window {
             }
         });
         this.controlPanel.add(nextButton);
+
+        Timer timer = new Timer(100, new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                automaton.evaluate();
+                drawPanel.repaint();
+            }
+        });
+
+        JButton playButton = new JButton("Play");
+        JButton pauseButton = new JButton("Pause");
+
+        Dimension buttonSize = new Dimension(70, 26);
+        playButton.setPreferredSize(buttonSize);
+        pauseButton.setPreferredSize(buttonSize);
+        
+        playButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                playButton.setVisible(false);
+                pauseButton.setVisible(true);
+                timer.start();
+            }
+        });
+        this.controlPanel.add(playButton);
+
+        
+        pauseButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                playButton.setVisible(true);
+                pauseButton.setVisible(false);
+                timer.stop();
+            }
+        });
+        pauseButton.setVisible(false);
+        this.controlPanel.add(pauseButton);
 
         JButton quitButton = new JButton("Quitter");
         quitButton.addActionListener(new ActionListener(){

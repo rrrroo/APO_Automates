@@ -12,12 +12,12 @@ public class Window {
 
     protected int cellSize;
 
-    public Window(Automaton automaton){
+    public Window(Automaton automaton, int cellSize){
         this.automaton = automaton;
         this.frame = new JFrame();
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setAlwaysOnTop(true);
-        this.cellSize = 100;
+        this.cellSize = cellSize;
     }
 
     public void display(){
