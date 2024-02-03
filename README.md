@@ -63,6 +63,17 @@
         - [ ] play/pause
     - [ ] statistiques
 
+## Déroulé temporel du projet : 
+Début décembre, nous avons commencé par une phase de conception en créant un premier jet des diagrammes de classe et de cas d’utilisation. Nous avons également commencé à créer et à documenter la syntaxe des fichiers JSON que nous utilisons pour stocker nos automates. 
+Nous avons modifié certaines parties de notre conception originale au fil du projet quand nous nous rendions compte qu'elles pouvaient être améliorées.
+Suite à cela, mi-décembre, nous avons créé toutes les classes et commencé à implémenter leurs méthodes.
+
+Nous avons commencé à faire un affichage console pour notre application et à faire tourner les automates les plus simples (grille carrée, pas de vent…).
+
+Nous avons ensuite continué en créant une interface graphique et en ajoutant des automates plus complexes (grille hexagonale, probabilité, vent …). 
+
+
+## Répartition des tâches : 
 
 
 ## Description
