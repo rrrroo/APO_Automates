@@ -64,6 +64,9 @@ public class Window2D extends Window {
                             case 4:
                                 getTheRightColor4(state, g);
                                 break;
+                            default:
+                                g.setColor(Color.BLACK);
+                                break;
                         }
                         g.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
                     }
