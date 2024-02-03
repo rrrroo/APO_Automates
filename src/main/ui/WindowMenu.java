@@ -16,6 +16,10 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * This class is a subclass of the Window class and is used to create the main GUI menu of the application.
+ * It allows the user to select an automaton and optionally a save file, and to start the simulation.
+ */
 public class WindowMenu extends Window {
     public WindowMenu(){
         super(null, 0);
@@ -49,6 +53,8 @@ public class WindowMenu extends Window {
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 
         Checkbox c = new Checkbox("Charger une sauvegarde");
+
+        // Show the save selection panel when the checkbox is checked
         c.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 saveSelectionPanel.setVisible(e.getStateChange() == 1);
@@ -71,29 +77,10 @@ public class WindowMenu extends Window {
 
         frame.add(mainPanel);
         
-        List<String> configFiles = null;
-        try (Stream<Path> paths = Files.walk(Paths.get("data/configs"))) {
-            configFiles = paths
-                .filter(Files::isRegularFile)
-                .map(Path::getFileName)
-                .map(Path::toString)
-                .collect(Collectors.toList());
-            } catch (IOException e) {
-            e.printStackTrace();
-        }
+        List<String> configFiles = getConfigFiles();
+        List<String> saveFiles = getSaveFiles();
 
-        List<String> saveFiles = null;
-        try (Stream<Path> paths = Files.walk(Paths.get("data/saves"))) {
-            saveFiles = paths
-                .filter(Files::isRegularFile)
-                .map(Path::getFileName)
-                .map(Path::toString)
-                .collect(Collectors.toList());
-            } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        
+        // Create a radio button for each configuration and save file
 
         JRadioButton[] configButtons = new JRadioButton[configFiles.size()];
         ButtonGroup configButtonsGroup = new ButtonGroup();
@@ -105,6 +92,18 @@ public class WindowMenu extends Window {
             configPanel.add(configButtons[i]);
         }
 
+        JRadioButton[] saveButtons = new JRadioButton[saveFiles.size()];
+        ButtonGroup saveButtonsGroup = new ButtonGroup();
+        for(int i = 0; i < saveFiles.size(); i++){
+            saveButtons[i] = new JRadioButton(saveFiles.get(i).replace(".txt", "").replace("save_", ""));
+            saveButtons[i].setActionCommand(saveFiles.get(i));
+            saveButtons[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+            saveButtonsGroup.add(saveButtons[i]);
+            saveSelectionPanel.add(saveButtons[i]);
+        }
+
+        
+        // Enable the start button when a configuration is selected
         JButton startButton = new JButton("Démarrer");
         startButton.setEnabled(false);
         for (JRadioButton button : configButtons) {
@@ -118,16 +117,7 @@ public class WindowMenu extends Window {
             });
         }
 
-        JRadioButton[] saveButtons = new JRadioButton[saveFiles.size()];
-        ButtonGroup saveButtonsGroup = new ButtonGroup();
-        for(int i = 0; i < saveFiles.size(); i++){
-            saveButtons[i] = new JRadioButton(saveFiles.get(i).replace(".txt", "").replace("save_", ""));
-            saveButtons[i].setActionCommand(saveFiles.get(i));
-            saveButtons[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-            saveButtonsGroup.add(saveButtons[i]);
-            saveSelectionPanel.add(saveButtons[i]);
-        }
-
+        // Add a text field to select the cell size
         cellSizePanel.add(new Label("cellSize"), BorderLayout.WEST);
         JTextField cellSize = new JTextField("10");
         cellSize.setMaximumSize(new Dimension(100, 20));
@@ -188,5 +178,41 @@ public class WindowMenu extends Window {
     @Override
     public void display() {
         frame.setVisible(true);
+    }
+
+    /**
+     * Get the list of configuration files in the data/configs directory
+     * @return a list of configuration file names
+     */
+    public static List<String> getConfigFiles() {
+        List<String> configFiles = null;
+        try (Stream<Path> paths = Files.walk(Paths.get("data/configs"))) {
+            configFiles = paths
+                .filter(Files::isRegularFile)
+                .map(Path::getFileName)
+                .map(Path::toString)
+                .collect(Collectors.toList());
+            } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return configFiles;
+    }
+
+    /**
+     * Get the list of save files in the data/saves directory
+     * @return a list of save file names
+     */
+    public static List<String> getSaveFiles() {
+        List<String> saveFiles = null;
+        try (Stream<Path> paths = Files.walk(Paths.get("data/saves"))) {
+            saveFiles = paths
+                .filter(Files::isRegularFile)
+                .map(Path::getFileName)
+                .map(Path::toString)
+                .collect(Collectors.toList());
+            } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return saveFiles;
     }
 }
