@@ -1,6 +1,6 @@
 {
     "dimension": "H",
-    "size": 10,
+    "size": 50,
     "alphabet": [".", "#"],
     "neighbourhood": [[-1, -1], [0, -1], [1, 0], [0, 1], [-1, 1], [-1, 0]],
     "rule": {

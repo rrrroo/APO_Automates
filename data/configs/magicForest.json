@@ -15,10 +15,31 @@
                 "vent":[0, 1, -1, 0]
             },
             {
+                "state": "T",
+                "neighbours": [0],
+                "neighbourState": "F",
+                "probability": 0.05,
+                "result": "F"
+            },
+            {
                 "state": "F",
                 "neighbours": [0, 1, 2, 3, 4],
                 "neighbourState": "F",
                 "result": "-"
+            },
+            {
+                "state": "-",
+                "neighbours": [0, 1, 2, 3, 4],
+                "neighbourState": ".",
+                "probability": 0.1,
+                "result": "."
+            },
+            {
+                "state": ".",
+                "neighbours": [0, 1, 2, 3, 4],
+                "neighbourState": "T",
+                "probability": 0.1,
+                "result": "T"
             }
         ]
     }
