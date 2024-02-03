@@ -1,6 +1,6 @@
 {
     "dimension": "3D",
-    "size": 3,
+    "size": 10,
     "alphabet": [".", "#"],
     "neighbourhood": [
         [-1, -1, -1], [ 0, -1, -1], [ 1, -1, -1],
