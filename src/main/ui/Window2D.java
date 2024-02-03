@@ -1,9 +1,7 @@
 package main.ui;
-
-import javax.swing.*;
-
 import main.automaton.Automaton;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -187,7 +185,7 @@ public class Window2D extends Window {
         quitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                System.exit(0);
+                frame.dispose();
             }
         });
         this.controlPanel.add(quitButton);
