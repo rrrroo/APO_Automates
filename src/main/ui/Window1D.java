@@ -26,7 +26,7 @@ public class Window1D extends Window {
         currentY = 0;
 
         frame = new JFrame("Automate cellulaire à 1 dimension");
-        frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*11 + 64);
+        frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*11 + 90);
         frame.setResizable(false);
         frame.setLayout(new FlowLayout());
 
@@ -34,7 +34,7 @@ public class Window1D extends Window {
             @Override
             public void mouseMoved(MouseEvent e){
                 int x = e.getX() - 8;
-                int y = e.getY() - 30;
+                int y = e.getY() - 35;
                 currentX = x/cellSize;
                 currentY = y/cellSize;
                 drawPanel.repaint();

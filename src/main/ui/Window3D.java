@@ -77,7 +77,7 @@ public class Window3D extends Window {
     public Window3D(Automaton automaton, int cellSize){
         super(automaton, cellSize);
         this.frame = new JFrame("Automate cellulaire à 3 dimensions");
-        this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, (automaton.getGrid().getSize())*cellSize + 100);
+        this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, (automaton.getGrid().getSize())*cellSize + 90);
         this.frame.setResizable(false);
         this.frame.setLayout(new FlowLayout());
 
@@ -89,7 +89,7 @@ public class Window3D extends Window {
             @Override
             public void mouseMoved(MouseEvent e){
                 int x = e.getX() - 8;
-                int y = e.getY()- 36;
+                int y = e.getY()- 35;
                 currentX = x/cellSize;
                 currentY = y/cellSize;
                 drawPanel.repaint();

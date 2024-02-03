@@ -76,7 +76,7 @@ public class Window2D extends Window {
     public Window2D(Automaton automaton, int cellSize){
         super(automaton, cellSize);
         this.frame = new JFrame("Automate cellulaire à 2 dimensions");
-        this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, (automaton.getGrid().getSize()+1)*cellSize + 64);
+        this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, (automaton.getGrid().getSize()+1)*cellSize + 90);
         this.frame.setResizable(false);
         this.frame.setLayout(new FlowLayout());
 
