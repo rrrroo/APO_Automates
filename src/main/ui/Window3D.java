@@ -42,8 +42,8 @@ public class Window3D extends Window {
         }
     }
 
-    public Window3D(Automaton automaton){
-        super(automaton);
+    public Window3D(Automaton automaton, int cellSize){
+        super(automaton, cellSize);
         this.frame = new JFrame("Automate cellulaire à 3 dimensions");
         this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, (automaton.getGrid().getSize())*cellSize + 100);
         this.frame.setResizable(false);

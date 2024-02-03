@@ -18,9 +18,9 @@ import java.util.stream.Stream;
 
 public class WindowMenu extends Window {
     public WindowMenu(){
-        super(null);
+        super(null, 0);
         frame = new JFrame("Menu");
-        frame.setSize(1000, 1000);
+        frame.setSize(500, 400);
         frame.setResizable(false);
         frame.setLayout(new FlowLayout());
 
@@ -142,9 +142,7 @@ public class WindowMenu extends Window {
                 if(c.getState()) {
                     gridFilename = "data/saves/" + saveButtonsGroup.getSelection().getActionCommand();
                 }
-                
-                System.out.println(configFilename);
-                System.out.println(gridFilename);
+                int cellSizeInt = Integer.parseInt(cellSize.getText());
 
                 try {
                     Automaton auto = null;
@@ -157,16 +155,16 @@ public class WindowMenu extends Window {
                     Window window = null;
                     switch(auto.getDimension()) {
                         case ONE_D:
-                            window = new Window1D(auto);
+                            window = new Window1D(auto, cellSizeInt);
                             break;
                         case TWO_D:
-                            window = new Window2D(auto);
+                            window = new Window2D(auto, cellSizeInt);
                             break;
                         case THREE_D:
-                            window = new Window3D(auto);
+                            window = new Window3D(auto, cellSizeInt);
                             break;
                         case H:
-                            window = new WindowH(auto);
+                            window = new WindowH(auto, cellSizeInt);
                             break;
                     }
                     window.display();

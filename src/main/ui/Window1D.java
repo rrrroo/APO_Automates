@@ -15,8 +15,8 @@ public class Window1D extends Window {
     private int stepNb;
     private int shift;
     
-    public Window1D(Automaton automaton){
-        super(automaton);
+    public Window1D(Automaton automaton, int cellSize){
+        super(automaton, cellSize);
         steps.add(automaton.getGrid());
         stepNb = 0;
         shift = 0;
