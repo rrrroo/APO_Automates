@@ -82,7 +82,7 @@ public class Simulation {
 
 			// condition d'arrêt temporaire
 			step++;
-			stop = (step > steps);
+			stop = (step >= steps);
 		}
 	}
 
