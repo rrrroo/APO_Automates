@@ -254,6 +254,15 @@ public class Grid {
 	}
 
 	/**
+	 * Returns the dimension of the grid.
+	 *
+	 * @return the dimension of the grid
+	 */
+	public Dimension getDimension() {
+		return this.dimension;
+	}
+
+	/**
 	 * Returns the size of the grid.
 	 *
 	 * @return the size of the grid
@@ -300,7 +309,7 @@ public class Grid {
 	 * @return the cell at the specified index
 	 * @throws IndexOutOfBoundsException if the index is out of bounds
 	 */
-	public Cell getCell(int i) throws IndexOutOfBoundsException {
+	private Cell getCell(int i) throws IndexOutOfBoundsException {
 		try {
 			return this.cellList.get(i);
 		} catch (IndexOutOfBoundsException e) {

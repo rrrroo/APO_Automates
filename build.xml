@@ -31,12 +31,6 @@
         </jar>
     </target>
 
-    <!-- <target name="run" depends="jar">
-        <java jar="${dist}/Automates.jar" fork="true"/>
-        <classpath>
-            <path refid="classpath"/>
-        </classpath>
-    </target> -->
     <target name="run" depends="jar">
         <java classname="${main-class}" fork="true">
             <classpath>

@@ -1,10 +1,16 @@
 # Projet APO : automates cellulaires
 
-[lien du GitHub](https://github.com/rrrroo/APO_Automates)
+[Lien du GitHub](https://github.com/rrrroo/APO_Automates)
 
 ## TODO
 
-- [ ] Automates
+- [ ] Modélisation
+    - [ ] cas d'utilisation
+    - [ ] diagramme de classe
+    - [ ] diagramme de séquence initialisation
+    - [ ] diagramme de séquence évolution
+    - [ ] diagramme d'activité menu
+- [x] Automates
     - [x] définition formelle
     - [x] 1D
         - [x] affichage 2D (espace * temps)
@@ -17,10 +23,10 @@
         - [x] voisinage carré
         - [x] voisinage rectangulaire
     - [x] jeu de la vie
-    - [ ] feu de forêt
+    - [x] feu de forêt
         - [x] 2D classique
-        - [ ] 2D avec probabilité
-        - [ ] 2D avec vent
+        - [x] 2D avec probabilité
+        - [x] 2D avec vent
         - [x] H
         - [x] 4 voisins
         - [x] 8 voisins
@@ -28,10 +34,10 @@
     - [x] menu
         - [x] choisir un automate
         - [x] créer un automate
-        - [ ] charger une configuration de départ
+        - [x] charger une configuration de départ
     - [ ] configuration de départ
         - [x] aléatoire
-        - [ ] manuelle
+        - [ ] dessin
         - [x] fichier
     - [x] grille
         - [x] 1D
@@ -48,21 +54,51 @@
         - [x] utiliser les toString
         - [x] adapter le constructeur de Grid aux toString
     - [ ] interface graphique
+        - [x] 1D
+        - [x] 2D
+        - [ ] 3D
+        - [ ] H
+        - [ ] menu
+        - [ ] dessin
+        - [x] next step
+        - [ ] play/pause
     - [ ] statistiques
 
 
 
 ## Description
 
-L’objectif du projet est d’implémenter et d’étudier certains automates cellulaires.
+L’objectif du projet est d’implémenter et d’étudier certains automates cellulaires. Nous avons fait le choix d'implémenter en premier un automate entièrement paramétrable, puis d'implémenter des automates spécifiques en utilisant cet automate paramétrable.
+Tous les automates implémentés sont au format `.json`. Ainsi, il est facile de les modifier ou d'en créer de nouveaux.
+
+## Architecture
+
+```
+├── bin                     // fichiers .class
+├── data
+│   ├── configs             // fichiers de configuration des automates .json
+│   └── saves               // fichiers de sauvegarde des grilles .txt
+├── doc
+│   ├── javadoc             // documentation Java
+│   ├── uml                 // diagrammes UML
+│   └── syntaxeAutomate.md  // guide de la syntaxe desfichiers de configuration
+├── exe                     // exécutable .jar
+├── lib                     // librairies
+├── src
+│   ├── main                // code source
+│   └── test                // tests unitaires
+├── build.xml               // fichier de configuration Ant
+└── README.md
+```
 
 ## Documentation
 
 La documentation du projet est disponible dans le dossier `doc/` :
 - `doc/javadoc/` : documentation Java au format .html
 - `doc/uml/` : diagrammes UML au format .md et .png
+- `doc/syntaxeAutomate.md` : guide de la syntaxe des fichiers de configuration des automates
 
-> Pour visualiser les diagrammes UML, vous pouvez utiliser l'extension Markdown Preview Mermaid Support de Visual Studio Code.
+> Pour visualiser les diagrammes UML, vous pouvez utiliser l'extension [Markdown Preview Mermaid Support](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid) de Visual Studio Code.
 
 ## Librairies
 
@@ -71,7 +107,7 @@ Le projet utilise les librairies suivantes :
 
 Les librairies sont à placer dans le dossier `lib/`.
 
-## Compilation
+## Compilation et exécution
 
 Le projet peut être compilé à l'aide de ant. Pour cela il faut [télécharger ant](https://ant.apache.org/bindownload.cgi) et l'ajouter au PATH.
 
@@ -82,19 +118,6 @@ Les commandes suivantes sont disponibles :
 - `ant run` : exécute le .jar
 - `ant javadoc` : crée la documentation Java dans `doc/javadoc/`
 
-## Projet Java
+## Tests unitaires
 
-### Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-### Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Les tests unitaires sont disponibles dans le dossier `src/test/`. Ils peuvent être exécutés grace à JUnit.

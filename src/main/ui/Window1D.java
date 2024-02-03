@@ -36,7 +36,7 @@ public class Window1D extends Window {
                 }
                 for(int s = 0; s <= stepNb; s++){
                     for(int i = 0; i < steps.get(s).getSize(); i++){
-                        if(steps.get(s).getCell(i).getState() == automaton.getAlphabet()[0]){
+                        if(steps.get(s).getCell(i, 0, 0).getState() == automaton.getAlphabet()[0]){
                             g.setColor(Color.WHITE);
                         }else{
                             g.setColor(Color.BLACK);

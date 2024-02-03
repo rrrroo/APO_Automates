@@ -9,6 +9,7 @@ Ils sont rangés dans le dossier `data/configs/`.
 La chaîne de caractères `dimension` permet de choisir la dimension de l'espace dans lequel se déroule l'automate. Pour des raisons de simplicité d'affichage, on ne peut choisir que entre trois choix :
 - "1D" : grille, de cellules carrées, à une dimension
 - "2D" : grille, de cellules carrées, à deux dimensions
+- "3D" : grille, de cellules carrées, à trois dimensions
 - "H" : grille, de cellules hexagonales, à deux dimensions
 
 L'entier naturel `size` permet de choisir la taille de la grille. Il est utilisé différemment selon la dimension :
