@@ -16,7 +16,8 @@ public class Window {
         this.automaton = automaton;
         this.frame = new JFrame();
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.cellSize = 50;
+        this.frame.setAlwaysOnTop(true);
+        this.cellSize = 30;
     }
 
     public void display(){
