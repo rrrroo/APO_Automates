@@ -42,8 +42,12 @@ public class WindowH extends Window {
             public void mouseMoved(MouseEvent e){
                 int x = e.getX() - 8;
                 int y = e.getY() - 35;
-                currentX = (int) (x / (cellSize * Math.sqrt(3)));
                 currentY = (int) (y / (cellSize * 1.5));
+                if (currentY % 2 == 0){
+                    currentX = (int) (x / (cellSize * Math.sqrt(3)));
+                } else {
+                    currentX = (int) ((x - cellSize * Math.sqrt(3) / 2) / (cellSize * Math.sqrt(3)));
+                }
                 drawPanel.repaint();
             }
         });
