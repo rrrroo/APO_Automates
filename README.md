@@ -4,7 +4,7 @@
 
 ## TODO
 
-- [ ] Rapport
+- [x] Rapport
 - [ ] Modélisation
     - [x] diagramme de cas d'utilisation
     - [ ] diagramme de classe
@@ -113,7 +113,8 @@ Pour des raisons de facilité d'affichage, nous avons choisi de limiter les auto
 ├── bin                     // fichiers .class
 ├── data
 │   ├── configs             // fichiers de configuration des automates .json
-│   └── saves               // fichiers de sauvegarde des grilles .txt
+│   ├── saves               // fichiers de sauvegarde des grilles .txt
+│   └── colors.json         // fichier de configuration des couleurs
 ├── doc
 │   ├── javadoc             // documentation Java
 │   ├── uml                 // diagrammes UML

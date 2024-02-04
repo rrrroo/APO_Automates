@@ -190,8 +190,10 @@ public class App {
                 return null;
         }
     }
+
     /**
      * CLI menu to save the automaton
+     *
      * @param auto The automaton to save
      * @param scanner The scanner to use for input
      */
@@ -222,6 +224,7 @@ public class App {
 
     /**
      * CLI menu to choose the number of steps
+     *
      * @param scanner The scanner to use for input
      * @return the number of steps
      */
@@ -238,6 +241,7 @@ public class App {
 
     /**
      * CLI menu to choose if the GUI should be used
+     *
      * @param scanner The scanner to use for input
      * @return true if the GUI should be used, false otherwise
      */
