@@ -17,7 +17,6 @@ sequenceDiagram
     create participant Dimension
     Automaton ->>+ Dimension: fromString(dim)
     Dimension -->>- Automaton: this.dimension = fromString(dim)
-    %% pas sûr de la création de l'objet
 
     Automaton ->>+ Automaton: getAlphabetFromSettings(settings, filename)
     Automaton ->>+ JSONObject: getString("alphabet")
@@ -48,7 +47,6 @@ sequenceDiagram
         Automaton ->>+ TransitionRule: new WindTransitionRule(state, result, probability, neighbours, neighbourstate, wind)
     end
     Automaton -->>- Automaton: this.rules = getRulesFromSettings(settings, filename)
-    %% je sais pas à quel point il faut être précis ici
 
     deactivate Automaton
 ```

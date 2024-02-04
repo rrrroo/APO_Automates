@@ -2,7 +2,6 @@ package main.app;
 
 import main.automaton.Automaton;
 import main.automaton.Dimension;
-import main.ui.*;
 
 
 /**
