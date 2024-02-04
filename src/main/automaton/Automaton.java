@@ -112,15 +112,15 @@ public class Automaton {
 		List<Rule> newRules = new ArrayList<>();
 		StringBuilder res = new StringBuilder(Integer.toBinaryString(ruleNb));
 		while(res.length() < 8) {
-			res.append("0" + res);
+			res = res.insert(0,"0");
 		}
 		for(int i = 0; i < res.length(); i++) {
 			if(res.charAt(7-i) == '1') {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				newRules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[1]);
 			}
 			else {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				newRules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[0]);
 			}
 			
