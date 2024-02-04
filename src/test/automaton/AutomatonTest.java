@@ -96,7 +96,6 @@ public class AutomatonTest {
 		try {
 			Automaton automaton = new Automaton("src/test/automaton/config.json", "src/test/automaton/grid/grid.txt");
 			assertEquals(" A  B  C \n A  B  C \n A  B  C \n\n\n", automaton.toString());
-
 			Automaton automaton2 = new Automaton(150);
 			char [] grid = new char[50];
 			for(int i = 0; i < 50; i++){
@@ -108,8 +107,18 @@ public class AutomatonTest {
 			}
 			String expected = "Règle n°150\n"+gridString+"\n\n";
 			assertEquals(expected, automaton2.toString());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-
+	@Test
+	public void testAutomatonSaveWithFileName(){
+		try {
+			Automaton automaton = new Automaton("src/test/automaton/config.json", "src/test/automaton/grid/grid.txt");
+			automaton.save("src/test/automaton/grid/grid2.txt");
+			Automaton automaton2 = new Automaton("src/test/automaton/config.json", "src/test/automaton/grid/grid2.txt");
+			assertEquals(" A  B  C \n A  B  C \n A  B  C \n\n\n", automaton2.toString());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
