@@ -5,11 +5,11 @@
 ## TODO
 
 - [x] Rapport
-- [ ] Modélisation
+- [x] Modélisation
     - [x] diagramme de cas d'utilisation
     - [x] diagramme de classe
-    - [ ] diagramme de séquence initialisation
-    - [ ] diagramme de séquence évolution
+    - [x] diagramme de séquence initialisation
+    - [x] diagramme de séquence évolution
 - [x] Automates
     - [x] définition formelle
     - [x] 1D
@@ -48,7 +48,7 @@
 - [ ] Extensions
     - [x] Git
     - [x] Ant
-    - [ ] Tests unitaires
+    - [x] Tests unitaires
     - [x] fichiers de configuration
     - [x] sauvegarde
         - [x] utiliser les toString
