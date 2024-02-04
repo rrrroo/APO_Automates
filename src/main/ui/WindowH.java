@@ -76,7 +76,7 @@ public class WindowH extends Window {
         });
         this.controlPanel.add(saveButton);
 
-        JButton quitButton = new JButton("Quitter");
+        JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 frame.dispose();

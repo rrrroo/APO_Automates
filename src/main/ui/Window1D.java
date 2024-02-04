@@ -172,7 +172,7 @@ public class Window1D extends Window {
         });
         this.controlPanel.add(saveButton);
 
-        JButton quitButton = new JButton("Quitter");
+        JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
