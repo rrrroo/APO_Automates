@@ -46,6 +46,12 @@ public class Window {
     protected int cellSize;
 
     /**
+     * A map of characters  representing possible states and their
+     * corresponding RGB color values.
+     */
+    protected Map<Character, int[]> colorsMap;
+
+    /**
      * Constructor for the Window class.
      * @param automaton The automaton to be displayed in the window.
      * @param cellSize The size of the cells in the automaton.
@@ -56,6 +62,12 @@ public class Window {
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setAlwaysOnTop(true);
         this.cellSize = cellSize;
+
+        try{
+            this.colorsMap = getColors();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**

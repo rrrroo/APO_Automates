@@ -1,79 +1,36 @@
 package main.ui;
 
 import javax.swing.*;
-
 import main.automaton.Automaton;
-
 import java.awt.*;
 import java.awt.event.*;
 
-
+/**
+ * This class represents a 3D cellular automaton window.
+ * Extends the Window class and provides functionality for displaying and interacting with the automaton.
+ */
 public class Window3D extends Window {
 
+    /**
+     * The current z position of the view
+     */
     private int depth;
+
+    /**
+     * The current x position of the mouse
+     */
     private int currentX;
+
+    /**
+     * The current y position of the mouse
+     */
     private int currentY;
 
-    private void getTheRightColor2(int i, int j, char state, Graphics g){
-        if(currentX == j && currentY == i){
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(new Color(200, 200, 200));
-            }else{
-                g.setColor(new Color(100, 100, 100));
-            }
-        }else{
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(Color.WHITE);
-            }else{
-                g.setColor(Color.BLACK);
-            }
-        }
-    }
-
-    private void getTheRightColor3(int i, int j, char state, Graphics g){
-        if(currentX == j && currentY == i){
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(new Color(200, 200, 200));
-            }else if(state == automaton.getAlphabet()[1]){
-                g.setColor(new Color(255, 127, 127));
-            }else{
-                g.setColor(new Color(100, 100, 100));
-            }
-        }else{
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(Color.WHITE);
-            }else if(state == automaton.getAlphabet()[1]){
-                g.setColor(Color.RED);
-            }else{
-                g.setColor(Color.BLACK);
-            }
-        }
-    }
-
-    private void getTheRightColor4(int i, int j, char state, Graphics g){
-        if(currentX == j && currentY == i){
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(new Color(200, 200, 200));
-            }else if(state == automaton.getAlphabet()[1]){
-                g.setColor(new Color(127, 255, 127));
-            }else if(state == automaton.getAlphabet()[2]){
-                g.setColor(new Color(255, 127, 127));
-            }else{
-                g.setColor(new Color(100, 100, 100));
-            }
-        }else{
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(Color.WHITE);
-            }else if(state == automaton.getAlphabet()[1]){
-                g.setColor(Color.GREEN);
-            }else if(state == automaton.getAlphabet()[2]){
-                g.setColor(Color.RED);
-            }else{
-                g.setColor(Color.BLACK);
-            }
-        }
-    }
-
+    /**
+     * Constructor for the Window3D class.
+     * @param automaton The automaton to be displayed in the window.
+     * @param cellSize The size of the cells in the automaton.
+     */
     public Window3D(Automaton automaton, int cellSize){
         super(automaton, cellSize);
         this.frame = new JFrame("Automate cellulaire à 3 dimensions");
@@ -112,21 +69,12 @@ public class Window3D extends Window {
                 for(int i = 0; i < automaton.getGrid().getSize(); i++){
                     for(int j = 0; j < automaton.getGrid().getSize(); j++){
                         char state = automaton.getGrid().getCell(i, j, depth).getState();
-                        int alphabetSize = automaton.getAlphabet().length;
-                        switch (alphabetSize){
-                            case 2:
-                                getTheRightColor2(i, j, state, g);
-                                break;
-                            case 3:
-                                getTheRightColor3(i, j, state, g);
-                                break;
-                            case 4:
-                                getTheRightColor4(i, j, state, g);
-                                break;
-                            default:
-                                g.setColor(Color.BLACK);
-                                break;
-                        }
+                        g.setColor(new Color(colorsMap.get(state)[0], colorsMap.get(state)[1], colorsMap.get(state)[2]));
+                        if(currentX == j && currentY == i)
+                            if(g.getColor().equals(Color.BLACK))
+                                g.setColor(Color.GRAY);
+                            else
+                                g.setColor(g.getColor().darker());
                         g.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
                     }
                 }
@@ -209,7 +157,20 @@ public class Window3D extends Window {
         pauseButton.setVisible(false);
         this.controlPanel.add(pauseButton);
 
-        JButton quitButton = new JButton("Quitter");
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    automaton.save();
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+        this.controlPanel.add(saveButton);
+
+        JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){

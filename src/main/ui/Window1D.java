@@ -7,14 +7,43 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-
+/**
+ * This class represents a 1D cellular automaton window.
+ * It extends the Window class and provides functionality for displaying and interacting with the automaton.
+ */
 public class Window1D extends Window {
+    /**
+     * The list of the automaton's steps
+     */
     private ArrayList<Grid> steps = new ArrayList<Grid>();
+
+    /**
+     * The number of the current step
+     */
     private int stepNb;
+
+    /**
+     * The shift of the displayed steps
+     */
     private int shift;
-    private int currentX;
-    private int currentY;
+
+    /**
+     * The current x position of the mouse
+     * Protected to be accessed by the children windows
+     */
+    protected int currentX;
+
+    /**
+     * The current y position of the mouse
+     * Protected to be accessed by the children windows
+     */
+    protected int currentY;
     
+    /**
+     * Constructor for the Window1D class.
+     * @param automaton The automaton to be displayed in the window.
+     * @param cellSize The size of the cells in the automaton.
+     */
     public Window1D(Automaton automaton, int cellSize){
         super(automaton, cellSize);
         steps.add(automaton.getGrid());
@@ -23,12 +52,12 @@ public class Window1D extends Window {
         currentX = 0;
         currentY = 0;
 
-        frame = new JFrame("Automate cellulaire à 1 dimension");
-        frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*11 + 90);
-        frame.setResizable(false);
-        frame.setLayout(new FlowLayout());
+        this.frame = new JFrame("Automate cellulaire à 1 dimension");
+        this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*11 + 90);
+        this.frame.setResizable(false);
+        this.frame.setLayout(new FlowLayout());
 
-        frame.addMouseMotionListener(new MouseMotionAdapter(){
+        this.frame.addMouseMotionListener(new MouseMotionAdapter(){
             @Override
             public void mouseMoved(MouseEvent e){
                 int x = e.getX() - 8;
@@ -39,10 +68,10 @@ public class Window1D extends Window {
             }
         });
 
-        frame.addMouseListener(new MouseAdapter(){
+        this.frame.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-                if(e.getButton() == MouseEvent.BUTTON1 && currentY + shift <= stepNb){
+                if(e.getButton() == MouseEvent.BUTTON1 && currentY + shift == stepNb){
                     automaton.getGrid().getCell(currentX, 0, 0).setState(getNextState(automaton.getGrid().getCell(currentX, 0, 0).getState()));
                     steps.set(stepNb, automaton.getGrid());
                     drawPanel.repaint();
@@ -60,17 +89,13 @@ public class Window1D extends Window {
                 }
                 for(int s = 0; s <= stepNb; s++){
                     for(int i = 0; i < steps.get(s).getSize(); i++){
-                        if(steps.get(s).getCell(i, 0, 0).getState() == automaton.getAlphabet()[0]){
-                            if (s == currentY + shift && i == currentX && s == stepNb) {
-                                g.setColor(new Color(200,200,200)); // Light gray if selected
+                        char state = steps.get(s).getCell(i, 0, 0).getState();
+                        g.setColor(new Color(colorsMap.get(state)[0], colorsMap.get(state)[1], colorsMap.get(state)[2]));
+                        if(currentX == i && currentY == s-shift && s == stepNb){
+                            if(g.getColor().equals(Color.BLACK)){
+                                g.setColor(Color.GRAY);
                             }else{
-                                g.setColor(Color.WHITE);
-                            }
-                        }else{
-                            if(s == currentY + shift && i == currentX && s == stepNb){
-                                g.setColor(new Color(100,100,100)); // Dark gray if selected
-                            }else{
-                                g.setColor(Color.BLACK);
+                                g.setColor(g.getColor().darker());
                             }
                         }
                         g.fillRect(i*cellSize, (s-shift)*cellSize, cellSize, cellSize);
@@ -127,6 +152,9 @@ public class Window1D extends Window {
             @Override
             public void actionPerformed(ActionEvent e){
                 automaton.evaluate();
+                while(shift + 9 <= stepNb){
+                    shift++;
+                }
                 drawPanel.repaint();
             }
         });
@@ -160,7 +188,20 @@ public class Window1D extends Window {
         pauseButton.setVisible(false);
         this.controlPanel.add(pauseButton);
 
-        JButton quitButton = new JButton("Quitter");
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    automaton.save();
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+        this.controlPanel.add(saveButton);
+
+        JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -169,7 +210,7 @@ public class Window1D extends Window {
         });
         controlPanel.add(quitButton);
 
-        frame.add(drawPanel);
-        frame.add(controlPanel);
+        this.frame.add(drawPanel);
+        this.frame.add(controlPanel);
     }
 }

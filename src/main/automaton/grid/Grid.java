@@ -431,30 +431,6 @@ public class Grid {
 			}
 	}
 
-	/**
-	 * Sets the state of all cells in the grid to a random character from the given alphabet.
-	 * none of the cells will be set to the 'burned' or 'on fire' state.
-	 * a randomly chose cell will be set to the 'on fire' state.
-	 *
-	 * @param alphabet the array of characters to choose from
-	 */
-	public void setAllRandomForest(char[] alphabet, Random random) { // TODO: utiliser l'alphabet de l'automate
-		try {
-			for (int i = 0; i < this.cellList.size(); i++) {
-				do {
-					this.getCell(i).setState(alphabet[random.nextInt(alphabet.length)]);
-				} while (this.getCell(i).getState() == '.');
-				if (this.getCell(i).getState() == '0')
-					this.getCell(i).setState('f');
-			}
-				int x = random.nextInt(this.size);
-				int y = random.nextInt(this.size);
-				setCellState(x, y, 0, '0');
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("La modification de la cellule a échoué car " + e.getMessage());
-		}
-	}
-
 
 	// === TOSTRING === //
 

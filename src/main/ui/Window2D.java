@@ -5,72 +5,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
+/**
+ * This class represents a 2D cellular automaton window.
+ * It extends the Window class and provides functionality for displaying and interacting with the automaton.
+ */
 public class Window2D extends Window {
 
+    /**
+     * The current x position of the mouse
+     */
     private int currentX;
+
+    /**
+     * The current y position of the mouse
+     */
     private int currentY;
 
-    private void getTheRightColor2(int i, int j, char state, Graphics g){
-        if(currentX == j && currentY == i){
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(new Color(200, 200, 200));
-            }else{
-                g.setColor(new Color(100, 100, 100));
-            }
-        }else{
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(Color.WHITE);
-            }else{
-                g.setColor(Color.BLACK);
-            }
-        }
-    }
-
-    private void getTheRightColor3(int i, int j, char state, Graphics g){
-        if(currentX == j && currentY == i){
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(new Color(200, 200, 200));
-            }else if(state == automaton.getAlphabet()[1]){
-                g.setColor(new Color(255, 127, 127));
-            }else{
-                g.setColor(new Color(100, 100, 100));
-            }
-        }else{
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(Color.WHITE);
-            }else if(state == automaton.getAlphabet()[1]){
-                g.setColor(Color.RED);
-            }else{
-                g.setColor(Color.BLACK);
-            }
-        }
-    }
-
-    private void getTheRightColor4(int i, int j, char state, Graphics g){
-        if(currentX == j && currentY == i){
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(new Color(200, 200, 200));
-            }else if(state == automaton.getAlphabet()[1]){
-                g.setColor(new Color(127, 255, 127));
-            }else if(state == automaton.getAlphabet()[2]){
-                g.setColor(new Color(255, 127, 127));
-            }else{
-                g.setColor(new Color(100, 100, 100));
-            }
-        }else{
-            if(state == automaton.getAlphabet()[0]){
-                g.setColor(Color.WHITE);
-            }else if(state == automaton.getAlphabet()[1]){
-                g.setColor(Color.GREEN);
-            }else if(state == automaton.getAlphabet()[2]){
-                g.setColor(Color.RED);
-            }else{
-                g.setColor(Color.GRAY);
-            }
-        }
-    }
-
+    /**
+     * Constructor for the Window2D class.
+     * @param automaton The automaton to be displayed in the window.
+     * @param cellSize The size of the cells in the automaton.
+     */
     public Window2D(Automaton automaton, int cellSize){
         super(automaton, cellSize);
         this.frame = new JFrame("Automate cellulaire à 2 dimensions");
@@ -81,7 +36,7 @@ public class Window2D extends Window {
         this.currentX = 0;
         this.currentY = 0;
 
-        frame.addMouseMotionListener(new MouseMotionAdapter(){
+        this.frame.addMouseMotionListener(new MouseMotionAdapter(){
             @Override
             public void mouseMoved(MouseEvent e){
                 int x = e.getX() - 8;
@@ -93,7 +48,7 @@ public class Window2D extends Window {
             }
         });
 
-        frame.addMouseListener(new MouseAdapter(){
+        this.frame.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
                 if(e.getButton() == MouseEvent.BUTTON1){
@@ -109,21 +64,12 @@ public class Window2D extends Window {
                 for(int i = 0; i < automaton.getGrid().getSize(); i++){
                     for(int j = 0; j < automaton.getGrid().getSize(); j++){
                         char state = automaton.getGrid().getCell(i, j, 0).getState();
-                        int alphabetSize = automaton.getAlphabet().length;
-                        switch (alphabetSize){
-                            case 2:
-                                getTheRightColor2(i, j, state, g);
-                                break;
-                            case 3:
-                                getTheRightColor3(i, j, state, g);
-                                break;
-                            case 4:
-                                getTheRightColor4(i, j, state, g);
-                                break;
-                            default:
-                                g.setColor(Color.BLACK);
-                                break;
-                        }
+                        g.setColor(new Color(colorsMap.get(state)[0], colorsMap.get(state)[1], colorsMap.get(state)[2]));
+                        if(currentX == j && currentY == i)
+                            if(g.getColor().equals(Color.BLACK))
+                                g.setColor(Color.GRAY);
+                            else
+                                g.setColor(g.getColor().darker());
                         g.fillRect(j*cellSize, i*cellSize, cellSize, cellSize);
                     }
                 }
@@ -181,7 +127,20 @@ public class Window2D extends Window {
         pauseButton.setVisible(false);
         this.controlPanel.add(pauseButton);
 
-        JButton quitButton = new JButton("Quitter");
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    automaton.save();
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+        this.controlPanel.add(saveButton);
+
+        JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
