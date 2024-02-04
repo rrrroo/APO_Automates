@@ -36,7 +36,6 @@ public class WindowMenu extends Window {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         JPanel configPanel = new JPanel();
-        configPanel.setPreferredSize(new Dimension(300, 100));
         configPanel.setLayout(new BoxLayout(configPanel, BoxLayout.Y_AXIS));
         Label label = new Label("Automaton:");
         label.setAlignment(Label.CENTER);
@@ -44,6 +43,7 @@ public class WindowMenu extends Window {
         
         JPanel savePanel = new JPanel();
         savePanel.setPreferredSize(new Dimension(300, 200));
+        savePanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
         savePanel.setLayout(new BorderLayout());
 
         JPanel saveSelectionPanel = new JPanel();
