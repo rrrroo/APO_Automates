@@ -53,7 +53,7 @@ public class Automaton {
 	// === CONSTRUCTORS === //
 
 	/**
-	 * The constructor of the class.
+	 * The file-based constructor of the class.
 	 *
 	 * @param filename the name of the file containing the automaton settings
 	 */
@@ -86,7 +86,7 @@ public class Automaton {
 	}
 
 	/**
-	 * The constructor of the class.
+	 * The rule-based constructor of the class.
 	 *
 	 * @param rule the rule number of the 1D automaton
 	 */
@@ -129,7 +129,7 @@ public class Automaton {
 	}
 
 	/**
-	 * The constructor of the class.
+	 * The saved grid constructor of the class.
 	 *
 	 * @param configFilename the name of the file containing the automaton settings
 	 * @param gridFilename   the name of the file containing the grid
@@ -435,6 +435,15 @@ public class Automaton {
 	 */
 	public List<int[]> getNeighbourhood() {
 		return this.neighbourhood;
+	}
+
+	/**
+	 * Returns the rules associated with this automaton.
+	 *
+	 * @return the rules associated with this automaton
+	 */
+	public List<Rule> getRules() {
+		return this.rules;
 	}
 
 
