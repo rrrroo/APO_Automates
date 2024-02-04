@@ -382,12 +382,14 @@ public class Automaton {
 					neighbours[j] = arrNeig.getInt(j);
 				neighbourState = rule.getString("neighbourState").charAt(0);
 
-				wind = new double[arrNeig.length()]; // arrNeig.length() = arrVent.length()
-				if (rule.has("vent")) {
-					windArray = rule.getJSONArray("vent");
+				if (rule.has("wind")) {
+					wind = new double[arrNeig.length()];
+					windArray = rule.getJSONArray("wind");
 					for (int j = 0; j < windArray.length(); j++)
 						wind[j] = windArray.getDouble(j);
 				}
+				else
+					wind = null;
 
 				rules.add(new WindTransitionRule(state, result, probability, neighbours, neighbourState, wind));
 			}

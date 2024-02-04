@@ -12,7 +12,7 @@
                 "neighbourState": "F",
                 "probability": 0.3,
                 "result": "F",
-                "vent":[0, 1, -1, 0]
+                "wind":[0, 1, -1, 0]
             },
             {
                 "state": "F",
