@@ -7,12 +7,27 @@ import main.automaton.Automaton;
 import java.awt.*;
 import java.awt.event.*;
 
-
+/**
+ * This class represents a hexagonal cellular automaton window.
+ * It extends the Window class and provides functionality for displaying and interacting with the automaton.
+ */
 public class WindowH extends Window {
 
+    /**
+     * The current x position of the mouse
+     */
     private int currentX;
+
+    /**
+     * The current y position of the mouse
+     */
     private int currentY;
 
+    /**
+     * Constructor for the WindowH class.
+     * @param automaton The automaton to be displayed in the window.
+     * @param cellSize The size of the cells in the automaton.
+     */
     public WindowH(Automaton automaton, int cellSize){
         super(automaton, cellSize);
         this.frame = new JFrame("Automate cellulaire hexagonal");

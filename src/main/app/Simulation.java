@@ -69,10 +69,17 @@ public class Simulation {
 		}
 	}
 
+	/**
+	 * Makes the automaton calculate its next state.
+	 */
 	private void step() {
 		this.automaton.evaluate();
 	}
 
+	/**
+	 * Prints the actual state of the automaton
+	 * in the console.
+	 */
 	private void print() {
 		System.out.println(this.automaton);
 	}

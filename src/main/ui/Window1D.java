@@ -7,14 +7,43 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-
+/**
+ * This class represents a 1D cellular automaton window.
+ * It extends the Window class and provides functionality for displaying and interacting with the automaton.
+ */
 public class Window1D extends Window {
+    /**
+     * The list of the automaton's steps
+     */
     private ArrayList<Grid> steps = new ArrayList<Grid>();
+
+    /**
+     * The number of the current step
+     */
     private int stepNb;
+
+    /**
+     * The shift of the displayed steps
+     */
     private int shift;
-    private int currentX;
-    private int currentY;
+
+    /**
+     * The current x position of the mouse
+     * Protected to be accessed by the children windows
+     */
+    protected int currentX;
+
+    /**
+     * The current y position of the mouse
+     * Protected to be accessed by the children windows
+     */
+    protected int currentY;
     
+    /**
+     * Constructor for the Window1D class.
+     * @param automaton The automaton to be displayed in the window.
+     * @param cellSize The size of the cells in the automaton.
+     */
     public Window1D(Automaton automaton, int cellSize){
         super(automaton, cellSize);
         steps.add(automaton.getGrid());
