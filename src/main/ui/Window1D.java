@@ -42,7 +42,7 @@ public class Window1D extends Window {
         frame.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-                if(e.getButton() == MouseEvent.BUTTON1 && currentY + shift <= stepNb){
+                if(e.getButton() == MouseEvent.BUTTON1 && currentY + shift == stepNb){
                     automaton.getGrid().getCell(currentX, 0, 0).setState(getNextState(automaton.getGrid().getCell(currentX, 0, 0).getState()));
                     steps.set(stepNb, automaton.getGrid());
                     drawPanel.repaint();
@@ -60,17 +60,13 @@ public class Window1D extends Window {
                 }
                 for(int s = 0; s <= stepNb; s++){
                     for(int i = 0; i < steps.get(s).getSize(); i++){
-                        if(steps.get(s).getCell(i, 0, 0).getState() == automaton.getAlphabet()[0]){
-                            if (s == currentY + shift && i == currentX && s == stepNb) {
-                                g.setColor(new Color(200,200,200)); // Light gray if selected
+                        char state = steps.get(s).getCell(i, 0, 0).getState();
+                        g.setColor(new Color(colorsMap.get(state)[0], colorsMap.get(state)[1], colorsMap.get(state)[2]));
+                        if(currentX == i && currentY == s-shift && s == stepNb){
+                            if(g.getColor().equals(Color.BLACK)){
+                                g.setColor(Color.GRAY);
                             }else{
-                                g.setColor(Color.WHITE);
-                            }
-                        }else{
-                            if(s == currentY + shift && i == currentX && s == stepNb){
-                                g.setColor(new Color(100,100,100)); // Dark gray if selected
-                            }else{
-                                g.setColor(Color.BLACK);
+                                g.setColor(g.getColor().darker());
                             }
                         }
                         g.fillRect(i*cellSize, (s-shift)*cellSize, cellSize, cellSize);
