@@ -23,12 +23,12 @@ public class Window1D extends Window {
         currentX = 0;
         currentY = 0;
 
-        frame = new JFrame("Automate cellulaire à 1 dimension");
-        frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*11 + 90);
-        frame.setResizable(false);
-        frame.setLayout(new FlowLayout());
+        this.frame = new JFrame("Automate cellulaire à 1 dimension");
+        this.frame.setSize(automaton.getGrid().getSize()*cellSize + 16, cellSize*11 + 90);
+        this.frame.setResizable(false);
+        this.frame.setLayout(new FlowLayout());
 
-        frame.addMouseMotionListener(new MouseMotionAdapter(){
+        this.frame.addMouseMotionListener(new MouseMotionAdapter(){
             @Override
             public void mouseMoved(MouseEvent e){
                 int x = e.getX() - 8;
@@ -39,7 +39,7 @@ public class Window1D extends Window {
             }
         });
 
-        frame.addMouseListener(new MouseAdapter(){
+        this.frame.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
                 if(e.getButton() == MouseEvent.BUTTON1 && currentY + shift == stepNb){
@@ -165,7 +165,7 @@ public class Window1D extends Window {
         });
         controlPanel.add(quitButton);
 
-        frame.add(drawPanel);
-        frame.add(controlPanel);
+        this.frame.add(drawPanel);
+        this.frame.add(controlPanel);
     }
 }

@@ -23,11 +23,11 @@ import java.util.stream.Stream;
 public class WindowMenu extends Window {
     public WindowMenu(){
         super(null, 0);
-        frame = new JFrame("Menu");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 400);
-        frame.setResizable(false);
-        frame.setLayout(new FlowLayout());
+        this.frame = new JFrame("Menu");
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.frame.setSize(500, 400);
+        this.frame.setResizable(false);
+        this.frame.setLayout(new FlowLayout());
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -76,7 +76,7 @@ public class WindowMenu extends Window {
         mainPanel.add(cellSizePanel);
         mainPanel.add(actionPanel);
 
-        frame.add(mainPanel);
+        this.frame.add(mainPanel);
         
         List<String> configFiles = getConfigFiles();
         List<String> saveFiles = getSaveFiles();
@@ -178,7 +178,7 @@ public class WindowMenu extends Window {
 
     @Override
     public void display() {
-        frame.setVisible(true);
+        this.frame.setVisible(true);
     }
 
     /**

@@ -4,8 +4,6 @@ import main.automaton.Automaton;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Map;
-import java.io.IOException;
 
 
 public class Window2D extends Window {
@@ -23,7 +21,7 @@ public class Window2D extends Window {
         this.currentX = 0;
         this.currentY = 0;
 
-        frame.addMouseMotionListener(new MouseMotionAdapter(){
+        this.frame.addMouseMotionListener(new MouseMotionAdapter(){
             @Override
             public void mouseMoved(MouseEvent e){
                 int x = e.getX() - 8;
@@ -35,7 +33,7 @@ public class Window2D extends Window {
             }
         });
 
-        frame.addMouseListener(new MouseAdapter(){
+        this.frame.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
                 if(e.getButton() == MouseEvent.BUTTON1){
