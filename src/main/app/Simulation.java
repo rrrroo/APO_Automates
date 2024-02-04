@@ -9,15 +9,15 @@ import main.ui.*;
  * The Simulation class represents a simulation of an automaton.
  */
 public class Simulation {
+	// === ATTRIBUTES === //
+
 	/**
 	 * Represents an automaton.
 	 */
 	private Automaton automaton;
 
-	/**
-	 * Window used to display the automaton.
-	 */
-	private Window window;
+
+	// === CONSTRUCTORS === //
 
 	/**
 	 * Constructs a Simulation object with the specified automaton.
@@ -53,10 +53,10 @@ public class Simulation {
 		if(this.automaton.getDimension() == Dimension.ONE_D)
 			System.out.println("Numéro de la règle : " + this.automaton.getRuleNumber());
 
-		print();
+		System.out.println(this.automaton);
 		while(!stop) {
 			this.step();
-			print();
+			System.out.println(this.automaton);
 
 			try {
 				Thread.sleep(100);
@@ -69,11 +69,10 @@ public class Simulation {
 		}
 	}
 
+	/**
+	 * Executes a single step in the simulation by evaluating the automaton.
+	 */
 	private void step() {
 		this.automaton.evaluate();
-	}
-
-	private void print() {
-		System.out.println(this.automaton);
 	}
 }
