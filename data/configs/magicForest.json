@@ -12,13 +12,13 @@
                 "neighbourState": "F",
                 "probability": 0.3,
                 "result": "F",
-                "vent":[0, 1, -1, 0]
+                "wind":[0, 0.5, -0.5, 0]
             },
             {
                 "state": "T",
-                "neighbours": [0],
-                "neighbourState": "F",
-                "probability": 0.05,
+                "neighbours": [0, 1, 2, 3, 4],
+                "neighbourState": "T",
+                "probability": 0.001,
                 "result": "F"
             },
             {
@@ -31,14 +31,14 @@
                 "state": "-",
                 "neighbours": [0, 1, 2, 3, 4],
                 "neighbourState": ".",
-                "probability": 0.1,
+                "probability": 0.01,
                 "result": "."
             },
             {
                 "state": ".",
                 "neighbours": [0, 1, 2, 3, 4],
                 "neighbourState": "T",
-                "probability": 0.1,
+                "probability": 0.01,
                 "result": "T"
             }
         ]
