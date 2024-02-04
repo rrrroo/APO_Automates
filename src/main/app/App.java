@@ -14,7 +14,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
+/**
+ * The App class is the main class of the application.
+ */
 public class App {
 	public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -35,6 +37,7 @@ public class App {
         }
         scanner.close();
 	}
+    
     /**
      * CLI menu to choose an automaton and load a save
      * @param scanner The scanner to use for input

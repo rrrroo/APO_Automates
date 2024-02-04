@@ -1,19 +1,36 @@
 package main.ui;
 
 import javax.swing.*;
-
 import main.automaton.Automaton;
-
 import java.awt.*;
 import java.awt.event.*;
 
-
+/**
+ * This class represents a 3D cellular automaton window.
+ * Extends the Window class and provides functionality for displaying and interacting with the automaton.
+ */
 public class Window3D extends Window {
 
+    /**
+     * The current z position of the view
+     */
     private int depth;
+
+    /**
+     * The current x position of the mouse
+     */
     private int currentX;
+
+    /**
+     * The current y position of the mouse
+     */
     private int currentY;
 
+    /**
+     * Constructor for the Window3D class.
+     * @param automaton The automaton to be displayed in the window.
+     * @param cellSize The size of the cells in the automaton.
+     */
     public Window3D(Automaton automaton, int cellSize){
         super(automaton, cellSize);
         this.frame = new JFrame("Automate cellulaire à 3 dimensions");

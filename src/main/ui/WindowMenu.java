@@ -21,6 +21,9 @@ import java.util.stream.Stream;
  * It allows the user to select an automaton and optionally a save file, and to start the simulation.
  */
 public class WindowMenu extends Window {
+    /**
+     * Constructor for the WindowMenu class.
+     */
     public WindowMenu(){
         super(null, 0);
         this.frame = new JFrame("Menu");
@@ -176,6 +179,9 @@ public class WindowMenu extends Window {
         actionPanel.add(quitButton);
     }
 
+    /**
+     * Display the window
+     */
     @Override
     public void display() {
         this.frame.setVisible(true);
