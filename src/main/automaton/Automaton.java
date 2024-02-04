@@ -53,7 +53,7 @@ public class Automaton {
 	// === CONSTRUCTORS === //
 
 	/**
-	 * The constructor of the class.
+	 * The file-based constructor of the class.
 	 *
 	 * @param filename the name of the file containing the automaton settings
 	 */
@@ -86,7 +86,7 @@ public class Automaton {
 	}
 
 	/**
-	 * The constructor of the class.
+	 * The rule-based constructor of the class.
 	 *
 	 * @param rule the rule number of the 1D automaton
 	 */
@@ -112,15 +112,15 @@ public class Automaton {
 		List<Rule> newRules = new ArrayList<>();
 		StringBuilder res = new StringBuilder(Integer.toBinaryString(ruleNb));
 		while(res.length() < 8) {
-			res.append("0" + res);
+			res = res.insert(0,"0");
 		}
 		for(int i = 0; i < res.length(); i++) {
 			if(res.charAt(7-i) == '1') {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				newRules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[1], probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[1]);
 			}
 			else {
-				rules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
+				newRules.add(new NeighbourhoodRule(this.alphabet[(i/2)%2], this.alphabet[0], probability, new char[] {this.alphabet[(i/4)%2], this.alphabet[i%2]}));
 				System.out.println(this.alphabet[(i/4)%2] + " " + this.alphabet[(i/2)%2] + " " + this.alphabet[i%2] + " -> " + this.alphabet[0]);
 			}
 			
@@ -129,7 +129,7 @@ public class Automaton {
 	}
 
 	/**
-	 * The constructor of the class.
+	 * The saved grid constructor of the class.
 	 *
 	 * @param configFilename the name of the file containing the automaton settings
 	 * @param gridFilename   the name of the file containing the grid
@@ -435,6 +435,15 @@ public class Automaton {
 	 */
 	public List<int[]> getNeighbourhood() {
 		return this.neighbourhood;
+	}
+
+	/**
+	 * Returns the rules associated with this automaton.
+	 *
+	 * @return the rules associated with this automaton
+	 */
+	public List<Rule> getRules() {
+		return this.rules;
 	}
 
 

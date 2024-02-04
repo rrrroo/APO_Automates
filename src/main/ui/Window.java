@@ -1,8 +1,19 @@
 package main.ui;
 
-import javax.swing.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import main.automaton.Automaton;
+
 
 /**
  * This class is a superclass for the different windows of the application.
@@ -72,6 +83,47 @@ public class Window {
                 }
             }
             return automaton.getAlphabet()[actualIndex + 1];
+        }
+    }
+
+    /**
+     * Reads the colors configuration from a JSON file and returns a map of characters and their corresponding RGB color values.
+     * The JSON file must be located at "data/colors.json" relative to the current working directory.
+     * The RGB color values must be integers between 0 and 255 (inclusive).
+     *
+     * @return a map of characters and their corresponding RGB color values
+     * @throws IOException   if there is an error reading the colors configuration file
+     * @throws JSONException if the colors configuration file is invalid or contains invalid color values
+     */
+    protected static Map<Character, int[]> getColors() throws IOException, JSONException {
+        try {
+            String content = new String(Files.readAllBytes(Paths.get("data/colors.json")));
+            JSONObject json = new JSONObject(content);
+            Map<Character, int[]> colorsMap = new HashMap<>();
+            Iterator<String> keys = json.keys();
+            String key;
+            char character;
+            JSONArray value;
+            int[] color;
+
+            while (keys.hasNext()) {
+                key = keys.next();
+                character = key.charAt(0);
+                value = json.getJSONArray(key);
+                color = new int[3];
+                for (int i = 0; i < 3; i++) {
+                    color[i] = value.getInt(i);
+                    if(color[i] < 0 || color[i] > 255)
+                        throw new JSONException("Les valeurs des couleurs doivent être comprises entre 0 et 255");
+                }
+                colorsMap.put(character, color);
+            }
+
+            return colorsMap;
+        } catch (IOException e) {
+            throw new IOException("Impossible de lire le fichier de configuration des couleurs");
+        } catch (JSONException e) {
+            throw new JSONException("Le fichier de configuration des couleurs est invalide" + (e.getMessage() != null ? " car " + e.getMessage() : ""));
         }
     }
 }
