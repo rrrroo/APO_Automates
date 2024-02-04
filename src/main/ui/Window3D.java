@@ -140,6 +140,19 @@ public class Window3D extends Window {
         pauseButton.setVisible(false);
         this.controlPanel.add(pauseButton);
 
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    automaton.save();
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+        this.controlPanel.add(saveButton);
+
         JButton quitButton = new JButton("Quitter");
         quitButton.addActionListener(new ActionListener(){
             @Override

@@ -114,15 +114,6 @@ public class Window2D extends Window {
         pauseButton.setVisible(false);
         this.controlPanel.add(pauseButton);
 
-        JButton quitButton = new JButton("Quitter");
-        quitButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                frame.dispose();
-            }
-        });
-        this.controlPanel.add(quitButton);
-
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(new ActionListener(){
             @Override
@@ -135,6 +126,15 @@ public class Window2D extends Window {
             }
         });
         this.controlPanel.add(saveButton);
+
+        JButton quitButton = new JButton("Quitter");
+        quitButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+            }
+        });
+        this.controlPanel.add(quitButton);
 
         this.frame.add(this.drawPanel);
         this.frame.add(this.controlPanel);
