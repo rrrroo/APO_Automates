@@ -1,4 +1,4 @@
-# Projet APO : automates cellulaires
+# Projet APO : Automates cellulaires
 
 [Lien du GitHub](https://github.com/rrrroo/APO_Automates)
 
@@ -84,12 +84,12 @@ Suite à cela, mi-décembre, nous avons créé toutes les classes et commencé �
 Mi-janvier, l'affichage dans la console et les automates les plus simples (grille carrée, pas de vent…) fonctionnaient.
 Nous avons ensuite continué en créant une interface graphique et en ajoutant des automates plus complexes (grille hexagonale, probabilité, vent…).
 
-Toute la phase de conception a été faite en commun, puis nous avons séparé l'équipe en deux pour l'implémentation. Dorian et Auriane se sont occupés du noyau de l'application, tandis que Thomas et Romain se sont occupés de l'interface graphique et des intéractions avec l'utilisateur.
+Toute la phase de conception a été faite en commun, puis nous avons séparé l'équipe en deux pour l'implémentation. Dorian et Auriane se sont occupés du noyau de l'application, tandis que Thomas et Romain se sont occupés de l'interface graphique et des interactions avec l'utilisateur.
 
 ## Conception
 
 Nous avons choisi de créer une implémentation d'automate la plus générale possible pour pouvoir créer n'importe quel automate à partir d'un simple fichier de configuration.
-Pour des raisons de facilité d'affichage, nous avons choisi de limiter les automates à 3 dimensions.
+Pour des raisons de facilité d'affichage, nous avons choisi de limiter les automates à 3 dimensions maximum.
 
 ### Diagramme de cas d'utilisation
 
