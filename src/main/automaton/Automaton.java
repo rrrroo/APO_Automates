@@ -552,7 +552,10 @@ public class Automaton {
 	 */
 	public void save(String filename) throws IOException {
 		try (FileWriter writer = new FileWriter(filename)) {
-			writer.write(this.toString());
+			String str = this.toString();
+			if(this.dimension == Dimension.ONE_D)
+				str = str.substring(str.indexOf("\n") + 1, str.length() - 1);
+			writer.write(str);
 		} catch (IOException e) {
 			throw new IOException("une erreur est survenue lors de l'écriture du fichier " + filename);
 		}

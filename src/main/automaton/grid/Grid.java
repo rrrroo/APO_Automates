@@ -115,7 +115,7 @@ public class Grid {
 		try (Scanner scanner = new Scanner(new File(filename))) {
 			switch (dimension) {
 				case ONE_D:
-					addLine(scanner.nextLine(), alphabet);
+					addLine(scanner.nextLine().replace(" ", ""), alphabet);
 					break;
 
 				case TWO_D:
