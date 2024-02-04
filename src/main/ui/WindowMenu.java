@@ -35,7 +35,7 @@ public class WindowMenu extends Window {
         JPanel configPanel = new JPanel();
         configPanel.setPreferredSize(new Dimension(300, 100));
         configPanel.setLayout(new BoxLayout(configPanel, BoxLayout.Y_AXIS));
-        Label label = new Label("Choisir un automate :");
+        Label label = new Label("Automaton:");
         label.setAlignment(Label.CENTER);
         configPanel.add(label);
         
@@ -53,7 +53,7 @@ public class WindowMenu extends Window {
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.X_AXIS));
 
-        Checkbox c = new Checkbox("Charger une sauvegarde");
+        Checkbox c = new Checkbox("Load a save");
 
         // Show the save selection panel when the checkbox is checked
         c.addItemListener(new ItemListener() {
@@ -105,7 +105,7 @@ public class WindowMenu extends Window {
 
         
         // Enable the start button when a configuration is selected
-        JButton startButton = new JButton("Démarrer");
+        JButton startButton = new JButton("Start");
         startButton.setEnabled(false);
         for (JRadioButton button : configButtons) {
             button.addItemListener(new ItemListener() {
@@ -166,7 +166,7 @@ public class WindowMenu extends Window {
         });
         actionPanel.add(startButton);
 
-        JButton quitButton = new JButton("Quitter");
+        JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
