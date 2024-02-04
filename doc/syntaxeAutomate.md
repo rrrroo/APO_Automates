@@ -25,7 +25,7 @@ Le tableau de chaîne de caractères `alphabet` permet de choisir les états pos
 Le premier état est l'état initial des cellules.
 
 > Attention !
-> Le caractère `' '` ne peut pas être utilisé comme état.
+> Le caractère `' '` (espace) ne peut pas être utilisé comme état.
 
 
 ## III. Voisinage
@@ -37,19 +37,12 @@ L'attribut `neighbourhood` représente le voisinage de chaque cellule. Son conte
     *ex : \[[0, -1], [1, -1], [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1]]*
 - "H" : un tableau de couples d'entiers représentant les coordonnées relatives des voisins.
     *ex : \[[-1, -1], [-1, 0], [0, -1], [0, 1], [1, -1], [1, 0]]*
-    Comme la grille est hexagonale, les voisins ne sont pas les mêmes selon que la ligne soit d'indice pair ou impair. Ainsi, les voisins de la cellule (i,j) sont :
-    - (i-1, j-1 + i%2)
-    - (i-1, j + i%2)
-    - (i, j-1)
-    - (i, j+1)
-    - (i+1, j-1 + i%2)
-    - (i+1, j + i%2)
 
 
 ## IV. Règle
 
 L'attribut `rule` est un objet qui contient :
-- un entier `type` indiquant si la règle est de type voisinnage (1), transition (2) ou de type foret(4)
+- un entier `type` indiquant si la règle est de type voisinnage (1), transition (2) ou de type vent (4)
 - un tableau de règles `rules` qui dépend du type de règle choisi
 
 ### Règles de type voisinage
@@ -69,7 +62,7 @@ Si `type` est 2, `rules` est un tableau d'objets qui contiennent :
 - une chaîne de caractères `neighbourState` : l'état des voisins
 - une chaîne de caractères `result` : l'état de la cellule après la transition
 
-il peut contenir un entier `probability` : la  probabilité de la transition.
+Il peut contenir un entier `probability` : la  probabilité de la transition.
 *ex : {"state": "0", "neighbours": \[1, 2], "neighbourState": "1","probability": 0.1, "result": "1"}*
 
 ### Règles de type Vent
@@ -80,16 +73,7 @@ Si `type` est 4, `rules` est un tableau d'objets qui contiennent :
 - une chaîne de caractères `neighbourState` : l'état des voisins
 - une chaîne de caractères `result` : l'état de la cellule après la transition
 
-il peut contenir un entier `probability` : la  probabilité de la transition.
-il peut contenir un tableau de double `vent` : la  force du vent pour chaque voisin
+Il peut contenir un entier `probability` : la  probabilité de la transition.
+Il peut contenir un tableau de double `wind` : la  force du vent pour chaque voisin
 
 *ex : {"state": "0", "neighbours": \[1, 2], "neighbourState": "1","probability": 0.1, "result": "1","vent": [0, 0.1]}*
-
-## V. Automate pré-reglés
-
-### feu de foret
-alphabet : 
-- " " case vide 
-- "f" foret 
-- "0" en feu
-- "." brulé

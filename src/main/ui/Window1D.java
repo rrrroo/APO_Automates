@@ -15,7 +15,7 @@ public class Window1D extends Window {
     /**
      * The list of the automaton's steps
      */
-    private ArrayList<Grid> steps = new ArrayList<Grid>();
+    private ArrayList<Grid> steps = new ArrayList<>();
 
     /**
      * The number of the current step
