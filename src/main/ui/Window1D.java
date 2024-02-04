@@ -123,6 +123,9 @@ public class Window1D extends Window {
             @Override
             public void actionPerformed(ActionEvent e){
                 automaton.evaluate();
+                while(shift + 9 <= stepNb){
+                    shift++;
+                }
                 drawPanel.repaint();
             }
         });
