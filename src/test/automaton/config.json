@@ -1,0 +1,17 @@
+{
+    "dimension": "2D",
+    "size": 3,
+    "alphabet": ["A", "B", "C"],
+    "neighbourhood": [[-1, 0], [1, 0], [0, -1], [0, 1]],
+    "rule": {
+        "type": 2,
+        "rules": [
+            {
+                "state": "A",
+                "neighbours": [0, 3],
+                "neighbourState": "B",
+                "result": "B"
+            }
+        ]
+    }
+}
