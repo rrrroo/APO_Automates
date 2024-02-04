@@ -190,6 +190,19 @@ public class Window2D extends Window {
         });
         this.controlPanel.add(quitButton);
 
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                try{
+                    automaton.save();
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });
+        this.controlPanel.add(saveButton);
+
         this.frame.add(this.drawPanel);
         this.frame.add(this.controlPanel);
     }
