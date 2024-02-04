@@ -91,8 +91,6 @@ public class AutomatonTest {
 		}
 	}
 
-
-
 	@Test
 	public void testAutomatonToString(){
 		try {

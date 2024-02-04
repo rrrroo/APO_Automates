@@ -7,7 +7,7 @@
 - [x] Rapport
 - [ ] Modélisation
     - [x] diagramme de cas d'utilisation
-    - [ ] diagramme de classe
+    - [x] diagramme de classe
     - [ ] diagramme de séquence initialisation
     - [ ] diagramme de séquence évolution
 - [x] Automates
@@ -30,7 +30,7 @@
         - [x] H
         - [x] 4 voisins
         - [x] 8 voisins
-- [ ] Tronc commun
+- [x] Tronc commun
     - [x] menu
         - [x] choisir un automate
         - [x] créer un automate
@@ -44,7 +44,7 @@
         - [x] 2D
         - [x] 3D
         - [x] H
-    - [ ] JavaDoc
+    - [x] JavaDoc
 - [ ] Extensions
     - [x] Git
     - [x] Ant
@@ -53,11 +53,11 @@
     - [x] sauvegarde
         - [x] utiliser les toString
         - [x] adapter le constructeur de Grid aux toString
-    - [ ] interface graphique
+    - [x] interface graphique
         - [x] 1D
         - [x] 2D
         - [x] 3D
-        - [ ] H
+        - [x] H
         - [x] menu
         - [x] dessin
         - [x] next step
